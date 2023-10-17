@@ -11,7 +11,7 @@ public class Relatório {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	// Atributos
-	private int ID;
+	private int id;
 	private int veículosManutenção;
 	private int veículosReservados;
 	private int veículosCota;

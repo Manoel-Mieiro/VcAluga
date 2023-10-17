@@ -13,12 +13,12 @@ public class Contrato {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	// Atributos
-	private int ID;
-	private String CNPJ;
+	private int id;
+	private String cnpj;
 	private String dataEmissão;
-	private String CPF_Cliente;
+	private String cpfCliente;
 	private String nomeCompleto;
 	private String assinaturaGestor;
 	private String assinaturaCliente;
-	private ArrayList<String> CNHs = new ArrayList<String>(); // coleção de CNHs
+	private ArrayList<String> cnhs = new ArrayList<String>(); // coleção de CNHs
 }

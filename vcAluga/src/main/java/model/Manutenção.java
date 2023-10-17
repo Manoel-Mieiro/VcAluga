@@ -11,7 +11,7 @@ public class Manutenção {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	// Atributos
-	private int ID;
+	private int id;
 	private String dataEntrada;
 	private String dataSaída;
 	private String estação;

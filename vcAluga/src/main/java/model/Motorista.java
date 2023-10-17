@@ -11,6 +11,6 @@ public class Motorista {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
 	// Atributos
-	private int ID;
-	private String CNH;
+	private int id;
+	private String cnh;
 }

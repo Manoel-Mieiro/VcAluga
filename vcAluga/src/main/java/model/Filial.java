@@ -11,13 +11,13 @@ public class Filial {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	// Atributos
-	private int ID;
-	private String CNPJ;
+	private int id;
+	private String cnpj;
 	private String endereço;
 	private String complemento;
 	private short número;
-	private String CEP;
+	private String cep;
 	private String bairro;
-	private String UF;
+	private String uf;
 
 }

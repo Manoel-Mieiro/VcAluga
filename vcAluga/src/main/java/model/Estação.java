@@ -11,8 +11,8 @@ public class Estação {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	// Atributos
-	private int ID;
-	private String CEP;
+	private int id;
+	private String cep;
 	private short número;
 	private Status status; // enum	
 }

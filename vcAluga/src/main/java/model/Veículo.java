@@ -11,7 +11,7 @@ public class Veículo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	// Atributos
-	private int ID;
+	private int id;
 	private String placa;
 	private Marca marcaVeículo; // enum
 	private String modeloVeículo; // pode vir a se tornar enum
