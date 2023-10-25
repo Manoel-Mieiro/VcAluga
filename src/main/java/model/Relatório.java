@@ -15,6 +15,6 @@ public class Relatório {
 	private int veículosManutenção;
 	private int veículosReservados;
 	private int veículosCota;
-	private int veículosDisponíveis;
+	private int veículosDisponíveis; //pode ser retorno de função
 
 }

@@ -12,7 +12,8 @@ public class Manutenção {
 
 	// Atributos
 	private int id;
+	/* usar Date para */
 	private String dataEntrada;
-	private String dataSaída;
+	private String dataSaída;	
 	private String estação;
 }

@@ -3,12 +3,12 @@ package model;
 public class Cliente extends Usuário{
 	private String cpf;
 	private int telefone;
-	private int email;
+	private String email;
 	public Cliente(String nome, String sobrenome) {
 		super(nome, sobrenome);
 		// TODO Auto-generated constructor stub
 	}
-	public Cliente(String cpf, int telefone, int email) {
+	public Cliente(String cpf, int telefone, String email) {
 		super();
 		this.cpf = cpf;
 		this.telefone = telefone;
@@ -27,10 +27,10 @@ public class Cliente extends Usuário{
 	public void setTelefone(int telefone) {
 		this.telefone = telefone;
 	}
-	public int getEmail() {
+	public String getEmail() {
 		return email;
 	}
-	public void setEmail(int email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 	
