@@ -15,5 +15,5 @@ public class Manutenção {
 	/* usar Date para */
 	private String dataEntrada;
 	private String dataSaída;	
-	private String estação;
+	private Estação estação;	//objeto do tipo estação
 }

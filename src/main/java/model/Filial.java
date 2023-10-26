@@ -19,5 +19,6 @@ public class Filial {
 	private String cep;
 	private String bairro;
 	private String uf;
-
+	private int quantidadeVeículos;	//atributo da antiga classe estoque
+	private float cota;	//atributo usado para calcular qtd a ser reservada pela filial
 }

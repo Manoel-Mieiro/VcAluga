@@ -14,7 +14,8 @@ public class Usuário {
 	private int id;
 	private String nome;
 	private String sobrenome; // nome paterno
-	
+	private Conta tipo;	//enum para selecionar tipo de conta e pedir a devida credencial
+	private String senha;
 	public Usuário() {
 		// TODO Auto-generated constructor stub
 	}
