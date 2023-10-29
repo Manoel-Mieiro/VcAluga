@@ -11,7 +11,7 @@ public class Reserva {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	// Atributos
-	private int id;
+	private int idReserva;
 	private String dataReserva;
 	private String dataDevolução;
 	private float valorPago;

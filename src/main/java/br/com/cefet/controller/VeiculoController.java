@@ -9,8 +9,10 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.cefet.dto.requisicaoVeiculo;
 import br.com.cefet.model.Categoria;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
@@ -55,5 +57,23 @@ public class VeiculoController {
 		return mv;
 		
 	}
+	
+	@PostMapping("/veiculos")
+	public String create(requisicaoVeiculo requisicao) {
+		Veiculo veiculo = new Veiculo();
+		veiculo = requisicao.toVeiculo();
+//		System.out.println();
+//		System.out.println(requisicao);
+//		System.out.println();
+//		System.out.println();
+//		System.out.println(veiculo);
+//		System.out.println();
+		
+		//Create do CRUD
+		this.veiculoRepository.save(veiculo);
+		
+		return "redirect:/veiculos";
+	}
+	
 	
 }

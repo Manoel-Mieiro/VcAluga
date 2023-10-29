@@ -28,6 +28,9 @@ public class Veiculo {
 	private int ano; // byte foi escolhido porque dificilmente carros duram mais de 127 anos
 	@Column(nullable = false)
 	private String filial; // pode vir a se tornar enum
+//	private float valorDiaria;
+	
+	
 	public int getId() {
 		return id;
 	}

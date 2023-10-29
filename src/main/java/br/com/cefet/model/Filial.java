@@ -11,7 +11,8 @@ public class Filial {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	// Atributos
-	private int id;
+	private int idFilial;
+	private int nomeFilial;
 	private String cnpj;
 	private String endereço;
 	private String complemento;

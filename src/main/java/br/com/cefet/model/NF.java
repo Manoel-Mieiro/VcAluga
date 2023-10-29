@@ -11,7 +11,8 @@ public class NF {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	// Atributos
-	private int id;
+	private int idNF;
 	private int númeroNF;
+	private String dataEmissão;
 
 }
