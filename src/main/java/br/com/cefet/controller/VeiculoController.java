@@ -10,10 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.cefet.dto.requisicaoVeiculo;
 import br.com.cefet.model.Categoria;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
@@ -60,6 +58,7 @@ public class VeiculoController {
 		
 	}
 	
+<<<<<<< HEAD
 	@PostMapping("/veiculos")
 	/*
 	 * @Valid é necessária para validar se os campos foram devidamente preenchidos
@@ -90,4 +89,6 @@ public class VeiculoController {
 	}
 	
 	
+=======
+>>>>>>> parent of f2ff117... Criada função de CREATE na controller para veículos, além de sua respectiva DTO
 }
