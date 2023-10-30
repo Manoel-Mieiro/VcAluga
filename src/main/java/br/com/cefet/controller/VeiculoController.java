@@ -8,6 +8,7 @@ import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +19,7 @@ import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Veiculo;
 import br.com.cefet.repository.VeiculoRepository;
+import jakarta.validation.Valid;
 
 @Controller
 public class VeiculoController {
@@ -59,7 +61,19 @@ public class VeiculoController {
 	}
 	
 	@PostMapping("/veiculos")
-	public String create(requisicaoVeiculo requisicao) {
+	/*
+	 * @Valid é necessária para validar se os campos foram devidamente preenchidos
+	 * conforme DTO.
+	 * 
+	 * Por isso, adiciona-se um novo parâmetro result do tipo BindingResult para tratar possíveis erros
+	 */
+	
+	public String create(@Valid requisicaoVeiculo requisicao, BindingResult result) {
+		if (result.hasErrors()) {
+			System.out.println("\n**********************Invalid Input Found**************************\n");
+			return "redirect: /veiculos/new";
+		}
+		else {
 		Veiculo veiculo = new Veiculo();
 		veiculo = requisicao.toVeiculo();
 //		System.out.println();
@@ -71,8 +85,8 @@ public class VeiculoController {
 		
 		//Create do CRUD
 		this.veiculoRepository.save(veiculo);
-		
 		return "redirect:/veiculos";
+		}
 	}
 	
 	

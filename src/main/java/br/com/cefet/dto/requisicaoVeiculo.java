@@ -4,16 +4,35 @@ import br.com.cefet.model.Categoria;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Veiculo;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class requisicaoVeiculo {
+	@NotBlank
+	@NotNull
 	private String placa;
 	private Marca marcaVeiculo;
+	@NotBlank
+	@NotNull
 	private String modeloVeiculo;
 	private Categoria categoriaVeiculo;
+	@NotNull
+	@Min(value=0)
+	@Max(value=100000)
 	private float quilometragem;
 	private Paletas cor;
+	@NotNull
+	@Min(value=2013)
+	@Max(value=2024)
+	@Digits(integer=6, fraction=2)
 	private int ano;
+	@NotBlank
+	@NotNull
 	private String filial;
+	
 	public String getPlaca() {
 		return placa;
 	}
