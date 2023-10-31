@@ -4,3 +4,4 @@ mvn/
 .metadata/
 .settings/
 .classpath
+.project
