@@ -10,8 +10,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.cefet.dto.requisicaoVeiculo;
 import br.com.cefet.model.Categoria;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
@@ -58,7 +61,13 @@ public class VeiculoController {
 		
 	}
 	
-<<<<<<< HEAD
+	//O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação de dados thymeleaf
+	@ModelAttribute(value="requisicaoVeiculo")
+	public requisicaoVeiculo getRequisicaoVeiculo() {
+		return new requisicaoVeiculo();
+	}
+	
+
 	@PostMapping("/veiculos")
 	/*
 	 * @Valid é necessária para validar se os campos foram devidamente preenchidos
@@ -67,10 +76,16 @@ public class VeiculoController {
 	 * Por isso, adiciona-se um novo parâmetro result do tipo BindingResult para tratar possíveis erros
 	 */
 	
-	public String create(@Valid requisicaoVeiculo requisicao, BindingResult result) {
+	public ModelAndView create(@Valid requisicaoVeiculo requisicao, BindingResult result) {
 		if (result.hasErrors()) {
 			System.out.println("\n**********************Invalid Input Found**************************\n");
-			return "redirect: /veiculos/new";
+			
+			ModelAndView mv = new ModelAndView("/veiculos/new");
+			//O bloco abaixo recarrega os ENUM do formulário em caso de erro
+			mv.addObject("marcaVeiculo", Marca.values());
+			mv.addObject("categoria", Categoria.values());
+			mv.addObject("cor", Paletas.values());
+			return mv;
 		}
 		else {
 		Veiculo veiculo = new Veiculo();
@@ -84,11 +99,9 @@ public class VeiculoController {
 		
 		//Create do CRUD
 		this.veiculoRepository.save(veiculo);
-		return "redirect:/veiculos";
+		return new ModelAndView("redirect:/veiculos");
 		}
 	}
 	
 	
-=======
->>>>>>> parent of f2ff117... Criada função de CREATE na controller para veículos, além de sua respectiva DTO
 }
