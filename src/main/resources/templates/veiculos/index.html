@@ -44,9 +44,9 @@
         <td class="col-7" th:text="${veiculo.cor.toString()}">Cor</td>
         <td class="col-8" th:text="${veiculo.ano}">Ano</td>
         <td class="col-9" th:text="${veiculo.filial}">Filial</td>
-<!--         <td class="col-1"><a th:href="">Detalhes</a></td>
-        <td class="col-1"><a th:href="#">Editar</a></td>
-        <td class="col-1"><a th:href="#">Deletar</a></td> -->
+         <td class="col-1"><a th:href="@{/veiculos/{veiculoId}(veiculoId = ${veiculo.id})}">Detalhes</a></td>
+<!--        <td class="col-1"><a th:href="#">Editar</a></td>
+        <td class="col-1"><a th:href="#">Deletar</a></td>--> 
     </tr>
 </tbody>
             </table>

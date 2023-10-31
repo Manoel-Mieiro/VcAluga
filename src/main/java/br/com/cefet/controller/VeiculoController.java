@@ -2,6 +2,7 @@ package br.com.cefet.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -99,9 +101,26 @@ public class VeiculoController {
 		
 		//Create do CRUD
 		this.veiculoRepository.save(veiculo);
-		return new ModelAndView("redirect:/veiculos");
+		return new ModelAndView("redirect:/veiculos/" + veiculo.getId());
 		}
 	}
 	
-	
+	@GetMapping("/veiculos/{id}")
+	public ModelAndView show(@PathVariable Integer id) {
+		
+		Optional<Veiculo> optional = this.veiculoRepository.findById(id);
+		
+		if(optional.isPresent()) {
+			Veiculo veiculo = optional.get();
+			
+			ModelAndView mv = new ModelAndView("veiculos/show");
+			mv.addObject("veiculo", veiculo);
+			return mv;
+		}else {
+			System.out.println("Registro não consta no banco ou não foi encontrado.");
+			return new ModelAndView("redirect:/veiculos");
+		}
+		
+		
+	} 
 }
