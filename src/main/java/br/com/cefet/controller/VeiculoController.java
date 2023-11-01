@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +27,11 @@ import jakarta.validation.Valid;
 
 @Controller
 public class VeiculoController {
-	
+
 //	Construção do objeto da interface VeiculoRepository, de forma a usar seus metodos de CRUD
 	@Autowired
-	private VeiculoRepository veiculoRepository; 
-	
+	private VeiculoRepository veiculoRepository;
+
 	@GetMapping("/veiculos")
 	public ModelAndView index() {
 		/*
@@ -41,86 +42,138 @@ public class VeiculoController {
 		 * "SP"); volkswagenID4.setId(2); List<Veiculo> veiculos =
 		 * Arrays.asList(fiatPulse, volkswagenID4);
 		 */
-		
+
 //		A expressão abaixo é um read
 		List<Veiculo> veiculos = this.veiculoRepository.findAll();
-		
+
 		ModelAndView mv = new ModelAndView("veiculos/index");
 		mv.addObject("veiculos", veiculos);
-		
+
 		return mv;
 	}
-	
+
 	@GetMapping("/veiculos/new")
 	public ModelAndView novo() {
-		
+
 		ModelAndView mv = new ModelAndView("veiculos/new");
 		mv.addObject("marcaVeiculo", Marca.values());
 		mv.addObject("categoria", Categoria.values());
 		mv.addObject("cor", Paletas.values());
-		
+
 		return mv;
-		
+
 	}
-	
-	//O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação de dados thymeleaf
-	@ModelAttribute(value="requisicaoVeiculo")
+
+	// O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
+	// de dados thymeleaf
+	@ModelAttribute(value = "requisicaoVeiculo")
 	public requisicaoVeiculo getRequisicaoVeiculo() {
 		return new requisicaoVeiculo();
 	}
-	
 
 	@PostMapping("/veiculos")
 	/*
 	 * @Valid é necessária para validar se os campos foram devidamente preenchidos
 	 * conforme DTO.
 	 * 
-	 * Por isso, adiciona-se um novo parâmetro result do tipo BindingResult para tratar possíveis erros
+	 * Por isso, adiciona-se um novo parâmetro result do tipo BindingResult para
+	 * tratar possíveis erros
 	 */
-	
+
 	public ModelAndView create(@Valid requisicaoVeiculo requisicao, BindingResult result) {
 		if (result.hasErrors()) {
 			System.out.println("\n**********************Invalid Input Found**************************\n");
-			
+
 			ModelAndView mv = new ModelAndView("/veiculos/new");
-			//O bloco abaixo recarrega os ENUM do formulário em caso de erro
+			// O bloco abaixo recarrega os ENUM do formulário em caso de erro
 			mv.addObject("marcaVeiculo", Marca.values());
 			mv.addObject("categoria", Categoria.values());
 			mv.addObject("cor", Paletas.values());
 			return mv;
-		}
-		else {
-		Veiculo veiculo = new Veiculo();
-		veiculo = requisicao.toVeiculo();
+		} else {
+			Veiculo veiculo = new Veiculo();
+			veiculo = requisicao.toVeiculo();
 //		System.out.println();
 //		System.out.println(requisicao);
 //		System.out.println();
 //		System.out.println();
 //		System.out.println(veiculo);
 //		System.out.println();
-		
-		//Create do CRUD
-		this.veiculoRepository.save(veiculo);
-		return new ModelAndView("redirect:/veiculos/" + veiculo.getId());
+
+			// Create do CRUD
+			this.veiculoRepository.save(veiculo);
+			return new ModelAndView("redirect:/veiculos/" + veiculo.getId());
 		}
 	}
-	
+
 	@GetMapping("/veiculos/{id}")
 	public ModelAndView show(@PathVariable Integer id) {
-		
+
 		Optional<Veiculo> optional = this.veiculoRepository.findById(id);
-		
-		if(optional.isPresent()) {
+
+		if (optional.isPresent()) {
 			Veiculo veiculo = optional.get();
-			
+
 			ModelAndView mv = new ModelAndView("veiculos/show");
 			mv.addObject("veiculo", veiculo);
 			return mv;
-		}else {
+		} else {
 			System.out.println("Registro não consta no banco ou não foi encontrado.");
 			return new ModelAndView("redirect:/veiculos");
 		}
-		
-		
-	} 
+	}
+
+	@GetMapping("/veiculos/{id}/edit")
+	public ModelAndView edit(@PathVariable Integer id, requisicaoVeiculo requisicao) {
+		Optional<Veiculo> optional = this.veiculoRepository.findById(id);
+
+		if (optional.isPresent()) {
+			System.out.printf("%d", id);
+			Veiculo veiculo = optional.get();
+			requisicao.fromVeiculo(veiculo);
+			ModelAndView mv = new ModelAndView("veiculos/edit");
+			mv.addObject("marcaVeiculo", Marca.values());
+			mv.addObject("categoria", Categoria.values());
+			mv.addObject("cor", Paletas.values());
+			return mv;
+		} else {
+			System.out.println("Registro não consta no banco ou não foi encontrado.");
+			return new ModelAndView("redirect:/veiculos");
+		}
+	}
+
+	@PostMapping("/veiculos/{id}")
+	public ModelAndView update(@PathVariable Integer id, @Valid requisicaoVeiculo requisicao, BindingResult result) {
+		if (result.hasErrors()) {
+			System.out.println("\n**********************Invalid Input Found**************************\n");
+
+			ModelAndView mv = new ModelAndView("veiculos/edit");
+			// O bloco abaixo recarrega os ENUM do formulário em caso de erro
+			mv.addObject("marcaVeiculo", Marca.values());
+			mv.addObject("categoria", Categoria.values());
+			mv.addObject("cor", Paletas.values());
+			return mv;
+		} else {
+			Optional<Veiculo> optional = this.veiculoRepository.findById(id);
+			if (optional.isPresent()) {
+				Veiculo veiculo = requisicao.toVeiculo(optional.get());
+				this.veiculoRepository.save(veiculo);
+				return new ModelAndView("redirect:/veiculos/" + veiculo.getId());
+			} else {
+				System.out.println("Registro não consta no banco ou não foi encontrado.");
+				return new ModelAndView("redirect:/veiculos");
+			}
+		}
+	}
+
+	@GetMapping("/veiculos/{id}/delete")
+	public String delete(@PathVariable Integer id) {
+		try {
+			this.veiculoRepository.deleteById(id);
+			return "redirect:/veiculos";
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
+			return "redirect:/veiculos";
+		}
+	}
 }
