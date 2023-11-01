@@ -96,6 +96,32 @@ public Veiculo toVeiculo() {
 		
 		return veiculo;
 	} 
+
+//Metodo toVeiculo para update de um veiculo existente
+public Veiculo toVeiculo(Veiculo veiculo) {
+	veiculo.setPlaca(this.placa);
+	veiculo.setMarcaVeiculo(this.marcaVeiculo);
+	veiculo.setModeloVeiculo(this.modeloVeiculo);
+	veiculo.setCategoriaVeiculo(this.categoriaVeiculo);
+	veiculo.setQuilometragem(this.quilometragem);
+	veiculo.setCor(this.cor);
+	veiculo.setAno(this.ano);
+	veiculo.setFilial(this.filial);
+	
+	
+	return veiculo;
+} 
+
+public void fromVeiculo(Veiculo veiculo) {
+	this.placa = veiculo.getPlaca();
+	this.marcaVeiculo = veiculo.getMarcaVeiculo();
+	this.modeloVeiculo = veiculo.getModeloVeiculo();
+	this.categoriaVeiculo = veiculo.getCategoriaVeiculo();
+	this.quilometragem = veiculo.getQuilometragem();
+	this.cor = veiculo.getCor();
+	this.ano = veiculo.getAno();
+	this.filial = veiculo.getFilial();
+} 
 	
 	@Override
 	public String toString() {

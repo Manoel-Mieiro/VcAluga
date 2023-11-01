@@ -11,19 +11,19 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
 		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-	<title>Novo Veículo</title>
+	<title>Editar Registro</title>
 </head>
 
 <body>
 	<div class="container">
 		<div class="row">
-			<h1>Novo Veículo</h1>
+			<h1>Formulário de Edição</h1>
 		</div>
 
 		<div class="container">
 			<div class="row">
 				<!-- th: object atrela automaticamente o form ao objeto de requisição do pacote DTO -->
-				<form th:object="${requisicaoVeiculo}" action="/veiculos" method="post">
+				<form th:object="${requisicaoVeiculo}" th:action="@{'/veiculos/' + ${id}}" method="post">
 					<div class="mb-3">
 						<label class="form-lable">Placa</label>
 						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{placa}">
@@ -92,7 +92,7 @@
 						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{filial}">
 						<div class="invalid-feedback" th:errors="*{filial}"></div>
 					</div>
-					<button class="btn btn-primary" type="submit">Registrar</button>
+					<button class="btn btn-primary" type="submit">Editar</button>
 					<a href="javascript:history.back()">Voltar</a>
 					
 				</form>
