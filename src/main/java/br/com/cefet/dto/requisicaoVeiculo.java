@@ -4,16 +4,35 @@ import br.com.cefet.model.Categoria;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Veiculo;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class requisicaoVeiculo {
+	@NotBlank
+	@NotNull
 	private String placa;
 	private Marca marcaVeiculo;
+	@NotBlank
+	@NotNull
 	private String modeloVeiculo;
 	private Categoria categoriaVeiculo;
+	@NotNull
+	@Min(value=0)
+	@Max(value=100000)
 	private float quilometragem;
 	private Paletas cor;
+	@NotNull
+	@Min(value=2013)
+	@Max(value=2024)
+	@Digits(integer=6, fraction=2)
 	private int ano;
+	@NotBlank
+	@NotNull
 	private String filial;
+	
 	public String getPlaca() {
 		return placa;
 	}
@@ -77,6 +96,32 @@ public Veiculo toVeiculo() {
 		
 		return veiculo;
 	} 
+
+//Metodo toVeiculo para update de um veiculo existente
+public Veiculo toVeiculo(Veiculo veiculo) {
+	veiculo.setPlaca(this.placa);
+	veiculo.setMarcaVeiculo(this.marcaVeiculo);
+	veiculo.setModeloVeiculo(this.modeloVeiculo);
+	veiculo.setCategoriaVeiculo(this.categoriaVeiculo);
+	veiculo.setQuilometragem(this.quilometragem);
+	veiculo.setCor(this.cor);
+	veiculo.setAno(this.ano);
+	veiculo.setFilial(this.filial);
+	
+	
+	return veiculo;
+} 
+
+public void fromVeiculo(Veiculo veiculo) {
+	this.placa = veiculo.getPlaca();
+	this.marcaVeiculo = veiculo.getMarcaVeiculo();
+	this.modeloVeiculo = veiculo.getModeloVeiculo();
+	this.categoriaVeiculo = veiculo.getCategoriaVeiculo();
+	this.quilometragem = veiculo.getQuilometragem();
+	this.cor = veiculo.getCor();
+	this.ano = veiculo.getAno();
+	this.filial = veiculo.getFilial();
+} 
 	
 	@Override
 	public String toString() {

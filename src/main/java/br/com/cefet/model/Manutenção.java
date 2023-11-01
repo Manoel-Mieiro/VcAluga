@@ -5,15 +5,15 @@ import org.springframework.data.annotation.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
-public class Manutencao {
+public class Manutenção {
 	// Bloco do Spring
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	// Atributos
-	private int idManutencao;
+	private int id;
 	/* usar Date para */
 	private String dataEntrada;
-	private String dataSaida;	
-	private Estacao estacao;	//objeto do tipo estação
+	private String dataSaída;	
+	private Estação estação;	//objeto do tipo estação
 }
