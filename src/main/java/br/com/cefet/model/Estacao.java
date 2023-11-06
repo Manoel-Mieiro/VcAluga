@@ -1,20 +1,25 @@
 package br.com.cefet.model;
 
-import org.springframework.data.annotation.Id;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-
+import jakarta.persistence.Id;
+@Entity
 public class Estacao {
 	// Bloco do Spring
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
-	// Atributos
 	private int id;
+	@Column(nullable = false)
 	private String cep;
+	@Column(nullable = false)
 	private String endereco;
+	@Column(nullable = false)
 	private short numero;
+	@Enumerated(EnumType.STRING)	
 	private Status status; // enum
 	
 	public int getId() {
@@ -47,6 +52,18 @@ public class Estacao {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	
+	public Estacao() {
+		super();
+	}
+	public Estacao(String cep, String endereco, short numero, Status status) {
+		super();
+		this.cep = cep;
+		this.endereco = endereco;
+		this.numero = numero;
+		this.status = status;
+	}
+
 	
 }
 

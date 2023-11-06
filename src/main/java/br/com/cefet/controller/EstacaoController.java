@@ -1,13 +1,10 @@
 package br.com.cefet.controller;
 
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.reactive.error.ErrorAttributes;
-import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -29,21 +26,21 @@ public class EstacaoController {
 	@Autowired
 	private EstacaoRepository estacaoRepository;
 
-	@GetMapping("/estacao")
+	@GetMapping("/estacoes")
 	public ModelAndView index() {
 
 		List<Estacao> estacao = this.estacaoRepository.findAll();
 
-		ModelAndView mv = new ModelAndView("estacao/index");
+		ModelAndView mv = new ModelAndView("estacoes/index");
 		mv.addObject("estacao", estacao);
 
 		return mv;
 	}
 
-	@GetMapping("/estacao/new")
+	@GetMapping("/estacoes/new")
 	public ModelAndView novo() {
 
-		ModelAndView mv = new ModelAndView("estacao/new");
+		ModelAndView mv = new ModelAndView("estacoes/new");
 		mv.addObject("status", Status.values());
 
 		return mv;
@@ -55,13 +52,13 @@ public class EstacaoController {
 		return new requisicaoEstacao();
 	}
 
-	@PostMapping("/estacao")
+	@PostMapping("/estacoes")
 
 	public ModelAndView create(@Valid requisicaoEstacao requisicao, BindingResult result) {
 		if (result.hasErrors()) {
 			System.out.println("\n**********************Invalid Input Found**************************\n");
 
-			ModelAndView mv = new ModelAndView("/estacao/new");
+			ModelAndView mv = new ModelAndView("/estacoes/new");
 			mv.addObject("status", Status.values());
 			return mv;
 		} else {
@@ -70,11 +67,12 @@ public class EstacaoController {
 
 			// Create do CRUD
 			this.estacaoRepository.save(estacao);
-			return new ModelAndView("redirect:/estacao/" + estacao.getId());
+			System.out.println("ID da nova estação: " + estacao.getId());
+			return new ModelAndView("redirect:/estacoes/" + estacao.getId());
 		}
 	}
 
-	@GetMapping("/estacao/{id}")
+	@GetMapping("/estacoes/{id}")
 	public ModelAndView show(@PathVariable Integer id) {
 
 		Optional<Estacao> optional = this.estacaoRepository.findById(id);
@@ -82,16 +80,16 @@ public class EstacaoController {
 		if (optional.isPresent()) {
 			Estacao estacao = optional.get();
 
-			ModelAndView mv = new ModelAndView("estacao/show");
-			mv.addObject("veiculo", estacao);
+			ModelAndView mv = new ModelAndView("estacoes/show");
+			mv.addObject("estacao", estacao);
 			return mv;
 		} else {
 			System.out.println("Registro não consta no banco ou não foi encontrado.");
-			return new ModelAndView("redirect:/estacao");
+			return new ModelAndView("redirect:/estacoes");
 		}
 	}
 
-	@GetMapping("/estacao/{id}/edit")
+	@GetMapping("/estacoes/{id}/edit")
 	public ModelAndView edit(@PathVariable Integer id, requisicaoEstacao requisicao) {
 		Optional<Estacao> optional = this.estacaoRepository.findById(id);
 
@@ -104,16 +102,16 @@ public class EstacaoController {
 			return mv;
 		} else {
 			System.out.println("Registro não consta no banco ou não foi encontrado.");
-			return new ModelAndView("redirect:/estacao");
+			return new ModelAndView("redirect:/estacoes");
 		}
 	}
 
-	@PostMapping("/estacao/{id}")
+	@PostMapping("/estacoes/{id}")
 	public ModelAndView update(@PathVariable Integer id, @Valid requisicaoEstacao requisicao, BindingResult result) {
 		if (result.hasErrors()) {
 			System.out.println("\n**********************Invalid Input Found**************************\n");
 
-			ModelAndView mv = new ModelAndView("estacao/edit");
+			ModelAndView mv = new ModelAndView("estacoes/edit");
 
 			mv.addObject("status", Status.values());
 			return mv;
@@ -122,22 +120,22 @@ public class EstacaoController {
 			if (optional.isPresent()) {
 				Estacao estacao = requisicao.toEstacao(optional.get());
 				this.estacaoRepository.save(estacao);
-				return new ModelAndView("redirect:/estacao/" + estacao.getId());
+				return new ModelAndView("redirect:/estacoes/" + estacao.getId());
 			} else {
 				System.out.println("Registro não consta no banco ou não foi encontrado.");
-				return new ModelAndView("redirect:/estacao");
+				return new ModelAndView("redirect:/estacoes");
 			}
 		}
 	}
 
-	@GetMapping("/estacao/{id}/delete")
+	@GetMapping("/estacoes/{id}/delete")
 	public String delete(@PathVariable Integer id) {
 		try {
 			this.estacaoRepository.deleteById(id);
-			return "redirect:/estacao";
+			return "redirect:/estacoes";
 		} catch (EmptyResultDataAccessException e) {
 			System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
-			return "redirect:/estacao";
+			return "redirect:/estacoes";
 		}
 	}
 }

@@ -12,7 +12,6 @@ public class requisicaoEstacao {
 	@NotBlank
 	@NotNull
 	private String endereco;
-	@NotBlank
 	@NotNull
 	private short numero;
 	private Status status;
