@@ -29,10 +29,10 @@ public class EstacaoController {
 	@GetMapping("/estacoes")
 	public ModelAndView index() {
 
-		List<Estacao> estacao = this.estacaoRepository.findAll();
+		List<Estacao> estacoes = this.estacaoRepository.findAll();
 
 		ModelAndView mv = new ModelAndView("estacoes/index");
-		mv.addObject("estacao", estacao);
+		mv.addObject("estacoes", estacoes);
 
 		return mv;
 	}
@@ -51,9 +51,8 @@ public class EstacaoController {
 	public requisicaoEstacao getRequisicaoEstacao() {
 		return new requisicaoEstacao();
 	}
-
+	
 	@PostMapping("/estacoes")
-
 	public ModelAndView create(@Valid requisicaoEstacao requisicao, BindingResult result) {
 		if (result.hasErrors()) {
 			System.out.println("\n**********************Invalid Input Found**************************\n");
@@ -97,7 +96,7 @@ public class EstacaoController {
 			System.out.printf("%d", id);
 			Estacao estacao = optional.get();
 			requisicao.fromEstacao(estacao);
-			ModelAndView mv = new ModelAndView("edicao/edit");
+			ModelAndView mv = new ModelAndView("estacoes/edit");
 			mv.addObject("status", Status.values());
 			return mv;
 		} else {

@@ -39,8 +39,8 @@
 		<div class="container">
 			<div class="row">
 				<!-- th: object atrela automaticamente o form ao objeto de requisição do pacote DTO -->
-				<form th:object="${requisicaoReserva}" action="/reservas"
-					method="post">
+				<form th:object="${requisicaoReserva}" th:action="@{'/reservas'}" method="post">
+				 <input type="hidden" name="veiculoId" th:value="${veiculo.id}">
 					<div class="mb-3">
 						<label class="form-lable">Marca</label> <input type="text"
 							class="form-control" th:value="${veiculo.marcaVeiculo}"
@@ -61,31 +61,6 @@
 							class="form-control" th:value="${veiculo.categoriaVeiculo}"
 							readonly="readonly">
 					</div>
-					<!-- <div class="mb-3">
-						<label class="form-lable">Quilometragem</label> <input type="text"
-							class="form-control" th:errorclass="is-invalid"
-							th:field="*{quilometragem}">
-						<div class="invalid-feedback" th:errors="*{quilometragem}"></div>
-					</div> -->
-					<!-- 					<div class="mb-3">
-						<label class="form-lable">Cor</label> <select type="text"
-							class="form-select" th:field="*{cor}">
-							<option value="Prata">Prata</option>
-							<option value="Branco">Branco</option>
-							<option value="Preto">Preto</option>
-							<option value="Vermelho">Vermelho</option>
-							<option value="Amarelo">Amarelo</option>
-							<option value="Azul">Azul</option>
-							<option th:each="cor : ${cor}" th:value="${cor}" th:text="${cor}"></option>
-
-						</select>
-						<div></div>
-					</div> -->
-					<!-- 					<div class="mb-3">
-						<label class="form-lable">Ano</label> <input type="text"
-							class="form-control" th:errorclass="is-invalid" th:field="*{ano}">
-						<div class="invalid-feedback" th:errors="*{ano}"></div>
-					</div> -->
 					<div class="mb-3">
 						<label class="form-lable">Data de Início</label> <input
 							type="text" class="form-control datepicker"
@@ -105,8 +80,8 @@
 						<div class="invalid-feedback" th:errors="*{valorPago}"></div>
 					</div>
 					<td class="row">
-						<button class="btn btn-primary" type="submit">Reservar</button></td> <a
-						href="javascript:history.back()">Voltar</a>
+						<button class="btn btn-primary" type="submit">Reservar</button>
+					</td> <a href="javascript:history.back()">Voltar</a>
 				</form>
 			</div>
 		</div>

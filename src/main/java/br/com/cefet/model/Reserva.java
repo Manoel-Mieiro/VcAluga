@@ -2,7 +2,7 @@ package br.com.cefet.model;
 
 import java.time.LocalDate;
 
-
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +12,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name="reserva")
@@ -23,15 +25,19 @@ public class Reserva {
 
 	@ManyToOne
 
-	@JoinColumn(name = "idVeiculo")
+	@JoinColumn(name = "veiculoId")
 	private Veiculo veiculo;
 
 	// @ManyToMany // private Cliente cliente;
 
 	@Column(nullable = false, name = "DataReserva")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	private LocalDate dataReserva;
 
 	@Column(nullable = false, name = "DataDevolucao")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	private LocalDate dataDevolucao;
 
 	@Column(nullable = false, name = "ValorPago")

@@ -23,7 +23,8 @@
 		<div class="container">
 			<div class="row">
 				<!-- th: object atrela automaticamente o form ao objeto de requisição do pacote DTO -->
-				<form th:object="${requisicaoVeiculo}" action="/veiculos" method="post">
+				<form th:object="${requisicaoVeiculo}" action="veiculos" method="post">
+				<input type="hidden" name="veiculoId" value="${veiculo.id}">
 					<div class="mb-3">
 						<label class="form-lable">Placa</label>
 						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{placa}">
