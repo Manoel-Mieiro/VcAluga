@@ -1,6 +1,7 @@
 package br.com.cefet.dto;
 
 import br.com.cefet.model.Categoria;
+import br.com.cefet.model.Filial;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Veiculo;
@@ -15,125 +16,167 @@ public class requisicaoVeiculo {
 	private int id;
 	@NotBlank
 	@NotNull
-	private String placa;
-	private Marca marcaVeiculo;
+	private String cnpj;
 	@NotBlank
 	@NotNull
-	private String modeloVeiculo;
-	private Categoria categoriaVeiculo;
-	@NotNull
-	@Min(value=0)
-	@Max(value=100000)
-	private float quilometragem;
-	private Paletas cor;
-	@NotNull
-	@Min(value=2013)
-	@Max(value=2024)
-	@Digits(integer=6, fraction=2)
-	private int ano;
+	private String endereco;
 	@NotBlank
 	@NotNull
-	private String filial;
+	private String complemento;
+	@NotBlank
+	@NotNull
+	private short numero;
+	@NotBlank
+	@NotNull
+	private String cep;
+	@NotBlank
+	@NotNull
+	private String bairro;
+	@NotBlank
+	@NotNull
+	private String uf;
+	@NotBlank
+	@NotNull
+	private int quantidadeVeiculos;
+	@NotBlank
+	@NotNull
+	private float cota;
 	
-	public String getPlaca() {
-		return placa;
-	}
-	public void setPlaca(String placa) {
-		this.placa = placa;
-	}
-	public Marca getMarcaVeiculo() {
-		return marcaVeiculo;
-	}
-	public void setMarcaVeiculo(Marca marcaVeiculo) {
-		this.marcaVeiculo = marcaVeiculo;
-	}
-	public String getModeloVeiculo() {
-		return modeloVeiculo;
-	}
-	public void setModeloVeiculo(String modeloVeiculo) {
-		this.modeloVeiculo = modeloVeiculo;
-	}
-	public Categoria getCategoriaVeiculo() {
-		return categoriaVeiculo;
-	}
-	public void setCategoriaVeiculo(Categoria categoriaVeiculo) {
-		this.categoriaVeiculo = categoriaVeiculo;
-	}
-	public float getQuilometragem() {
-		return quilometragem;
-	}
-	public void setQuilometragem(float quilometragem) {
-		this.quilometragem = quilometragem;
-	}
-	public Paletas getCor() {
-		return cor;
-	}
-	public void setCor(Paletas cor) {
-		this.cor = cor;
-	}
-	public int getAno() {
-		return ano;
-	}
-	public void setAno(int ano) {
-		this.ano = ano;
-	}
-	public String getFilial() {
-		return filial;
-	}
-	public void setFilial(String filial) {
-		this.filial = filial;
-	}
 	
-	public int getId() {
+public int getId() {
 		return id;
 	}
-	
-public Veiculo toVeiculo() {
-		Veiculo veiculo = new Veiculo();
-		veiculo.setPlaca(this.placa);
-		veiculo.setMarcaVeiculo(this.marcaVeiculo);
-		veiculo.setModeloVeiculo(this.modeloVeiculo);
-		veiculo.setCategoriaVeiculo(this.categoriaVeiculo);
-		veiculo.setQuilometragem(this.quilometragem);
-		veiculo.setCor(this.cor);
-		veiculo.setAno(this.ano);
-		veiculo.setFilial(this.filial);
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+
+	public short getNumero() {
+		return numero;
+	}
+
+	public void setNumero(short numero) {
+		this.numero = numero;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+
+	public int getQuantidadeVeiculos() {
+		return quantidadeVeiculos;
+	}
+
+	public void setQuantidadeVeiculos(int quantidadeVeiculos) {
+		this.quantidadeVeiculos = quantidadeVeiculos;
+	}
+
+	public float getCota() {
+		return cota;
+	}
+
+	public void setCota(float cota) {
+		this.cota = cota;
+	}
+
+public Filial toFilial() {
+		Filial filial = new Filial();
+		filial.setId(this.id);
+		filial.setCnpj(this.cnpj);
+		filial.setEndereco(this.endereco);
+		filial.setComplemento(this.complemento);
+		filial.setNumero(this.numero);
+		filial.setCep(this.cep);
+		filial.setBairro(this.bairro);
+		filial.setUf(this.uf);
+		filial.setQuantidadeVeiculos(this.quantidadeVeiculos);
+		filial.setCota(this.cota);
 		
 		
-		return veiculo;
+		return filial;
 	} 
 
 //Metodo toVeiculo para update de um veiculo existente
-public Veiculo toVeiculo(Veiculo veiculo) {
-	veiculo.setPlaca(this.placa);
-	veiculo.setMarcaVeiculo(this.marcaVeiculo);
-	veiculo.setModeloVeiculo(this.modeloVeiculo);
-	veiculo.setCategoriaVeiculo(this.categoriaVeiculo);
-	veiculo.setQuilometragem(this.quilometragem);
-	veiculo.setCor(this.cor);
-	veiculo.setAno(this.ano);
-	veiculo.setFilial(this.filial);
+public Filial toFilial(Filial filial) {
+	filial.setId(this.id);
+	filial.setCnpj(this.cnpj);
+	filial.setEndereco(this.endereco);
+	filial.setComplemento(this.complemento);
+	filial.setNumero(this.numero);
+	filial.setCep(this.cep);
+	filial.setBairro(this.bairro);
+	filial.setUf(this.uf);
+	filial.setQuantidadeVeiculos(this.quantidadeVeiculos);
+	filial.setCota(this.cota);
 	
 	
-	return veiculo;
+	return filial;
 } 
 
-public void fromVeiculo(Veiculo veiculo) {
-	this.placa = veiculo.getPlaca();
-	this.marcaVeiculo = veiculo.getMarcaVeiculo();
-	this.modeloVeiculo = veiculo.getModeloVeiculo();
-	this.categoriaVeiculo = veiculo.getCategoriaVeiculo();
-	this.quilometragem = veiculo.getQuilometragem();
-	this.cor = veiculo.getCor();
-	this.ano = veiculo.getAno();
-	this.filial = veiculo.getFilial();
+public void fromFilial(Filial filial) {
+	this.id = filial.getId();
+	this.cnpj = filial.getCnpj();
+	this.endereco = filial.getEndereco();
+	this.complemento = filial.getComplemento();
+	this.numero = filial.getNumero();
+	this.cep = filial.getCep();
+	this.bairro = filial.getBairro();
+	this.uf = filial.getUf();
+	this.quantidadeVeiculos = filial.getQuantidadeVeiculos();
+	this.cota = filial.getCota();
+	
 } 
 	
 	@Override
 	public String toString() {
-		return "requisicaoVeiculo [placa=" + placa + ", marcaVeiculo=" + marcaVeiculo + ", modeloVeiculo="
-				+ modeloVeiculo + ", categoriaVeiculo=" + categoriaVeiculo + ", quilometragem=" + quilometragem
-				+ ", cor=" + cor + ", ano=" + ano + ", filial=" + filial + "]";
+		return "requisicaoFilial [cnpj=" + cnpj + ", endereco=" + endereco + ", complemento="
+				+ complemento + ", numero=" + numero + ", cep=" + cep
+				+ ", bairro=" + bairro + ", uf=" + uf + ", quantidadeVeiculos=" + quantidadeVeiculos
+				+", cota=" + cota + "]";
 	}
 	
 	
