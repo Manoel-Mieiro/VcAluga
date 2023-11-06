@@ -67,6 +67,7 @@ public class EstacaoController {
 
 			// Create do CRUD
 			this.estacaoRepository.save(estacao);
+			System.out.println("ID da nova estação: " + estacao.getId());
 			return new ModelAndView("redirect:/estacoes/" + estacao.getId());
 		}
 	}
@@ -80,7 +81,7 @@ public class EstacaoController {
 			Estacao estacao = optional.get();
 
 			ModelAndView mv = new ModelAndView("estacoes/show");
-			mv.addObject("veiculo", estacao);
+			mv.addObject("estacao", estacao);
 			return mv;
 		} else {
 			System.out.println("Registro não consta no banco ou não foi encontrado.");

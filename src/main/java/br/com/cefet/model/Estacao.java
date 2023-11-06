@@ -52,20 +52,18 @@ public class Estacao {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	
 	public Estacao() {
 		super();
 	}
-	public Estacao(int id, String cep, String endereco, short numero, Status status) {
+	public Estacao(String cep, String endereco, short numero, Status status) {
 		super();
-		this.id = id;
 		this.cep = cep;
 		this.endereco = endereco;
 		this.numero = numero;
 		this.status = status;
 	}
-	
-	
-	
+
 	
 }
 
