@@ -17,6 +17,8 @@ import jakarta.validation.constraints.NotNull;
 public class requisicaoReserva {
 	@NotNull
 	private Veiculo veiculo;
+    @NotNull
+    private int veiculoId; // Campo adicional para armazenar o ID do veículo
 	@NotNull
 	//adicionar notação para D+1
 	private LocalDate dataReserva;
@@ -25,7 +27,7 @@ public class requisicaoReserva {
 	private LocalDate dataDevolucao;
 	@NotNull
 	private float valorPago;
-		
+
 public Veiculo getVeiculo() {
 		return veiculo;
 	}

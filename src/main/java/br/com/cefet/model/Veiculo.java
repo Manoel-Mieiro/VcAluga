@@ -1,5 +1,7 @@
 package br.com.cefet.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Veiculo {
@@ -27,6 +30,10 @@ public class Veiculo {
 	@Column(nullable = false)
 	private int ano; // byte foi escolhido porque dificilmente carros duram mais de 127 anos
 	@Column(nullable = false)
+//	@JsonIgnoreProperties({"marca", "modelo", "filial", "categoria"})
+//    @OneToMany(mappedBy = "veiculo")
+//    private Reserva reserva;
+	
 	private String filial; // pode vir a se tornar enum
 	public int getId() {
 		return id;
