@@ -67,12 +67,12 @@ public void fromEstacao(Estacao estacao) {
 	this.endereco = estacao.getEndereco();
 	this.numero = estacao.getNumero();
 	this.status = estacao.getStatus();
-	} 
+	}
+@Override
+public String toString() {
+	return "requisicaoEstacao [cep=" + cep + ", endereco=" + endereco + ", numero=" + numero + ", status=" + status
+			+ "]";
+} 
 	
-	@Override
-	public String toString() {
-		return "requisicaoEstacao [cep=" + cep + ", endereco=" + endereco + ", numero="
-				+ numero + ", status=" + status + "]";
-	} 
-	
+
 	}

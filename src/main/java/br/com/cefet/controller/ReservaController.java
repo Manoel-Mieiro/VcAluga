@@ -35,7 +35,7 @@ public class ReservaController {
 	@Autowired
 	private ReservaRepository reservaRepository;
 	@Autowired
-	private VeiculoRepository veiculoRepository; // Suponha que você tenha um repositório de Veiculo
+	private VeiculoRepository veiculoRepository; 
 
 	@GetMapping("/reservas")
 	public ModelAndView index() {
@@ -47,84 +47,85 @@ public class ReservaController {
 		return mv;
 	}
 
-//	@GetMapping("/reservas/new")
-//	public ModelAndView novo(@RequestParam(name = "veiculoId") int veiculoId) {
-//		Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
-//
-//		if (optional.isPresent()) {
-//			Veiculo veiculo = optional.get();
-//			// Adicione o veiculo ao modelo para que ele esteja disponível na página
-//			ModelAndView mv = new ModelAndView("reservas/new");
-//			mv.addObject("veiculo", veiculo);
-//			return mv;
-//		} else {
-//			System.out.println("Veículo não encontrado.");
-//			return new ModelAndView("redirect:/veiculos");
-//		}
-//	}
-	
 	@GetMapping("/reservas/new")
 	public ModelAndView novo(@RequestParam(name = "veiculoId") int veiculoId) {
-	    Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
+		Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
 
-	    ModelAndView mv = new ModelAndView("reservas/new");
-
-	    if (optional.isPresent()) {
-	        Veiculo veiculo = optional.get();
-	        // Adicione o veiculo ao modelo para que ele esteja disponível na página
-	        mv.addObject("veiculo", veiculo);
-	    } else {
-	        System.out.println("Veículo não encontrado.");
-	    }
-
-	    return mv;
+		if (optional.isPresent()) {
+			Veiculo veiculo = optional.get();
+			// Adicione o veiculo ao modelo para que ele esteja disponível na página
+			ModelAndView mv = new ModelAndView("reservas/new");
+			mv.addObject("veiculo", veiculo);
+			return mv;
+		} else {
+			System.out.println("Veículo não encontrado.");
+			return new ModelAndView("redirect:/veiculos");
+		}
 	}
+	
 
 
-	// O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
-	// de dados thymeleaf
+//	 O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
+//	 de dados thymeleaf
 	@ModelAttribute(value = "requisicaoReserva")
 	public requisicaoReserva getRequisicaoReserva() {
 		return new requisicaoReserva();
 	}
+//
+//	@PostMapping("/reservas")
+//	public ModelAndView create(@Valid requisicaoReserva requisicao, BindingResult result, @RequestParam Integer veiculoId) {
+//		LocalDate dataAtual = LocalDate.now();
+//		LocalDate dataReserva = requisicao.getDataReserva();
+//		Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
+//
+//	    if (optional.isPresent()) {
+//	        Veiculo veiculo = optional.get();
+//	    }
+//	    else {
+//	        System.out.println("Veículo não encontrado.");
+//	        return new ModelAndView("redirect:/veiculos");
+//	    }
+//	        
+//		if (dataReserva != null && dataReserva.isBefore(dataAtual)){
+//			result.rejectValue("dataReserva", "error.requisicaoReserva",
+//					"A data de reserva não pode ser anterior à data atual.");
+//		}
+//
+//		if (result.hasErrors()) {
+//			System.out.println("\n**********************Invalid Input Found**************************\n");
+//
+//			ModelAndView mv = new ModelAndView("/reservas/new");
+//			return mv;
+//		} else {
+//			// Se não houver erros, continue com a criação da reserva
+//			Reserva reserva = new Reserva();
+////			reserva.setVeiculo(veiculo);
+//			reserva = requisicao.toReserva();
+//
+//			// Código para salvar a reserva no banco de dados
+//			this.reservaRepository.save(reserva);
+//			return new ModelAndView("redirect:/reservas/" + reserva.getIdReserva());
+//
+//		}
+//	}
 
 	@PostMapping("/reservas")
-	public ModelAndView create(@Valid requisicaoReserva requisicao, BindingResult result, @RequestParam Integer veiculoId) {
-		LocalDate dataAtual = LocalDate.now();
-		LocalDate dataReserva = requisicao.getDataReserva();
-		Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
-
-	    if (optional.isPresent()) {
-	        Veiculo veiculo = optional.get();
-	    }
-	    else {
-	        System.out.println("Veículo não encontrado.");
-	        return new ModelAndView("redirect:/veiculos");
-	    }
-	        
-		if (dataReserva != null && dataReserva.isBefore(dataAtual)){
-			result.rejectValue("dataReserva", "error.requisicaoReserva",
-					"A data de reserva não pode ser anterior à data atual.");
-		}
-
+	public ModelAndView create(@ModelAttribute("reserva") Reserva reserva, @Valid requisicaoReserva requisicao, BindingResult result) {
 		if (result.hasErrors()) {
 			System.out.println("\n**********************Invalid Input Found**************************\n");
-
-			ModelAndView mv = new ModelAndView("/reservas/new");
+	
+			ModelAndView mv = new ModelAndView("/veiculos/index");
 			return mv;
 		} else {
-			// Se não houver erros, continue com a criação da reserva
-			Reserva reserva = new Reserva();
-//			reserva.setVeiculo(veiculo);
-			reserva = requisicao.toReserva();
-
-			// Código para salvar a reserva no banco de dados
-			this.reservaRepository.save(reserva);
-			return new ModelAndView("redirect:/reservas/" + reserva.getIdReserva());
-
+		requisicaoVeiculo requsicaoV = new requisicaoVeiculo();
+		Veiculo veiculo = veiculoRepository.findById(requsicaoV.getId()).orElse(null);
+		reserva.setVeiculo(veiculo);
+	    reservaRepository.save(reserva);
+	    return new ModelAndView("redirect:/reservas" + reserva.getIdReserva()); // Redirecione para a página de lista de reservas
 		}
 	}
 
+	
 	@GetMapping("/reservas/{idReserva}")
 	public ModelAndView show(@PathVariable Integer idReserva) {
 

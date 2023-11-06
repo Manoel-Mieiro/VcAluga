@@ -11,6 +11,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class requisicaoVeiculo {
+	@NotNull
+	private int id;
 	@NotBlank
 	@NotNull
 	private String placa;
@@ -80,6 +82,10 @@ public class requisicaoVeiculo {
 	}
 	public void setFilial(String filial) {
 		this.filial = filial;
+	}
+	
+	public int getId() {
+		return id;
 	}
 	
 public Veiculo toVeiculo() {
