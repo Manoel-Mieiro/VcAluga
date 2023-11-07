@@ -15,18 +15,96 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class requisicaoReserva {
-	@NotNull
 	private Veiculo veiculo;
     @NotNull
-    private int veiculoId; // Campo adicional para armazenar o ID do veículo
+    private int veiculoId; 
 	@NotNull
 	//adicionar notação para D+1
-	private LocalDate dataReserva;
+	private Date dataReserva;
 	@NotNull
 	//limitar x dias
-	private LocalDate dataDevolucao;
+	private Date dataDevolucao;
 	@NotNull
 	private float valorPago;
+
+	public Categoria getCategoriaVeiculo() {
+		return veiculo.getCategoriaVeiculo();
+	}
+	public String getModeloVeiculo() {
+		return veiculo.getModeloVeiculo();
+	}
+	
+	public Marca getMarcaVeiculo() {
+		return veiculo.getMarcaVeiculo();
+	}
+	
+	public String getPlaca() {
+		return veiculo.getPlaca();
+	}
+	
+	public Paletas getCor() {
+		return veiculo.getCor();
+	}
+	
+	public int getAno() {
+		return veiculo.getAno();
+	}
+	
+	public String getFilial() {
+		return veiculo.getFilial();
+	}
+	
+	public void setCategoriaVeiculo(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setCategoriaVeiculo(getCategoriaVeiculo());
+		}
+	}
+	
+	public void setModeloVeiculo(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setModeloVeiculo(getModeloVeiculo());;
+		}
+	}
+	
+	public void setMarcaVeiculo(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setMarcaVeiculo(getMarcaVeiculo());
+		}
+	}
+	
+	public void setPlaca(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setPlaca(getPlaca());
+		}
+	}
+	
+	public void setCor(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setCor(getCor());
+		}
+	}
+	
+	
+	public void setAno(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setAno(getAno());
+		}
+	}
+	
+	public void setFilial(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setFilial(getFilial());
+		}
+	}
+	
+	
+public int getVeiculoId() {
+		return veiculoId;
+	}
+
+	public void setVeiculoId(int veiculoId) {
+		this.veiculoId = veiculoId;
+	}
 
 public Veiculo getVeiculo() {
 		return veiculo;
@@ -36,19 +114,19 @@ public Veiculo getVeiculo() {
 		this.veiculo = veiculo;
 	}
 
-	public LocalDate getDataReserva() {
+	public Date getDataReserva() {
 		return dataReserva;
 	}
 
-	public void setDataReserva(LocalDate dataReserva) {
+	public void setDataReserva(Date dataReserva) {
 		this.dataReserva = dataReserva;
 	}
 
-	public LocalDate getDataDevolucao() {
+	public Date getDataDevolucao() {
 		return dataDevolucao;
 	}
 
-	public void setDataDevolucao(LocalDate dataDevolucao) {
+	public void setDataDevolucao(Date dataDevolucao) {
 		this.dataDevolucao = dataDevolucao;
 	}
 
@@ -66,7 +144,13 @@ public Reserva toReserva() {
 		reserva.setDataReserva(this.dataReserva);
 		reserva.setDataDevolucao(this.dataDevolucao);
 		reserva.setValorPago(this.valorPago);
-				
+		reserva.setCategoriaVeiculo(veiculo);
+		reserva.setModeloVeiculo(veiculo);
+		reserva.setMarcaVeiculo(veiculo);
+		reserva.setPlaca(veiculo);
+		reserva.setCor(veiculo);
+		reserva.setAno(veiculo);
+		reserva.setFilial(veiculo);
 		return reserva;
 	} 
 
@@ -76,6 +160,13 @@ public Reserva toReserva(Reserva reserva) {
 	reserva.setDataReserva(this.dataReserva);
 	reserva.setDataDevolucao(this.dataDevolucao);
 	reserva.setValorPago(this.valorPago);
+	reserva.setCategoriaVeiculo(veiculo);
+	reserva.setModeloVeiculo(veiculo);
+	reserva.setMarcaVeiculo(veiculo);
+	reserva.setPlaca(veiculo);
+	reserva.setCor(veiculo);
+	reserva.setAno(veiculo);
+	reserva.setFilial(veiculo);
 	
 	return reserva;
 } 

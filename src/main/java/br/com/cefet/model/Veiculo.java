@@ -35,6 +35,7 @@ public class Veiculo {
 //    private Reserva reserva;
 	
 	private String filial; // pode vir a se tornar enum
+	
 	public int getId() {
 		return id;
 	}

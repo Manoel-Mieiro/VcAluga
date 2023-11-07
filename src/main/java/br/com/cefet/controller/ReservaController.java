@@ -71,60 +71,38 @@ public class ReservaController {
 	public requisicaoReserva getRequisicaoReserva() {
 		return new requisicaoReserva();
 	}
-//
-//	@PostMapping("/reservas")
-//	public ModelAndView create(@Valid requisicaoReserva requisicao, BindingResult result, @RequestParam Integer veiculoId) {
-//		LocalDate dataAtual = LocalDate.now();
-//		LocalDate dataReserva = requisicao.getDataReserva();
-//		Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
-//
-//	    if (optional.isPresent()) {
-//	        Veiculo veiculo = optional.get();
-//	    }
-//	    else {
-//	        System.out.println("Veículo não encontrado.");
-//	        return new ModelAndView("redirect:/veiculos");
-//	    }
-//	        
-//		if (dataReserva != null && dataReserva.isBefore(dataAtual)){
-//			result.rejectValue("dataReserva", "error.requisicaoReserva",
-//					"A data de reserva não pode ser anterior à data atual.");
-//		}
-//
-//		if (result.hasErrors()) {
-//			System.out.println("\n**********************Invalid Input Found**************************\n");
-//
-//			ModelAndView mv = new ModelAndView("/reservas/new");
-//			return mv;
-//		} else {
-//			// Se não houver erros, continue com a criação da reserva
-//			Reserva reserva = new Reserva();
-////			reserva.setVeiculo(veiculo);
-//			reserva = requisicao.toReserva();
-//
-//			// Código para salvar a reserva no banco de dados
-//			this.reservaRepository.save(reserva);
-//			return new ModelAndView("redirect:/reservas/" + reserva.getIdReserva());
-//
-//		}
-//	}
-
-	@PostMapping("/reservas")
-	public ModelAndView create(@ModelAttribute("reserva") Reserva reserva, @Valid requisicaoReserva requisicao, BindingResult result) {
-		if (result.hasErrors()) {
-			System.out.println("\n**********************Invalid Input Found**************************\n");
 	
-			ModelAndView mv = new ModelAndView("/veiculos/index");
-			return mv;
-		} else {
-		requisicaoVeiculo requsicaoV = new requisicaoVeiculo();
-		Veiculo veiculo = veiculoRepository.findById(requsicaoV.getId()).orElse(null);
-		reserva.setVeiculo(veiculo);
-	    reservaRepository.save(reserva);
-	    return new ModelAndView("redirect:/reservas" + reserva.getIdReserva()); // Redirecione para a página de lista de reservas
-		}
-	}
+    @PostMapping("/reservas")
+    public ModelAndView create(@ModelAttribute requisicaoReserva requisicao) {
+    	Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
+        if (veiculo != null) {
+        	Reserva reserva = new Reserva();
+           	ModelAndView mv = new ModelAndView("redirect:/reservas/" + reserva.getIdReserva());
+            reserva.setVeiculo(veiculo);
+            reserva.setCategoriaVeiculo(veiculo);
+            reserva.setModeloVeiculo(veiculo);
+            reserva.setMarcaVeiculo(veiculo);
+            reserva.setPlaca(veiculo);
+            reserva.setCor(veiculo);
+            reserva.setAno(veiculo);
+            reserva.setFilial(veiculo);
+            
+//            Reserva reserva = requisicao.toReserva();
+            reserva.setDataReserva(requisicao.getDataReserva());
+            reserva.setDataDevolucao(requisicao.getDataDevolucao());
+            reserva.setValorPago(requisicao.getValorPago());
 
+            // Salve a reserva no banco de dados
+            reservaRepository.save(reserva);
+
+            // Redirecione para uma página de sucesso ou qualquer outra ação necessária
+            return mv;
+        } else {
+            // Trate o caso em que o veículo não foi encontrado
+        	System.out.println("Registro não consta no banco ou não foi encontrado.");
+            return new ModelAndView ("redirect:/reservas/new");
+        }
+    }
 	
 	@GetMapping("/reservas/{idReserva}")
 	public ModelAndView show(@PathVariable Integer idReserva) {
@@ -183,7 +161,7 @@ public class ReservaController {
 	@GetMapping("/reservas/{idReserva}/delete")
 	public String delete(@PathVariable Integer idReserva) {
 		try {
-			this.veiculoRepository.deleteById(idReserva);
+			this.reservaRepository.deleteById(idReserva);
 			return "redirect:/reservas";
 		} catch (EmptyResultDataAccessException e) {
 			System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
