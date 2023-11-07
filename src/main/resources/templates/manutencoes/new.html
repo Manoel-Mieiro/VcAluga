@@ -1,23 +1,23 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
- Necesário para o thymeleaf 
+ <!--Necesário para o thymeleaf--> 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 
 <head>
- Required meta tags 
+ <!--Required meta tags--> 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
- jQuery 
+<!-- jQuery--> 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
- Bootstrap CSS 
+ <!--Bootstrap CSS--> 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
- Bootstrap Datepicker CSS e JavaScript 
+<!-- Bootstrap Datepicker CSS e JavaScript--> 
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 <script
@@ -38,7 +38,7 @@
 
 		<div class="container">
 			<div class="row">
-				 th: object atrela automaticamente o form ao objeto de requisição do pacote DTO 
+				 <!--th: object atrela automaticamente o form ao objeto de requisição do pacote DTO--> 
 				<form th:object="${requisicaoManutencao}" th:action="@{'/manutencoes'}" method="post">
 				 <input type="hidden" name="veiculoId" th:value="${veiculo.id}">
 					<div class="mb-3">
@@ -67,13 +67,8 @@
 							class="form-control datepicker" th:errorclass="is-invalid"
 							th:field="*{dataSaída}">
 						<div class="invalid-feedback" th:errors="*{dataSaída}"></div>
-					</div>
-					<div class="mb-3">
-						<label class="form-lable">Diária</label> <input type="text"
-							class="form-control" th:errorclass="is-invalid"
-							th:field="*{valorPago}">
-						<div class="invalid-feedback" th:errors="*{valorPago}"></div>
-					</div>
+						<select type="text" class="form-select" th:field="*{estacao.cep}">
+							<option th:each="estacao : ${estacao.cep}" th:value="${estacao.cep}" th:text="${estacao.cep}"></option>
 					<td class="row">
 						<button class="btn btn-primary" type="submit">Agendar</button>
 					</td> <a href="javascript:history.back()">Voltar</a>
