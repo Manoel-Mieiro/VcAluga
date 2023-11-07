@@ -1,9 +1,6 @@
 package br.com.cefet.controller;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.cefet.dto.requisicaoReserva;
-import br.com.cefet.dto.requisicaoVeiculo;
-import br.com.cefet.model.Categoria;
-import br.com.cefet.model.Marca;
-import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Reserva;
 import br.com.cefet.model.Veiculo;
 import br.com.cefet.repository.ReservaRepository;

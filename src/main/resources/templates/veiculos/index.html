@@ -48,6 +48,7 @@
        	<td class="col-1"><a th:href="@{/veiculos/{veiculoId}/edit(veiculoId = ${veiculo.id})}">Editar</a></td>
         <td class="col-1"><a th:href="@{/veiculos/{veiculoId}/delete(veiculoId = ${veiculo.id})}">Deletar</a></td>
         <td class="col-1"><a th:href="@{|/reservas/new?veiculoId=${veiculo.id}|}">Reservar</a></td>
+        <td class="col-1"><a th:href="@{|/manutencoes/new?veiculoId=${veiculo.id}|}">Agendar Manutencao</a></td>
     </tr>
 </tbody>
             </table>
