@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.cefet.dto.requisicaoManutencao;
 import br.com.cefet.dto.requisicaoReserva;
 import br.com.cefet.dto.requisicaoVeiculo;
 import br.com.cefet.model.Categoria;
@@ -38,12 +39,12 @@ public class ManutencaoController {
 	@Autowired
 	private EstacaoRepository estacaoRepository;
 	@Autowired
-	private VeiculoRepository veiculoRepository; 
+	private VeiculoRepository veiculoRepository;
 
 	@GetMapping("/manutencoes")
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView("manutencoes/index");
-		
+
 		List<Manutencao> manutencoes = this.manutencaoRepository.findAll();
 		mv.addObject("manutencoes", manutencoes);
 
@@ -51,64 +52,55 @@ public class ManutencaoController {
 	}
 
 	@GetMapping("/manutencoes/new")
-	public ModelAndView novo(/*@RequestParam(name="idEstacao") int idEstacao,*/ @RequestParam(name = "veiculoId") int veiculoId) {
-		Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
-//		Optional<Estacao> optional2 = estacaoRepository.findById(idEstacao);
+	public ModelAndView novo(@RequestParam(name = "veiculoId") int veiculoId) {
+	    Optional<Veiculo> optionalVeiculo = veiculoRepository.findById(veiculoId);
 
-		if (optional.isPresent()/* && optional2.isPresent()*/) {
-			Veiculo veiculo = optional.get();
-//			Estacao estacao = optional2.get();
-			ModelAndView mv = new ModelAndView("manutencoes/new");
-			mv.addObject("veiculo", veiculo);
-//			mv.addObject("estacao", estacao);
+	    if (optionalVeiculo.isPresent()) {
+	        Veiculo veiculo = optionalVeiculo.get();
+	        
+	        List<Estacao> estacoes = estacaoRepository.findAll(); // Obtém a lista de todas as estações
+	        
+	        ModelAndView mv = new ModelAndView("manutencoes/new");
+	        mv.addObject("veiculo", veiculo);
+	        mv.addObject("estacoes", estacoes); // Adiciona a lista de estações ao modelo
+
+	        return mv;
+	    } else {
+	        System.out.println("Veículo não encontrado.");
+	        return new ModelAndView("redirect:/veiculos");
+	    }
+	}
+
+//	 O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
+//	 de dados thymeleaf
+	@ModelAttribute(value = "requisicaoManutencao")
+	public requisicaoManutencao getRequisicaoManutencao() {
+		return new requisicaoManutencao();
+	}
+
+	@PostMapping("manutencoes/new")
+	public ModelAndView create(@Valid requisicaoManutencao requisicao, BindingResult result) {
+		Veiculo veiculo = veiculoRepository.findByPlaca(requisicao.getPlaca());
+																				// findByPlaca no veiculoRepository
+		Estacao estacao = estacaoRepository.findById(requisicao.getEstacaoId()).orElse(null);
+
+		if (veiculo != null && estacao != null) {
+			Manutencao manutencao = new Manutencao();
+			ModelAndView mv = new ModelAndView("redirect:/manutencoes/" + manutencao.getIdManutencao());
+			manutencao.setVeiculo(veiculo);
+			manutencao.setEstacao(estacao);
+			manutencao.setDataEntrada(requisicao.getDataEntrada());
+			manutencao.setDataSaida(requisicao.getDataSaida());
+
+			// Salve a manutenção no banco de dados
+			manutencaoRepository.save(manutencao);
 			return mv;
 		} else {
-			System.out.println("Veículo não encontrado.");
+			System.out.println("Não foi possível realizar agendamento.");
 			return new ModelAndView("redirect:/veiculos");
 		}
 	}
-	
 
-
-////	 O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
-////	 de dados thymeleaf
-//	@ModelAttribute(value = "requisicaoReserva")
-//	public requisicaoReserva getRequisicaoReserva() {
-//		return new requisicaoReserva();
-//	}
-//	
-//    @PostMapping("/reservas")
-//    public ModelAndView create(@ModelAttribute requisicaoReserva requisicao) {
-//    	Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
-//        if (veiculo != null) {
-//        	Reserva reserva = new Reserva();
-//           	ModelAndView mv = new ModelAndView("redirect:/reservas/" + reserva.getIdReserva());
-//            reserva.setVeiculo(veiculo);
-//            reserva.setCategoriaVeiculo(veiculo);
-//            reserva.setModeloVeiculo(veiculo);
-//            reserva.setMarcaVeiculo(veiculo);
-//            reserva.setPlaca(veiculo);
-//            reserva.setCor(veiculo);
-//            reserva.setAno(veiculo);
-//            reserva.setFilial(veiculo);
-//            
-////            Reserva reserva = requisicao.toReserva();
-//            reserva.setDataReserva(requisicao.getDataReserva());
-//            reserva.setDataDevolucao(requisicao.getDataDevolucao());
-//            reserva.setValorPago(requisicao.getValorPago());
-//
-//            // Salve a reserva no banco de dados
-//            reservaRepository.save(reserva);
-//
-//            // Redirecione para uma página de sucesso ou qualquer outra ação necessária
-//            return mv;
-//        } else {
-//            // Trate o caso em que o veículo não foi encontrado
-//        	System.out.println("Registro não consta no banco ou não foi encontrado.");
-//            return new ModelAndView ("redirect:/reservas/new");
-//        }
-//    }
-//	
 //	@GetMapping("/reservas/{idReserva}")
 //	public ModelAndView show(@PathVariable Integer idReserva) {
 //

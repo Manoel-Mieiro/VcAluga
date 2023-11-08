@@ -30,9 +30,12 @@ public class Manutencao {
 	@JoinColumn(name = "estacaoId")
 	private Estacao estacao;
 	@ManyToOne
-	@JoinColumn(name = "veiculoId")
-	
+	@JoinColumn(name = "placa")
 	private Veiculo veiculo;
+	
+	
+	
+	
 	public int getIdManutencao() {
 		return idManutencao;
 	}

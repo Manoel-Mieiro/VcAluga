@@ -5,12 +5,14 @@ import java.util.Date;
 import br.com.cefet.model.Estacao;
 import br.com.cefet.model.Manutencao;
 import br.com.cefet.model.Veiculo;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class requisicaoManutencao {
 	private Veiculo veiculo;
+	@NotBlank
 	@NotNull
-	private int veiculoId;
+	private String placa;
 	@NotNull
 	private Estacao estacao;
 	@NotNull
@@ -20,6 +22,7 @@ public class requisicaoManutencao {
 	@NotNull
 	private Date dataSaida;
 
+	
 	public Veiculo getVeiculo() {
 		return veiculo;
 	}
@@ -28,12 +31,12 @@ public class requisicaoManutencao {
 		this.veiculo = veiculo;
 	}
 
-	public int getVeiculoId() {
-		return veiculoId;
+	public String getPlaca() {
+		return placa;
 	}
 
-	public void setVeiculoId(int veiculoId) {
-		this.veiculoId = veiculoId;
+	public void setPlaca(String placa) {
+		this.placa = placa;
 	}
 
 	public Estacao getEstacao() {
@@ -68,6 +71,8 @@ public class requisicaoManutencao {
 		this.dataSaida = dataSaida;
 	}
 
+	
+	
 	public Manutencao toManutencao() {
 		Manutencao manutencao = new Manutencao();
 		manutencao.setVeiculo(this.veiculo);

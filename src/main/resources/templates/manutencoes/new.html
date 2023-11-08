@@ -57,18 +57,25 @@
 							readonly="readonly">
 					</div>
 					<div class="mb-3">
+    <label class="form-label">Estação</label>
+    <select class="form-select" th:field="*{estacao}">
+    <option value="">Selecione uma Estação</option>
+    <option th:each="estacao : ${estacoes}" th:value="${estacao.id}" th:text="${estacao.endereco + ', número ' + estacao.numero}"></option>
+</select>
+
+</div>
+	<div class="mb-3">
 						<label class="form-lable">Data de Entrada</label> <input
 							type="text" class="form-control datepicker"
 							th:errorclass="is-invalid" th:field="*{dataEntrada}">
 						<div class="invalid-feedback" th:errors="*{dataEntrada}"></div>
 					</div>
-					<!--<div class="mb-3">
+					<div class="mb-3">
 						<label class="form-lable">Data de Saída</label> <input type="text"
 							class="form-control datepicker" th:errorclass="is-invalid"
 							th:field="*{dataSaida}">
-						<div class="invalid-feedback" th:errors="*{dataSaida}"></div>-->
-						<!--<select type="text" class="form-select" th:field="*{estacao.cep}">
-							<option th:each="estacao : ${estacao.cep}" th:value="${estacao.cep}" th:text="${estacao.cep}"></option>-->
+						<div class="invalid-feedback" th:errors="*{dataSaida}"></div>
+						</div>
 					<td class="row">
 						<button class="btn btn-primary" type="submit">Agendar</button>
 					</td> <a href="javascript:history.back()">Voltar</a>
