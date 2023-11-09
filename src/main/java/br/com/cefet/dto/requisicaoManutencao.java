@@ -11,7 +11,6 @@ import jakarta.validation.constraints.NotNull;
 public class requisicaoManutencao {
 	private Veiculo veiculo;
 	@NotBlank
-	@NotNull
 	private String placa;
 	@NotNull
 	private Estacao estacao;
@@ -21,7 +20,6 @@ public class requisicaoManutencao {
 	private Date dataEntrada;
 	@NotNull
 	private Date dataSaida;
-
 	
 	public Veiculo getVeiculo() {
 		return veiculo;
@@ -71,8 +69,6 @@ public class requisicaoManutencao {
 		this.dataSaida = dataSaida;
 	}
 
-	
-	
 	public Manutencao toManutencao() {
 		Manutencao manutencao = new Manutencao();
 		manutencao.setVeiculo(this.veiculo);

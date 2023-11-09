@@ -53,22 +53,22 @@ public class ManutencaoController {
 
 	@GetMapping("/manutencoes/new")
 	public ModelAndView novo(@RequestParam(name = "veiculoId") int veiculoId) {
-	    Optional<Veiculo> optionalVeiculo = veiculoRepository.findById(veiculoId);
+		Optional<Veiculo> optionalVeiculo = veiculoRepository.findById(veiculoId);
 
-	    if (optionalVeiculo.isPresent()) {
-	        Veiculo veiculo = optionalVeiculo.get();
-	        
-	        List<Estacao> estacoes = estacaoRepository.findAll(); // Obtém a lista de todas as estações
-	        
-	        ModelAndView mv = new ModelAndView("manutencoes/new");
-	        mv.addObject("veiculo", veiculo);
-	        mv.addObject("estacoes", estacoes); // Adiciona a lista de estações ao modelo
+		if (optionalVeiculo.isPresent()) {
+			Veiculo veiculo = optionalVeiculo.get();
 
-	        return mv;
-	    } else {
-	        System.out.println("Veículo não encontrado.");
-	        return new ModelAndView("redirect:/veiculos");
-	    }
+			List<Estacao> estacoes = estacaoRepository.findAll(); // Obtém a lista de todas as estações
+
+			ModelAndView mv = new ModelAndView("manutencoes/new");
+			mv.addObject("veiculo", veiculo);
+			mv.addObject("estacoes", estacoes); // Adiciona a lista de estações ao modelo
+
+			return mv;
+		} else {
+			System.out.println("Veículo não encontrado.");
+			return new ModelAndView("redirect:/veiculos");
+		}
 	}
 
 //	 O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
@@ -80,89 +80,59 @@ public class ManutencaoController {
 
 	@PostMapping("manutencoes/new")
 	public ModelAndView create(@Valid requisicaoManutencao requisicao, BindingResult result) {
-		Veiculo veiculo = veiculoRepository.findByPlaca(requisicao.getPlaca());
-																				// findByPlaca no veiculoRepository
-		Estacao estacao = estacaoRepository.findById(requisicao.getEstacaoId()).orElse(null);
+		if (result.hasErrors()) {
+			System.out.println("\n**********************Invalid Input Found**************************\n");
 
-		if (veiculo != null && estacao != null) {
-			Manutencao manutencao = new Manutencao();
-			ModelAndView mv = new ModelAndView("redirect:/manutencoes/" + manutencao.getIdManutencao());
-			manutencao.setVeiculo(veiculo);
-			manutencao.setEstacao(estacao);
-			manutencao.setDataEntrada(requisicao.getDataEntrada());
-			manutencao.setDataSaida(requisicao.getDataSaida());
-
-			// Salve a manutenção no banco de dados
-			manutencaoRepository.save(manutencao);
+			ModelAndView mv = new ModelAndView("manutencoes/new");
 			return mv;
 		} else {
-			System.out.println("Não foi possível realizar agendamento.");
-			return new ModelAndView("redirect:/veiculos");
+			Veiculo veiculo = veiculoRepository.findByPlaca(requisicao.getPlaca());
+			System.out.printf("%d", veiculo.getId());
+			Estacao estacao = estacaoRepository.findById(requisicao.getEstacaoId()).orElse(null);
+
+			if (veiculo != null && estacao != null) {
+				Manutencao manutencao = new Manutencao();
+				ModelAndView mv = new ModelAndView("redirect:/manutencoes/" + manutencao.getIdManutencao());
+				manutencao.setVeiculo(veiculo);
+				manutencao.setEstacao(estacao);
+				manutencao.setDataEntrada(requisicao.getDataEntrada());
+				manutencao.setDataSaida(requisicao.getDataSaida());
+
+				// Salve a manutenção no banco de dados
+				manutencaoRepository.save(manutencao);
+				return mv;
+			} else {
+				System.out.println("Não foi possível realizar agendamento.");
+				return new ModelAndView("redirect:/veiculos");
+			}
 		}
 	}
 
-//	@GetMapping("/reservas/{idReserva}")
-//	public ModelAndView show(@PathVariable Integer idReserva) {
-//
-//		Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
-//
-//		if (optional.isPresent()) {
-//			Reserva reserva = optional.get();
-//
-//			ModelAndView mv = new ModelAndView("reservas/show");
-//			mv.addObject("reserva", reserva);
-//			return mv;
-//		} else {
-//			System.out.println("Registro não consta no banco ou não foi encontrado.");
-//			return new ModelAndView("redirect:/reservas");
-//		}
-//	}
-//
-//	@GetMapping("/reservas/{idReserva}/edit")
-//	public ModelAndView edit(@PathVariable Integer idReserva, requisicaoReserva requisicao) {
-//		Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
-//
-//		if (optional.isPresent()) {
-//			System.out.printf("%d", idReserva);
-//			Reserva reserva = optional.get();
-//			requisicao.fromReserva(reserva);
-//			ModelAndView mv = new ModelAndView("reservas/edit");
-//			return mv;
-//		} else {
-//			System.out.println("Registro não consta no banco ou não foi encontrado.");
-//			return new ModelAndView("redirect:/reservas");
-//		}
-//	}
-//
-//	@PostMapping("/reservas/{idReserva}")
-//	public ModelAndView update(@PathVariable Integer idReserva, @Valid requisicaoReserva requisicao,
-//			BindingResult result) {
-//		if (result.hasErrors()) {
-//			System.out.println("\n**********************Invalid Input Found**************************\n");
-//
-//			ModelAndView mv = new ModelAndView("reservas/edit");
-//			return mv;
-//		} else {
-//			Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
-//			if (optional.isPresent()) {
-//				Reserva reserva = requisicao.toReserva(optional.get());
-//				this.reservaRepository.save(reserva);
-//				return new ModelAndView("redirect:/reservas/" + reserva.getIdReserva());
-//			} else {
-//				System.out.println("Registro não consta no banco ou não foi encontrado.");
-//				return new ModelAndView("redirect:/reservas");
-//			}
-//		}
-//	}
-//
-//	@GetMapping("/reservas/{idReserva}/delete")
-//	public String delete(@PathVariable Integer idReserva) {
-//		try {
-//			this.reservaRepository.deleteById(idReserva);
-//			return "redirect:/reservas";
-//		} catch (EmptyResultDataAccessException e) {
-//			System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
-//			return "redirect:/reservas";
-//		}
-//	}
+	@GetMapping("/manutencoes/{idManutencao}")
+	public ModelAndView show(@PathVariable Integer idManutencao) {
+
+		Optional<Manutencao> optional = this.manutencaoRepository.findById(idManutencao);
+
+		if (optional.isPresent()) {
+			Manutencao manutencao = optional.get();
+
+			ModelAndView mv = new ModelAndView("manutencoes/show");
+			mv.addObject("manutencao", manutencao);
+			return mv;
+		} else {
+			System.out.println("Registro não consta no banco ou não foi encontrado.");
+			return new ModelAndView("redirect:/manutencoes");
+		}
+	}
+
+	@GetMapping("/manutencoes/{idManutencao}/delete")
+	public String delete(@PathVariable Integer idManutencao) {
+		try {
+			this.manutencaoRepository.deleteById(idManutencao);
+			return "redirect:/manutencoes";
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
+			return "redirect:/manutencoes";
+		}
+	}
 }

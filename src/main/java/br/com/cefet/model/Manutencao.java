@@ -35,38 +35,47 @@ public class Manutencao {
 	
 	
 	
-	
+		
 	public int getIdManutencao() {
 		return idManutencao;
 	}
+
 	public void setIdManutencao(int idManutencao) {
 		this.idManutencao = idManutencao;
 	}
+
 	public Date getDataEntrada() {
 		return dataEntrada;
 	}
+
 	public void setDataEntrada(Date dataEntrada) {
 		this.dataEntrada = dataEntrada;
 	}
+
 	public Date getDataSaida() {
 		return dataSaida;
 	}
+
 	public void setDataSaida(Date dataSaida) {
 		this.dataSaida = dataSaida;
 	}
+
 	public Estacao getEstacao() {
 		return estacao;
 	}
+
 	public void setEstacao(Estacao estacao) {
 		this.estacao = estacao;
 	}
+
 	public Veiculo getVeiculo() {
 		return veiculo;
 	}
+
 	public void setVeiculo(Veiculo veiculo) {
 		this.veiculo = veiculo;
 	}
-		
+
 	public Manutencao() {
 		super();
 	}

@@ -40,7 +40,7 @@
         <td class="col-5" th:text="${reserva.dataReserva}">Data Início</td>
 		<td class="col-6" th:text="${reserva.dataDevolucao}">Data Final</td>
         <td class="col-7" th:text="${reserva.valorPago}">Total(R$)</td>   
-        <td class="col-1"><a th:href="@{/reservas/{idReserva}(idReserva = ${reserva.idReserva})}">Detalhes</a></td>
+        <td class="col-1"><a th:href="@{/reservas/{idReserva}/show(idReserva = ${reserva.idReserva})}">Detalhes</a></td>
        	<td class="col-1"><a th:href="@{/reservas/{idReserva}/edit(idReserva = ${reserva.idReserva})}">Editar</a></td>
         <td class="col-1"><a th:href="@{/reservas/{idReserva}/delete(idReserva = ${reserva.idReserva})}">Deletar</a></td> 
     </tr>
