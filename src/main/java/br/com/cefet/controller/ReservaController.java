@@ -80,11 +80,12 @@ public class ReservaController {
             reserva.setAno(veiculo);
             reserva.setFilial(veiculo);
             
-//            Reserva reserva = requisicao.toReserva();
+//            
             reserva.setDataReserva(requisicao.getDataReserva());
             reserva.setDataDevolucao(requisicao.getDataDevolucao());
             reserva.setValorPago(requisicao.getValorPago());
 
+//            reserva = requisicao.toReserva();
             // Salve a reserva no banco de dados
             reservaRepository.save(reserva);
 

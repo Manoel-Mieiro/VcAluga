@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 //O trecho abaixo serve para usar os métodos de CRUD disponibilizados pela biblioteca JpaRepository
 public interface VeiculoRepository extends JpaRepository<Veiculo, Integer>{
-
-	Veiculo findByPlaca(String placa);
 	
 }

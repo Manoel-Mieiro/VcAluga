@@ -144,13 +144,13 @@ public Reserva toReserva() {
 		reserva.setDataReserva(this.dataReserva);
 		reserva.setDataDevolucao(this.dataDevolucao);
 		reserva.setValorPago(this.valorPago);
-		reserva.setCategoriaVeiculo(veiculo);
-		reserva.setModeloVeiculo(veiculo);
-		reserva.setMarcaVeiculo(veiculo);
-		reserva.setPlaca(veiculo);
-		reserva.setCor(veiculo);
-		reserva.setAno(veiculo);
-		reserva.setFilial(veiculo);
+		reserva.setCategoriaVeiculo(this.veiculo);
+		reserva.setModeloVeiculo(this.veiculo);
+		reserva.setMarcaVeiculo(this.veiculo);
+		reserva.setPlaca(this.veiculo);
+		reserva.setCor(this.veiculo);
+		reserva.setAno(this.veiculo);
+		reserva.setFilial(this.veiculo);
 		return reserva;
 	} 
 

@@ -5,22 +5,33 @@ import java.util.Date;
 import br.com.cefet.model.Estacao;
 import br.com.cefet.model.Manutencao;
 import br.com.cefet.model.Veiculo;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class requisicaoManutencao {
+	@NotNull
+	private int idManutencao;
+	@NotNull
 	private Veiculo veiculo;
-	@NotBlank
-	private String placa;
+	@NotNull
+	private int veiculoId;
 	@NotNull
 	private Estacao estacao;
 	@NotNull
-	private int estacaoId;
+	private String estacaoId;
 	@NotNull
 	private Date dataEntrada;
 	@NotNull
 	private Date dataSaida;
 	
+
+	public int getIdManutencao() {
+		return idManutencao;
+	}
+
+	public void setIdManutencao(int idManutencao) {
+		this.idManutencao = idManutencao;
+	}
+
 	public Veiculo getVeiculo() {
 		return veiculo;
 	}
@@ -29,12 +40,12 @@ public class requisicaoManutencao {
 		this.veiculo = veiculo;
 	}
 
-	public String getPlaca() {
-		return placa;
+	public int getVeiculoId() {
+		return veiculoId;
 	}
 
-	public void setPlaca(String placa) {
-		this.placa = placa;
+	public void setVeiculoId(int veiculoId) {
+		this.veiculoId = veiculoId;
 	}
 
 	public Estacao getEstacao() {
@@ -45,11 +56,11 @@ public class requisicaoManutencao {
 		this.estacao = estacao;
 	}
 
-	public int getEstacaoId() {
+	public String getEstacaoId() {
 		return estacaoId;
 	}
 
-	public void setEstacaoId(int estacaoId) {
+	public void setEstacaoId(@NotNull String estacaoId) {
 		this.estacaoId = estacaoId;
 	}
 
@@ -71,8 +82,8 @@ public class requisicaoManutencao {
 
 	public Manutencao toManutencao() {
 		Manutencao manutencao = new Manutencao();
-		manutencao.setVeiculo(this.veiculo);
-		manutencao.setEstacao(this.estacao);
+		manutencao.setVeiculo(veiculo);
+		manutencao.setEstacao(estacao);
 		manutencao.setDataEntrada(this.dataEntrada);
 		manutencao.setDataSaida(this.dataSaida);
 
@@ -80,8 +91,8 @@ public class requisicaoManutencao {
 	}
 
 	public Manutencao toManutencao(Manutencao manutencao) {
-		manutencao.setVeiculo(this.veiculo);
-		manutencao.setEstacao(this.estacao);
+		manutencao.setVeiculo(veiculo);
+		manutencao.setEstacao(estacao);
 		manutencao.setDataEntrada(this.dataEntrada);
 		manutencao.setDataSaida(this.dataSaida);
 

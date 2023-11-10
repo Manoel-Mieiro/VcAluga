@@ -40,8 +40,9 @@
 			<div class="row">
 				 <!--th: object atrela automaticamente o form ao objeto de requisição do pacote DTO--> 
 				<!--<form th:object="${requisicaoManutencao}" th:action="@{'/manutencoes'}" method="post">-->
-					<form th:object="${requisicaoManutencao}" method="post">
+					<form th:object="${requisicaoManutencao}" method="post" action="/manutencoes">
 				 <input type="hidden" name="veiculoId" th:value="${veiculo.id}">
+
 					<div class="mb-3">
 						<label class="form-lable">Marca</label> <input type="text"
 							class="form-control" th:value="${veiculo.marcaVeiculo}"
@@ -59,10 +60,11 @@
 					</div>
 					<div class="mb-3">
     <label class="form-label">Estação</label>
-    <select class="form-select" th:field="*{estacao}">
+<select class="form-select" th:field="*{estacaoId}">
     <option value="">Selecione uma Estação</option>
     <option th:each="estacao : ${estacoes}" th:value="${estacao.id}" th:text="${estacao.endereco + ', número ' + estacao.numero}"></option>
 </select>
+
 
 </div>
 	<div class="mb-3">

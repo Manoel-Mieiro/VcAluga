@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.cefet.dto.requisicaoEstacao;
 import br.com.cefet.dto.requisicaoManutencao;
 import br.com.cefet.dto.requisicaoReserva;
 import br.com.cefet.dto.requisicaoVeiculo;
@@ -78,34 +79,47 @@ public class ManutencaoController {
 		return new requisicaoManutencao();
 	}
 
-	@PostMapping("manutencoes/new")
-	public ModelAndView create(@Valid requisicaoManutencao requisicao, BindingResult result) {
-		if (result.hasErrors()) {
-			System.out.println("\n**********************Invalid Input Found**************************\n");
+	@PostMapping("/manutencoes")
+	public ModelAndView create(@ModelAttribute requisicaoManutencao requisicao, BindingResult result) {
+	    ModelAndView mv = new ModelAndView("manutencoes/new");
 
-			ModelAndView mv = new ModelAndView("manutencoes/new");
-			return mv;
-		} else {
-			Veiculo veiculo = veiculoRepository.findByPlaca(requisicao.getPlaca());
-			System.out.printf("%d", veiculo.getId());
-			Estacao estacao = estacaoRepository.findById(requisicao.getEstacaoId()).orElse(null);
+	    if (result.hasErrors()) {
+	        System.out.println("\n**********************Invalid Input Found**************************\n");
+	        return mv;
+	    } else {
+	        Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
+	        System.out.printf("ID VEICULO - %d%n", requisicao.getVeiculoId());
 
-			if (veiculo != null && estacao != null) {
-				Manutencao manutencao = new Manutencao();
-				ModelAndView mv = new ModelAndView("redirect:/manutencoes/" + manutencao.getIdManutencao());
-				manutencao.setVeiculo(veiculo);
-				manutencao.setEstacao(estacao);
-				manutencao.setDataEntrada(requisicao.getDataEntrada());
-				manutencao.setDataSaida(requisicao.getDataSaida());
+	        int estacaoId = 0;
+	        try {
+	            estacaoId = Integer.parseInt(requisicao.getEstacaoId());
+	        } catch (NumberFormatException e) {
+	            e.printStackTrace();
+	            // Lidar com erro de conversão, se necessário
+	        }
 
-				// Salve a manutenção no banco de dados
-				manutencaoRepository.save(manutencao);
-				return mv;
-			} else {
-				System.out.println("Não foi possível realizar agendamento.");
-				return new ModelAndView("redirect:/veiculos");
-			}
-		}
+	        Estacao estacao = estacaoRepository.findById(estacaoId).orElse(null);
+	        System.out.printf("ID ESTACAO - %d%n", estacaoId);
+
+	        if (veiculo != null && estacao != null) {
+	            Manutencao manutencao = new Manutencao();
+	            mv = new ModelAndView("redirect:/manutencoes/" + manutencao.getIdManutencao());
+	            
+	            manutencao.setEstacao(estacao);
+	            manutencao.setVeiculo(veiculo);
+	            manutencao.setDataEntrada(requisicao.getDataEntrada());
+	            manutencao.setDataSaida(requisicao.getDataSaida());
+	            
+	            manutencao = requisicao.toManutencao(manutencao);
+
+	            // Salve a manutenção no banco de dados
+	            this.manutencaoRepository.save(manutencao);
+	            return mv;
+	        } else {
+	            System.out.println("Não foi possível realizar agendamento.");
+	            return new ModelAndView("redirect:/veiculos");
+	        }
+	    }
 	}
 
 	@GetMapping("/manutencoes/{idManutencao}")
