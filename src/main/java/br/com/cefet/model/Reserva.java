@@ -1,6 +1,5 @@
 package br.com.cefet.model;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;

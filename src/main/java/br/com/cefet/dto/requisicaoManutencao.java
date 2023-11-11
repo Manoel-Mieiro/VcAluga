@@ -82,8 +82,8 @@ public class requisicaoManutencao {
 
 	public Manutencao toManutencao() {
 		Manutencao manutencao = new Manutencao();
-		manutencao.setVeiculo(veiculo);
-		manutencao.setEstacao(estacao);
+//		manutencao.setVeiculo(veiculo);
+//		manutencao.setEstacao(estacao);
 		manutencao.setDataEntrada(this.dataEntrada);
 		manutencao.setDataSaida(this.dataSaida);
 
@@ -91,8 +91,8 @@ public class requisicaoManutencao {
 	}
 
 	public Manutencao toManutencao(Manutencao manutencao) {
-		manutencao.setVeiculo(veiculo);
-		manutencao.setEstacao(estacao);
+//		manutencao.setVeiculo(veiculo);
+//		manutencao.setEstacao(estacao);
 		manutencao.setDataEntrada(this.dataEntrada);
 		manutencao.setDataSaida(this.dataSaida);
 
@@ -111,5 +111,4 @@ public class requisicaoManutencao {
 		return "requisicaoManutencao [veiculo=" + veiculo + ", estacao=" + estacao + ", dataEntrada=" + dataEntrada
 				+ ", dataSaida=" + dataSaida + "]";
 	}
-
 }

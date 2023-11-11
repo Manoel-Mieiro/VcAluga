@@ -1,5 +1,6 @@
 package br.com.cefet.controller;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
@@ -95,7 +96,6 @@ public class ManutencaoController {
 	            estacaoId = Integer.parseInt(requisicao.getEstacaoId());
 	        } catch (NumberFormatException e) {
 	            e.printStackTrace();
-	            // Lidar com erro de conversão, se necessário
 	        }
 
 	        Estacao estacao = estacaoRepository.findById(estacaoId).orElse(null);
@@ -107,13 +107,19 @@ public class ManutencaoController {
 	            
 	            manutencao.setEstacao(estacao);
 	            manutencao.setVeiculo(veiculo);
-	            manutencao.setDataEntrada(requisicao.getDataEntrada());
-	            manutencao.setDataSaida(requisicao.getDataSaida());
 	            
+	    
 	            manutencao = requisicao.toManutencao(manutencao);
-
+	            
+	            System.out.println("Data de entrada recebida: " + manutencao.getDataEntrada());
+	            System.out.println("Data de saída recebida: " + manutencao.getDataSaida());
+	            
+	      
 	            // Salve a manutenção no banco de dados
+	            
 	            this.manutencaoRepository.save(manutencao);
+
+
 	            return mv;
 	        } else {
 	            System.out.println("Não foi possível realizar agendamento.");
