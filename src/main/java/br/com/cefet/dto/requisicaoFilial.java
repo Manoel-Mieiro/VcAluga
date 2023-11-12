@@ -16,10 +16,6 @@ public class requisicaoFilial {
 	@NotBlank
 	@NotNull
 	private String complemento;
-<<<<<<< HEAD
-=======
-	@NotBlank
->>>>>>> e5f9c5b1073de33d9fcd66d82108bb24fb766bf1
 	@NotNull
 	private short numero;
 	@NotBlank
@@ -31,15 +27,8 @@ public class requisicaoFilial {
 	@NotBlank
 	@NotNull
 	private String uf;
-<<<<<<< HEAD
 	@NotNull
 	private int quantidadeVeiculos;
-=======
-	@NotBlank
-	@NotNull
-	private int quantidadeVeiculos;
-	@NotBlank
->>>>>>> e5f9c5b1073de33d9fcd66d82108bb24fb766bf1
 	@NotNull
 	private float cota;
 	

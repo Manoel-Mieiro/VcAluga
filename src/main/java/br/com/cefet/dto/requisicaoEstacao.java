@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class requisicaoEstacao {
+	@NotNull
+	private int id;
 	@NotBlank
 	@NotNull
 	private String cep;
@@ -16,6 +18,9 @@ public class requisicaoEstacao {
 	private short numero;
 	private Status status;
 	
+	public int getId() {
+		return id;
+	}
 	public String getCep() {
 		return cep;
 	}

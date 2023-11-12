@@ -1,6 +1,6 @@
 package br.com.cefet.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -33,12 +33,12 @@ public class Reserva {
 	@Column(nullable = false, name = "DataReserva")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
-	private LocalDate dataReserva;
+	private Date dataReserva;
 
 	@Column(nullable = false, name = "DataDevolucao")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
-	private LocalDate dataDevolucao;
+	private Date dataDevolucao;
 
 	@Column(nullable = false, name = "ValorPago")
 	private float valorPago;
@@ -47,12 +47,81 @@ public class Reserva {
 		super();
 	}
 
+	public Categoria getCategoriaVeiculo() {
+		return veiculo.getCategoriaVeiculo();
+	}
+	public String getModeloVeiculo() {
+		return veiculo.getModeloVeiculo();
+	}
+	
+	public Marca getMarcaVeiculo() {
+		return veiculo.getMarcaVeiculo();
+	}
+	
+	public String getPlaca() {
+		return veiculo.getPlaca();
+	}
+	
+	public Paletas getCor() {
+		return veiculo.getCor();
+	}
+	
+	public int getAno() {
+		return veiculo.getAno();
+	}
+	
+	public String getFilial() {
+		return veiculo.getFilial();
+	}
 
+	
+	public void setCategoriaVeiculo(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setCategoriaVeiculo(getCategoriaVeiculo());
+		}
+	}
+	
+	public void setModeloVeiculo(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setModeloVeiculo(getModeloVeiculo());;
+		}
+	}
+	
+	public void setMarcaVeiculo(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setMarcaVeiculo(getMarcaVeiculo());
+		}
+	}
+	
+	public void setPlaca(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setPlaca(getPlaca());
+		}
+	}
+	
+	public void setCor(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setCor(getCor());
+		}
+	}
+	
+	
+	public void setAno(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setAno(getAno());
+		}
+	}
+	
+	public void setFilial(Veiculo veiculo) {
+		if(veiculo != null) {
+			veiculo.setFilial(getFilial());
+		}
+	}
+	
 
 	public int getIdReserva() {
 		return idReserva;
 	}
-
 
 
 	public void setIdReserva(int idReserva) {
@@ -73,25 +142,25 @@ public class Reserva {
 
 
 
-	public LocalDate getDataReserva() {
+	public Date getDataReserva() {
 		return dataReserva;
 	}
 
 
 
-	public void setDataReserva(LocalDate dataReserva) {
+	public void setDataReserva(Date dataReserva) {
 		this.dataReserva = dataReserva;
 	}
 
 
 
-	public LocalDate getDataDevolucao() {
+	public Date getDataDevolucao() {
 		return dataDevolucao;
 	}
 
 
 
-	public void setDataDevolucao(LocalDate dataDevolucao) {
+	public void setDataDevolucao(Date dataDevolucao) {
 		this.dataDevolucao = dataDevolucao;
 	}
 
@@ -109,7 +178,7 @@ public class Reserva {
 
 
 
-	public Reserva(Veiculo veiculo, LocalDate dataReserva, LocalDate dataDevolucao, float valorPago) {
+	public Reserva(Veiculo veiculo, Date dataReserva, Date dataDevolucao, float valorPago) {
 		super();
 		this.veiculo = veiculo;
 		this.dataReserva = dataReserva;

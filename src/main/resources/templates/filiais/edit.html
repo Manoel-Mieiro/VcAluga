@@ -23,11 +23,7 @@
 		<div class="container">
 			<div class="row">
 				<!-- th: object atrela automaticamente o form ao objeto de requisição do pacote DTO -->
-<<<<<<< HEAD
 				<form th:object="${requisicaoFilial}" th:action="@{'/filiais/' + ${id}}" method="post">
-=======
-				<form th:object="${requisicaoFilial}" th:action="@{'/estacoes/' + ${id}}" method="post">
->>>>>>> e5f9c5b1073de33d9fcd66d82108bb24fb766bf1
 					<div class="mb-3">
 						<label class="form-lable">CNPJ</label>
 						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{cnpj}">

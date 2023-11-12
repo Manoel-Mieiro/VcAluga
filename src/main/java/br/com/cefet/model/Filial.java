@@ -1,25 +1,34 @@
 package br.com.cefet.model;
 
-import org.springframework.data.annotation.Id;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class Filial {
 	// Bloco do Spring
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
-	// Atributos
 	private int id;
+	@Column(nullable = false)
 	private String cnpj;
+	@Column(nullable = false)
 	private String endereco;
+	@Column(nullable = false)
 	private String complemento;
+	@Column(nullable = false)
 	private short numero;
+	@Column(nullable = false)
 	private String cep;
+	@Column(nullable = false)
 	private String bairro;
+	@Column(nullable = false)
 	private String uf;
+	@Column(nullable = false)
 	private int quantidadeVeiculos;	//atributo da antiga classe estoque
+	@Column(nullable = false)
 	private float cota;	//atributo usado para calcular qtd a ser reservada pela filial
 	
 	public int getId() {
@@ -82,6 +91,31 @@ public class Filial {
 	public void setCota(float cota) {
 		this.cota = cota;
 	}
+	
+	
+	public Filial() {
+		super();
+	}
+	public Filial(String cnpj, String endereco, String complemento, short numero, String cep, String bairro, String uf,
+			int quantidadeVeiculos, float cota) {
+		super();
+		this.cnpj = cnpj;
+		this.endereco = endereco;
+		this.complemento = complemento;
+		this.numero = numero;
+		this.cep = cep;
+		this.bairro = bairro;
+		this.uf = uf;
+		this.quantidadeVeiculos = quantidadeVeiculos;
+		this.cota = cota;
+	}
+	@Override
+	public String toString() {
+		return "Filial [id=" + id + ", cnpj=" + cnpj + ", endereco=" + endereco + ", complemento=" + complemento
+				+ ", numero=" + numero + ", cep=" + cep + ", bairro=" + bairro + ", uf=" + uf + ", quantidadeVeiculos="
+				+ quantidadeVeiculos + ", cota=" + cota + "]";
+	}
+	
 	
 	
 }
