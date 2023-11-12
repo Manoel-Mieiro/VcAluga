@@ -6,23 +6,17 @@
     --navbar-color: rgba(87, 117, 144, 1);
 }
 
-.navbar{
+/* .navbar.navbar-custom{
     background-color: var(--navbar-color) !important;
-    color: white;
+    background-color: lightgreen;
 }
 
-.nav-link{
+.navbar-custom .navbar-text {
     color: white;
 }
-
-body {
-/* 	color:var(--menu-font-color) !important; */
-    margin: 0%;
-    padding: 0%;
-/*     font-family: 'Antonio', sans-serif;
-    font-family: 'Montserrat', sans-serif;
-    font-family: 'Playpen Sans', cursive;
-    font-size: 1em;
-    font-weight: bold;
-    color: var(--text-color); */
+ */
+ 
+ .bg-light {
+    background-color: yellow !important;
 }
+ 
