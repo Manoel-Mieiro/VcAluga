@@ -18,8 +18,8 @@ public class Motorista {
 	private int idMotorista;
 	@Column(nullable = false)
 	private String cnh;
-	@ManyToMany
-	Set<Veiculo> veiculo;
+//	@ManyToMany
+//	Set<Veiculo> veiculo;
 	
 	public int getIdMotorista() {
 		return idMotorista;

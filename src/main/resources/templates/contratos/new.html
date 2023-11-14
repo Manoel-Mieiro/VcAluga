@@ -1,108 +1,100 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
- <!--Necesário para o thymeleaf--> 
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
- <!--Required meta tags--> 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- jQuery--> 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
- <!--Bootstrap CSS--> 
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<!-- Bootstrap Datepicker CSS e JavaScript--> 
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
-
-
-
-<title>Contrato</title>
+    <title>Novo Contrato</title>
 </head>
 
 <body>
-	<div class="container">
-		<div class="row">
-			<h1>Formuário de Contrato</h1>
-		</div>
+    <div class="container">
+        <div class="row">
+            <h1>Novo Contrato</h1>
+        </div>
 
-		<div class="container">
-			<div class="row">
-				 <!--th: object atrela automaticamente o form ao objeto de requisição do pacote DTO--> 
-				<!--<form th:object="${requisicaoManutencao}" th:action="@{'/manutencoes'}" method="post">-->
-					<form th:object="${requisicaoContrato}" method="post" action="/contratos">
-				 <input type="hidden" name="veiculoId" th:value="${veiculo.id}">
-					<div class="mb-3">
+        <div class="container">
+            <div class="row">
+                <form th:object="${requisicaoContrato}" action="/contratos" method="post">
+                 <input type="hidden" name="idReserva" th:value="${requisicaoContrato.idReserva}">
+                    <!-- Campos da reserva -->
+                    <div class="mb-3">
+                        <label class="form-label">Placa do Veículo</label>
+                        <input type="text" class="form-control" th:field="*{placa}" readonly="readonly">
+                    </div>
+                    <div class="mb-3">
 						<label class="form-lable">Marca</label> <input type="text"
-							class="form-control" th:value="${veiculo.marcaVeiculo}"
+							class="form-control" th:field="*{marcaVeiculo}"
 							readonly="readonly">
 					</div>
 					<div class="mb-3">
 						<label class="form-lable">Modelo</label> <input type="text"
-							class="form-control" th:value="${veiculo.modeloVeiculo}"
+							class="form-control" th:field="*{modeloVeiculo}"
 							readonly="readonly">
 					</div>
-					<div class="mb-3">
+					<!-- <div class="mb-3">
 						<label class="form-lable">Filial</label> <input type="text"
 							class="form-control" th:value="${veiculo.filial}"
 							readonly="readonly">
+					</div> -->
+					<div class="mb-3">
+						<label class="form-lable">Categoria</label> <input type="text"
+							class="form-control" th:field="*{categoriaVeiculo}"
+							readonly="readonly">
+					</div>
+                    <!-- Outros campos da reserva -->
+	
+		<div class="mb-3">
+						<label class="form-lable">Data de Início</label> <input
+							type="text" class="form-control"
+							th:field="*{dataReserva}" readonly="readonly">
 					</div>
 					<div class="mb-3">
-    <label class="form-label">Estação</label>
-<select class="form-select" th:field="*{estacaoId}">
-    <option value="">Selecione uma Estação</option>
-    <option th:each="estacao : ${estacoes}" th:value="${estacao.id}" th:text="${estacao.endereco + ', número ' + estacao.numero}"></option>
-</select>
-
-
-</div>
-	<div class="mb-3">
-						<label class="form-lable">Data de Entrada</label> <input
-							type="text" class="form-control datepicker"
-							th:errorclass="is-invalid" th:field="*{dataEntrada}">
-						<div class="invalid-feedback" th:errors="*{dataEntrada}"></div>
+						<label class="form-lable">Data de Fim</label> <input type="text"
+							class="form-control" 
+							th:field="*{dataDevolucao}" readonly="readonly">
+						
 					</div>
 					<div class="mb-3">
-						<label class="form-lable">Data de Saída</label> <input type="text"
-							class="form-control datepicker" th:errorclass="is-invalid"
-							th:field="*{dataSaida}">
-						<div class="invalid-feedback" th:errors="*{dataSaida}"></div>
-						</div>
-					<td class="row">
-						<button class="btn btn-primary" type="submit">Agendar</button>
-					</td> <a href="javascript:history.back()">Voltar</a>
-				</form>
-			</div>
-		</div>
-	</div>
+						<label class="form-lable">Diária (R$)</label> <input type="text"
+							class="form-control"
+							th:field="*{valorPago}" readonly="readonly">
+				
+					</div>
+                    <!-- Campos do contrato -->
+                    <div class="mb-3">
+                        <label class="form-label">Data de Emissão</label>
+                        <input type="text" class="form-control" th:field="*{dataEmissao}" readonly="readonly">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Assinatura do Gestor</label>
+                        <input type="text" class="form-control" th:field="*{assinaturaGestor}">
+                        <div class="invalid-feedback" th:errors="*{assinaturaGestor}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Assinatura do Cliente</label>
+                        <input type="text" class="form-control" th:field="*{assinaturaCliente}">
+                        <div class="invalid-feedback" th:errors="*{assinaturaCliente}"></div>
+                    </div>
+                    <!-- Outros campos do contrato -->
 
-	 <!--Option 1: Bootstrap Bundle with Popper -->
-	<script crossorigin="anonymous"
-		integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+                    <button class="btn btn-primary" type="submit">Registrar Contrato</button>
+                    <a href="javascript:history.back()">Voltar</a>
+                </form>
+            </div>
+        </div>
+    </div>
 
-
-	 <!--Date picker script--> 
-	<script>
-		$(document).ready(function() {
-			$('.datepicker').datepicker({
-				format : 'dd/mm/yyyy',
-				todayHighlight : true,
-				autoclose : true
-			});
-		});
-	</script>
-
+    <!-- Bootstrap JS -->
+    <script crossorigin="anonymous"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

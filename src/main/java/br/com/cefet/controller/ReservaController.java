@@ -70,7 +70,7 @@ public class ReservaController {
     	Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
         if (veiculo != null) {
         	Reserva reserva = new Reserva();
-           	ModelAndView mv = new ModelAndView("redirect:/contratos/new?idReserva=" + reserva.getIdReserva());
+//           	ModelAndView mv = new ModelAndView("redirect:/contratos/new?idReserva=" + reserva.getIdReserva());
             reserva.setVeiculo(veiculo);
             reserva.setCategoriaVeiculo(veiculo);
             reserva.setModeloVeiculo(veiculo);
@@ -90,6 +90,7 @@ public class ReservaController {
             reservaRepository.save(reserva);
 
             // Redirecione para uma página de sucesso ou qualquer outra ação necessária
+            ModelAndView mv = new ModelAndView("redirect:/contratos/new?idReserva=" + reserva.getIdReserva());
             return mv;
         } else {
             // Trate o caso em que o veículo não foi encontrado

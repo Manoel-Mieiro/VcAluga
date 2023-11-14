@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.cefet.dto.requisicaoContrato;
 import br.com.cefet.dto.requisicaoEstacao;
 import br.com.cefet.dto.requisicaoManutencao;
 import br.com.cefet.dto.requisicaoReserva;
@@ -26,6 +27,7 @@ import br.com.cefet.dto.requisicaoVeiculo;
 import br.com.cefet.model.Categoria;
 import br.com.cefet.model.Contrato;
 import br.com.cefet.model.Estacao;
+import br.com.cefet.model.Filial;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Reserva;
@@ -66,22 +68,35 @@ public class ContratoController {
 
 	@GetMapping("/contratos/new")
 	public ModelAndView novo(@RequestParam(name = "idReserva") int idReserva) {
-		Optional<Reserva> optionalReserva = reservaRepository.findById(idReserva);
+	    Optional<Reserva> optionalReserva = reservaRepository.findById(idReserva);
 
-//		if (optionalReserva.isPresent()) {
-//			Reserva reserva = optionalReserva.get();
-//
-//			List<Estacao> estacoes = estacaoRepository.findAll(); // Obtém a lista de todas as estações
+	    if (optionalReserva.isPresent()) {
+	        Reserva reserva = optionalReserva.get();
 
-			ModelAndView mv = new ModelAndView("contratos/new");
-//			mv.addObject("veiculo", veiculo);
-//			mv.addObject("estacoes", estacoes); // Adiciona a lista de estações ao modelo
+	        // Preencher os campos necessários para o contrato
+	        requisicaoContrato requisicao = new requisicaoContrato();
+	        requisicao.setPlaca(reserva.getVeiculo().getPlaca());
+	        requisicao.setMarcaVeiculo(reserva.getVeiculo().getMarcaVeiculo());
+	        requisicao.setModeloVeiculo(reserva.getVeiculo().getModeloVeiculo());
+	        requisicao.setCategoriaVeiculo(reserva.getVeiculo().getCategoriaVeiculo());
+	        requisicao.setQuilometragem(reserva.getVeiculo().getQuilometragem());
+	        requisicao.setCor(reserva.getVeiculo().getCor());
+	        requisicao.setAno(reserva.getVeiculo().getAno());
 
-			return mv;
-//		} else {
-//			System.out.println("Veículo não encontrado.");
-//			return new ModelAndView("redirect:/veiculos");
-//		}
+	        requisicao.setDataReserva(reserva.getDataReserva());
+	        requisicao.setDataDevolucao(reserva.getDataDevolucao());
+	        requisicao.setValorPago(reserva.getValorPago());
+
+	        requisicao.setDataEmissao(java.sql.Date.valueOf(LocalDate.now()));
+	        
+	        ModelAndView mv = new ModelAndView("contratos/new");
+	        mv.addObject("requisicaoContrato", requisicao);
+
+	        return mv;
+	    } else {
+	        System.out.println("Reserva não encontrada.");
+	        return new ModelAndView("redirect:/veiculos");
+	    }
 	}
 //
 ////	 O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
