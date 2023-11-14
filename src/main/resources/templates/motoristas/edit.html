@@ -1,0 +1,109 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<!-- Necesário para o thymeleaf -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	<title>Editar Registro</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<h1>Formulário de Edição</h1>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<!-- th: object atrela automaticamente o form ao objeto de requisição do pacote DTO -->
+				<form th:object="${requisicaoVeiculo}" th:action="@{'/veiculos/' + ${id}}" method="post">
+					<div class="mb-3">
+						<label class="form-lable">Placa</label>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{placa}">
+						<div class="invalid-feedback" th:errors="*{placa}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Marca</label>
+						<select type="text" class="form-select" th:field="*{marcaVeiculo}">
+							<!-- <option value="Honda">Honda</option>
+							<option value="Fiat">Fiat</option>
+							<option value="Chevrolet">Chevrolet</option>
+							<option value="Jeep">Jeep</option>
+							<option value="Citroen">Citroen</option>
+							<option value="Renault">Renault</option>
+							<option value="Ford">Ford</option>
+							<option value="Volkswagen">Volkswagen</option>
+							<option value="Toyota">Toyota</option>
+							<option value="Kia">Kia</option>
+							<option value="Hyundai">Hyundai</option>
+							<option value="Peugeot">Peugeot</option> -->
+							<option th:each="marcaVeiculo : ${marcaVeiculo}" th:value="${marcaVeiculo}" th:text="${marcaVeiculo}"></option>
+						</select>
+						<div></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Modelo</label>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{modeloVeiculo}">
+						<div class="invalid-feedback" th:errors="*{modeloVeiculo}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Categoria</label>
+						<select type="text" class="form-select" th:field="*{categoriaVeiculo}">
+<!-- 							<option value="Economico">Economico</option>
+							<option value="Popular">Popular</option>
+							<option value="Luxo">Luxo</option> -->
+							<option th:each="categoria : ${categoria}" th:value="${categoria}" th:text="${categoria}"></option>
+						</select>
+						<div></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Quilometragem</label>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{quilometragem}">
+						<div class="invalid-feedback" th:errors="*{quilometragem}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Cor</label>
+						<select type="text" class="form-select" th:field="*{cor}">
+							<!-- <option value="Prata">Prata</option>
+							<option value="Branco">Branco</option>
+							<option value="Preto">Preto</option>
+							<option value="Vermelho">Vermelho</option>
+							<option value="Amarelo">Amarelo</option>
+							<option value="Azul">Azul</option> -->
+							<option th:each="cor : ${cor}" th:value="${cor}" th:text="${cor}"></option>
+							
+						</select>
+						<div></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Ano</label>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ano}">
+						<div class="invalid-feedback" th:errors="*{ano}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Filial</label>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{filial}">
+						<div class="invalid-feedback" th:errors="*{filial}"></div>
+					</div>
+					<button class="btn btn-primary" type="submit">Editar</button>
+					<a href="javascript:history.back()">Voltar</a>
+					
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+<script crossorigin="anonymous"
+integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
