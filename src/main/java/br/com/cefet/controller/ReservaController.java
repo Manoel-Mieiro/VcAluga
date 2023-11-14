@@ -40,22 +40,22 @@ public class ReservaController {
 		return mv;
 	}
 
-	@GetMapping("/reservas/new")
-	public ModelAndView novo(@RequestParam(name = "veiculoId") int veiculoId) {
-		Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
-
-		if (optional.isPresent()) {
-			Veiculo veiculo = optional.get();
-			// Adicione o veiculo ao modelo para que ele esteja disponível na página
-			ModelAndView mv = new ModelAndView("reservas/new");
-			mv.addObject("veiculo", veiculo);
-			return mv;
-		} else {
-			System.out.println("Veículo não encontrado.");
-			return new ModelAndView("redirect:/veiculos");
-		}
-	}
+		@GetMapping("/reservas/new")
+		public ModelAndView novo(@RequestParam(name = "veiculoId") int veiculoId) {
+			Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
 	
+			if (optional.isPresent()) {
+				Veiculo veiculo = optional.get();
+				// Adicione o veiculo ao modelo para que ele esteja disponível na página
+				ModelAndView mv = new ModelAndView("reservas/new");
+				mv.addObject("veiculo", veiculo);
+				return mv;
+			} else {
+				System.out.println("Veículo não encontrado.");
+				return new ModelAndView("redirect:/veiculos");
+			}
+		}
+		
 
 
 //	 O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
@@ -70,7 +70,7 @@ public class ReservaController {
     	Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
         if (veiculo != null) {
         	Reserva reserva = new Reserva();
-           	ModelAndView mv = new ModelAndView("redirect:/reservas/" + reserva.getIdReserva());
+           	ModelAndView mv = new ModelAndView("redirect:/contratos/new?idReserva=" + reserva.getIdReserva());
             reserva.setVeiculo(veiculo);
             reserva.setCategoriaVeiculo(veiculo);
             reserva.setModeloVeiculo(veiculo);
