@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.cefet.dto.requisicaoUsuario;
 import br.com.cefet.model.Conta;
 import br.com.cefet.model.Usuario;
 import br.com.cefet.repository.UsuarioRepository;

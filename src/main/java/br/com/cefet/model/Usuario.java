@@ -17,7 +17,7 @@ public class Usuario {
 	private String email;
 	private Conta tipo;	//enum para selecionar tipo de conta e pedir a devida credencial
 	private String senha;
-	private int telefone;
+	private String telefone;
 	private String cpf; 
 	public Usuario() {
 		// TODO Auto-generated constructor stub
@@ -76,11 +76,11 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public int getTelefone() {
+	public String getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(int telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 
@@ -91,7 +91,6 @@ public class Usuario {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
 	
 	
 }
