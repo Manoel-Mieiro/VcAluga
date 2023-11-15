@@ -78,7 +78,7 @@ public class ReservaController {
             reserva.setPlaca(veiculo);
             reserva.setCor(veiculo);
             reserva.setAno(veiculo);
-            reserva.setFilial(veiculo);
+            reserva.setBranch(veiculo);
             
 //            
             reserva.setDataReserva(requisicao.getDataReserva());
@@ -103,10 +103,12 @@ public class ReservaController {
 	public ModelAndView show(@PathVariable Integer idReserva) {
 
 		Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
+		
 
 		if (optional.isPresent()) {
 			Reserva reserva = optional.get();
-
+			System.out.println("Reserva: " + reserva);
+			System.out.println("Veiculo: " + reserva.getVeiculo());
 			ModelAndView mv = new ModelAndView("reservas/show");
 			mv.addObject("reserva", reserva);
 			return mv;

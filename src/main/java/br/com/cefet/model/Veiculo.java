@@ -1,6 +1,6 @@
 package br.com.cefet.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +9,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
 
 @Entity
 public class Veiculo {
@@ -29,12 +31,12 @@ public class Veiculo {
 	private Paletas cor; // enum
 	@Column(nullable = false)
 	private int ano; // byte foi escolhido porque dificilmente carros duram mais de 127 anos
-	@Column(nullable = false)
 //	@JsonIgnoreProperties({"marca", "modelo", "filial", "categoria"})
 //    @OneToMany(mappedBy = "veiculo")
 //    private Reserva reserva;
-	
-	private String filial; // pode vir a se tornar enum
+	@ManyToOne
+	@JoinColumn(name = "idFilial")
+	private Filial branch;
 	
 	public int getId() {
 		return id;
@@ -84,17 +86,19 @@ public class Veiculo {
 	public void setAno(int ano) {
 		this.ano = ano;
 	}
-	public String getFilial() {
-		return filial;
+
+	public Filial getBranch() {
+		return branch;
 	}
-	public void setFilial(String filial) {
-		this.filial = filial;
+	public void setBranch(Filial branch) {
+		this.branch = branch;
 	}
+	
 	public Veiculo() {
 		
 	}
 	public Veiculo(String placa, Marca marcaVeiculo, String modeloVeiculo, Categoria categoriaVeiculo,
-			float quilometragem, Paletas cor, int ano, String filial) {
+			float quilometragem, Paletas cor, int ano, Filial branch) {
 		super();
 		this.placa = placa;
 		this.marcaVeiculo = marcaVeiculo;
@@ -103,16 +107,8 @@ public class Veiculo {
 		this.quilometragem = quilometragem;
 		this.cor = cor;
 		this.ano = ano;
-		this.filial = filial;
+		this.branch = branch;
 	}
-	@Override
-	public String toString() {
-		return "Veiculo [id=" + id + ", placa=" + placa + ", marcaVeiculo=" + marcaVeiculo + ", modeloVeiculo="
-				+ modeloVeiculo + ", categoriaVeiculo=" + categoriaVeiculo + ", quilometragem=" + quilometragem
-				+ ", cor=" + cor + ", ano=" + ano + ", filial=" + filial + "]";
-	}
-	
-	
 
 
 }

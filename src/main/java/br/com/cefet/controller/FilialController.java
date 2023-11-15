@@ -64,8 +64,8 @@ public class FilialController {
 
 			// Create do CRUD
 			this.filialRepository.save(filial);
-			System.out.println("ID da nova filial: " + filial.getId());
-			return new ModelAndView("redirect:/filiais/" + filial.getId());
+			System.out.println("ID da nova filial: " + filial.getIdFilial());
+			return new ModelAndView("redirect:/filiais/" + filial.getIdFilial());
 		}
 	}
 
@@ -113,7 +113,7 @@ public class FilialController {
 			if (optional.isPresent()) {
 				Filial filial = requisicao.toFilial(optional.get());
 				this.filialRepository.save(filial);
-				return new ModelAndView("redirect:/filiais/" + filial.getId());
+				return new ModelAndView("redirect:/filiais/" + filial.getIdFilial());
 			} else {
 				System.out.println("Registro não consta no banco ou não foi encontrado.");
 				return new ModelAndView("redirect:/filiais");

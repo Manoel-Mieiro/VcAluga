@@ -25,7 +25,7 @@
                     <b>Status:</b> <span th:text="${manutencao.estacao?.status}"></span><br/>
                     <b>Marca:</b> <span th:text="${manutencao.veiculo?.marcaVeiculo}"></span><br>
                     <b>Modelo:</b> <span th:text="${manutencao.veiculo?.modeloVeiculo}"></span><br/>
-                    <b>Filial:</b> <span th:text="${manutencao.veiculo?.filial}"></span><br/>
+                    <b>Filial:</b> <span th:text="${manutencao.veiculo?.branch.uf}"></span><br/>
                     <b>Categoria:</b> <span th:text="${manutencao.veiculo?.categoriaVeiculo}"></span><br/>
                     <b>placa:</b> <span th:text="${manutencao.veiculo?.placa}"></span><br/>
                     <b>Data de Entrada:</b> <span th:text="${manutencao.dataEntrada}"></span><br/>

@@ -79,7 +79,7 @@
         <td class="col-6" th:text="${veiculo.quilometragem}">Quilometragem</td>
         <td class="col-7" th:text="${veiculo.cor.toString()}">Cor</td>
         <td class="col-8" th:text="${veiculo.ano}">Ano</td>
-        <td class="col-9" th:text="${veiculo.filial}">Filial</td>
+        <td class="col-9" th:text="${veiculo.branch?.uf}">Filial</td>
         <td class="col-1"><a th:href="@{/veiculos/{veiculoId}(veiculoId = ${veiculo.id})}">Detalhes</a></td>
        	<td class="col-1"><a th:href="@{/veiculos/{veiculoId}/edit(veiculoId = ${veiculo.id})}">Editar</a></td>
         <td class="col-1"><a th:href="@{/veiculos/{veiculoId}/delete(veiculoId = ${veiculo.id})}">Deletar</a></td>

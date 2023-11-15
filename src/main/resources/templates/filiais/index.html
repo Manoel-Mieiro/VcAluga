@@ -71,7 +71,7 @@
                 </thead>
 <tbody>
     <tr th:each="filial : ${filiais}">
-    	<td class="col-1" th:text="${filial.getId()}">ID</td>
+    	<td class="col-1" th:text="${filial.getIdFilial()}">ID</td>
         <td class="col-2" th:text="${filial.cnpj}">CNPJ</td>
         <td class="col-3" th:text="${filial.endereco}">Endereço</td>
         <td class="col-3" th:text="${filial.complemento}">Complemento</td>
@@ -81,9 +81,9 @@
         <td class="col-3" th:text="${filial.uf}">Unidade Federativa</td>
         <td class="col-3" th:text="${filial.quantidadeVeiculos}">Quantidade de veículos</td>
         <td class="col-5" th:text="${filial.cota}">Cota</td>
-        <td class="col-1"><a th:href="@{/filiais/{filialId}(filialId = ${filial.id})}">Detalhes</a></td>
-       	<td class="col-1"><a th:href="@{/filiais/{filialId}/edit(filialId=${filial.id})}">Editar</a></td>
-        <td class="col-1"><a th:href="@{/filiais/{filialId}/delete(filialId = ${filial.id})}">Deletar</a></td> 
+        <td class="col-1"><a th:href="@{/filiais/{filialId}(filialId = ${filial.idFilial})}">Detalhes</a></td>
+       	<td class="col-1"><a th:href="@{/filiais/{filialId}/edit(filialId=${filial.idFilial})}">Editar</a></td>
+        <td class="col-1"><a th:href="@{/filiais/{filialId}/delete(filialId = ${filial.idFilial})}">Deletar</a></td> 
     </tr>
 </tbody>
             </table>
