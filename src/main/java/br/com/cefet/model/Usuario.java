@@ -1,23 +1,31 @@
 package br.com.cefet.model;
 
-import org.springframework.data.annotation.Id;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class Usuario {
-	// Bloco do Spring
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
-	// Atributos
 	private int id;
+	@Column(nullable = false)
 	private String nome;
+	@Column(nullable = false)
 	private String sobrenome; // nome paterno
+	@Column(nullable = false)
 	private String email;
+	@Enumerated(EnumType.STRING)
 	private Conta tipo;	//enum para selecionar tipo de conta e pedir a devida credencial
 	private String senha;
+	@Column(nullable = false)
 	private String telefone;
+	@Column(nullable = false)
 	private String cpf; 
 	public Usuario() {
 		// TODO Auto-generated constructor stub
