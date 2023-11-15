@@ -15,7 +15,7 @@ public class Contrato {
 	// Atributos
 	private int id;
 	private String cnpj;
-	private String dataEmissão;
+	private String dataEmissaso;
 	private String cpfCliente;
 	private String nomeCompleto;
 	private String assinaturaGestor;

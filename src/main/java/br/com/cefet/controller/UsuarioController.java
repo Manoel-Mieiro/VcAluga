@@ -16,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.com.cefet.dto.requisicaoUsuario;
 import br.com.cefet.model.Conta;
+import br.com.cefet.model.Funcionario;
 import br.com.cefet.model.Usuario;
+import br.com.cefet.repository.FuncionarioRepository;
 import br.com.cefet.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 
@@ -25,6 +27,9 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	@Autowired
+	private FuncionarioRepository funcionarioRepository;
+
 
 	@GetMapping("/usuarios")
 	public ModelAndView index() {
@@ -54,22 +59,37 @@ public class UsuarioController {
 	
 	@PostMapping("/usuarios")
 	public ModelAndView create(@Valid requisicaoUsuario requisicao, BindingResult result) {
-		if (result.hasErrors()) {
-			System.out.println("\n**********************Invalid Input Found**************************\n");
+	    if (result.hasErrors()) {
+	        System.out.println("\n**********************Invalid Input Found**************************\n");
+	        ModelAndView mv = new ModelAndView("/usuarios/new");
+	        mv.addObject("tipo", Conta.values());
+	        return mv;
+	    } else {
+	        // Verifica se o tipo é Funcionario
+	        if (requisicao.getTipo() == Conta.Funcionario) {
+	            // Se for Funcionario, cria um Funcionario e preenche seus atributos específicos
+	            Funcionario funcionario = new Funcionario();
+	            funcionario = requisicao.toFuncionario(); // Método para preencher dados comuns de Usuario
+	            funcionario.setMatricula(requisicao.getMatricula());
+	            funcionario.setCargo(requisicao.getCargo());
+	            funcionario.setFilial(requisicao.getFilial());
 
-			ModelAndView mv = new ModelAndView("/usuarios/new");
-			mv.addObject("tipo", Conta.values());
-			return mv;
-		} else {
-			Usuario usuario = new Usuario();
-			usuario = requisicao.toUsuario();
+	            this.funcionarioRepository.save(funcionario); 
 
-			// Create do CRUD
-			this.usuarioRepository.save(usuario);
-			System.out.println("ID do novo usuário: " + usuario.getId());
-			return new ModelAndView("redirect:/usuarios/" + usuario.getId());
-		}
+	            System.out.println("ID do novo funcionário: " + funcionario.getId());
+	            return new ModelAndView("redirect:/usuarios/" + funcionario.getId());
+	        } else {
+	            Usuario usuario = new Usuario();
+	            usuario = requisicao.toUsuario(); 
+
+	            this.usuarioRepository.save(usuario);
+
+	            System.out.println("ID do novo usuário: " + usuario.getId());
+	            return new ModelAndView("redirect:/usuarios/" + usuario.getId());
+	        }
+	    }
 	}
+
 
 	@GetMapping("/usuarios/{id}")
 	public ModelAndView show(@PathVariable Integer id) {

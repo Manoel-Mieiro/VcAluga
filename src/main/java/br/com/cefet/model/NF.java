@@ -12,6 +12,6 @@ public class NF {
 
 	// Atributos
 	private int id;
-	private int númeroNF;
+	private int numeroNF;
 
 }
