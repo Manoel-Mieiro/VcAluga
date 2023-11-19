@@ -13,7 +13,7 @@
 
 	<title>Veículo</title>
 <body>
-	<h1>Veiculo</h1>
+	<h1>Veiculo#</h1>
 	
 <main>
         <div class="container mt-4">
@@ -26,12 +26,17 @@
                     <b>Quilometragem:</b> <span th:text="${veiculo.quilometragem}"></span><br/>
                     <b>Cor:</b> <span th:text="${veiculo.cor}"></span><br/>
                     <b>Ano:</b> <span th:text="${veiculo.ano}"></span><br/>
-                    <b>Filial:</b> <span th:text="${veiculo.branch.uf}"></span>
+                    <b>Filial:</b> <span th:text="${veiculo.filial}"></span>
                 </div>
             </div>
             <br>
             <a th:href="@{/veiculos/{id}/edit(id=${id})}" class="btn btn-primary">Editar</a>
 					<a href="javascript:history.back()">Voltar</a>
+            <!--<div class="row">
+                <div class="col-12">
+                    <a th:href="@{/professores/{professorId}/edit(professorId = ${professor.id})}">Editar</a> <a href="/professores">Voltar</a>
+                </div>
+            </div>-->
         </div>
     </main>
 	

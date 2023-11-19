@@ -21,7 +21,7 @@
                 <div class="col-24">
                     <b>Marca:</b> <span th:text="${reserva.veiculo?.marcaVeiculo}"></span><br>
                     <b>Modelo:</b> <span th:text="${reserva.veiculo?.modeloVeiculo}"></span><br/>
-                    <b>Filial:</b> <span th:text="${reserva.veiculo?.filial}"></span><br/>
+                    <b>Filial:</b> <span th:text="${reserva.veiculo?.branch.uf}"></span><br/>
                     <b>Categoria:</b> <span th:text="${reserva.veiculo?.categoriaVeiculo}"></span><br/>
                     <b>placa:</b> <span th:text="${reserva.veiculo?.placa}"></span><br/>
                     <b>cor:</b> <span th:text="${reserva.veiculo?.cor}"></span><br/>

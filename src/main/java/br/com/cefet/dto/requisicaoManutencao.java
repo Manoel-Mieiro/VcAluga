@@ -108,7 +108,9 @@ public class requisicaoManutencao {
 
 	@Override
 	public String toString() {
-		return "requisicaoManutencao [veiculo=" + veiculo + ", estacao=" + estacao + ", dataEntrada=" + dataEntrada
-				+ ", dataSaida=" + dataSaida + "]";
+		return "requisicaoManutencao [veiculo=" + veiculo + ", veiculoId=" + veiculoId + ", estacao=" + estacao
+				+ ", estacaoId=" + estacaoId + ", dataEntrada=" + dataEntrada + ", dataSaida=" + dataSaida + "]";
 	}
+
+
 }

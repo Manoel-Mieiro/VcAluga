@@ -70,10 +70,9 @@ public class Reserva {
 		return veiculo.getAno();
 	}
 	
-	public String getFilial() {
-		return veiculo.getFilial();
+	public Filial getBranch() {
+		return veiculo.getBranch();
 	}
-
 	
 	public void setCategoriaVeiculo(Veiculo veiculo) {
 		if(veiculo != null) {
@@ -112,9 +111,9 @@ public class Reserva {
 		}
 	}
 	
-	public void setFilial(Veiculo veiculo) {
+	public void setBranch(Veiculo veiculo) {
 		if(veiculo != null) {
-			veiculo.setFilial(getFilial());
+			veiculo.setBranch(getBranch());
 		}
 	}
 	

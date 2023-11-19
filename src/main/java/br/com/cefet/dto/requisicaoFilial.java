@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class requisicaoFilial {
 	@NotNull
-	private int id;
+	private int idFilial;
 	@NotBlank
 	@NotNull
 	private String cnpj;
@@ -33,13 +33,13 @@ public class requisicaoFilial {
 	private float cota;
 	
 	
-public int getId() {
-		return id;
+public int getIdFilial() {
+		return idFilial;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+//	public void setIdFilial(int idFilial) {
+//		this.idFilial = idFilial;
+//	}
 
 	public String getCnpj() {
 		return cnpj;
@@ -115,7 +115,7 @@ public int getId() {
 
 public Filial toFilial() {
 		Filial filial = new Filial();
-		filial.setId(this.id);
+//		filial.setId(this.idFilial);
 		filial.setCnpj(this.cnpj);
 		filial.setEndereco(this.endereco);
 		filial.setComplemento(this.complemento);
@@ -132,7 +132,7 @@ public Filial toFilial() {
 
 //Metodo toVeiculo para update de um veiculo existente
 public Filial toFilial(Filial filial) {
-	filial.setId(this.id);
+//	filial.setId(this.idFilial);
 	filial.setCnpj(this.cnpj);
 	filial.setEndereco(this.endereco);
 	filial.setComplemento(this.complemento);
@@ -148,7 +148,7 @@ public Filial toFilial(Filial filial) {
 } 
 
 public void fromFilial(Filial filial) {
-	this.id = filial.getId();
+//	this.idFilial = filial.getIdFilial();
 	this.cnpj = filial.getCnpj();
 	this.endereco = filial.getEndereco();
 	this.complemento = filial.getComplemento();
@@ -159,16 +159,16 @@ public void fromFilial(Filial filial) {
 	this.quantidadeVeiculos = filial.getQuantidadeVeiculos();
 	this.cota = filial.getCota();
 	
+}
+
+@Override
+public String toString() {
+	return "requisicaoFilial [cnpj=" + cnpj + ", endereco=" + endereco + ", complemento=" + complemento + ", numero="
+			+ numero + ", cep=" + cep + ", bairro=" + bairro + ", uf=" + uf + ", quantidadeVeiculos="
+			+ quantidadeVeiculos + ", cota=" + cota + "]";
 } 
 	
-	@Override
-	public String toString() {
-		return "requisicaoFilial [cnpj=" + cnpj + ", endereco=" + endereco + ", complemento="
-				+ complemento + ", numero=" + numero + ", cep=" + cep
-				+ ", bairro=" + bairro + ", uf=" + uf + ", quantidadeVeiculos=" + quantidadeVeiculos
-				+", cota=" + cota + "]";
-	}
-	
+
 	
 	
 	}
