@@ -1,8 +1,8 @@
 package br.com.cefet.model;
 
-public class Funcionário extends Usuário{
+public class Funcionário extends Usuario{
 	private String matrícula;
-	private int telefone;
+	private String telefone;
 	private String email;
 	private Cargo cargo;	//enum
 	
@@ -11,7 +11,7 @@ public class Funcionário extends Usuário{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Funcionário(String matrícula, int telefone, String email, Cargo cargo) {
+	public Funcionário(String matrícula, String telefone, String email, Cargo cargo) {
 		super();
 		this.matrícula = matrícula;
 		this.telefone = telefone;
@@ -27,11 +27,11 @@ public class Funcionário extends Usuário{
 		this.matrícula = matrícula;
 	}
 
-	public int getTelefone() {
+	public String getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(int telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 

@@ -14,6 +14,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 
 @Entity
@@ -24,9 +26,11 @@ public class Manutencao {
 	private int idManutencao;
 	@Column(nullable = false, name = "DataEntrada")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	private Date dataEntrada;
 	@Column(nullable = false, name = "DataSaida")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	private Date dataSaida;	
 	@ManyToOne
 	@JoinColumn(name = "estacaoId")

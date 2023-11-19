@@ -12,12 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.cefet.dto.requisicaoContrato;
 import br.com.cefet.dto.requisicaoEstacao;
@@ -69,107 +72,130 @@ public class ContratoController {
 	@GetMapping("/contratos/new")
 	public ModelAndView novo(@RequestParam(name = "idReserva") int idReserva) {
 	    Optional<Reserva> optionalReserva = reservaRepository.findById(idReserva);
-
+	    
+	    System.out.println("Reserva encontrada no método 'novo': " + optionalReserva);
 	    if (optionalReserva.isPresent()) {
 	        Reserva reserva = optionalReserva.get();
-
-	        // Preencher os campos necessários para o contrato
+	        System.out.println("Veiculo encontrado no método 'novo': " + reserva.getVeiculo());
 	        requisicaoContrato requisicao = new requisicaoContrato();
-	        requisicao.setPlaca(reserva.getVeiculo().getPlaca());
-	        requisicao.setMarcaVeiculo(reserva.getVeiculo().getMarcaVeiculo());
-	        requisicao.setModeloVeiculo(reserva.getVeiculo().getModeloVeiculo());
-	        requisicao.setCategoriaVeiculo(reserva.getVeiculo().getCategoriaVeiculo());
-	        requisicao.setQuilometragem(reserva.getVeiculo().getQuilometragem());
-	        requisicao.setCor(reserva.getVeiculo().getCor());
-	        requisicao.setAno(reserva.getVeiculo().getAno());
-
-	        requisicao.setDataReserva(reserva.getDataReserva());
-	        requisicao.setDataDevolucao(reserva.getDataDevolucao());
-	        requisicao.setValorPago(reserva.getValorPago());
-
+	        // requisicao.preencherComReserva(reserva);
 	        requisicao.setDataEmissao(java.sql.Date.valueOf(LocalDate.now()));
-	        
-	        ModelAndView mv = new ModelAndView("contratos/new");
-	        mv.addObject("requisicaoContrato", requisicao);
 
+	        ModelAndView mv = new ModelAndView("contratos/new");
+	        mv.addObject("requisicaoContrato", requisicao); // Adicione esta linha
+	        mv.addObject("reserva", reserva);
+	        mv.addObject("veiculo", reserva.getVeiculo());
+	        System.out.println("Veiculo encontrado no método 'novo': " + reserva.getVeiculo());
+	        mv.addObject("filial", reserva.getBranch());
+	         System.out.printf("%n%s%n%n: ", requisicao.getFilial());
 	        return mv;
 	    } else {
 	        System.out.println("Reserva não encontrada.");
 	        return new ModelAndView("redirect:/veiculos");
 	    }
 	}
-//
-////	 O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
-////	 de dados thymeleaf
-//	@ModelAttribute(value = "requisicaoManutencao")
-//	public requisicaoManutencao getRequisicaoManutencao() {
-//		return new requisicaoManutencao();
-//	}
-//
-//	@PostMapping("/manutencoes")
-//	public ModelAndView create(@ModelAttribute requisicaoManutencao requisicao, BindingResult result) {
-//	    ModelAndView mv = new ModelAndView("manutencoes/new");
-//
-//	    if (result.hasErrors()) {
-//	        System.out.println("\n**********************Invalid Input Found**************************\n");
-//	        return mv;
-//	    } else {
-//	        Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
-//	        System.out.printf("ID VEICULO - %d%n", requisicao.getVeiculoId());
-//
-//	        int estacaoId = 0;
-//	        try {
-//	            estacaoId = Integer.parseInt(requisicao.getEstacaoId());
-//	        } catch (NumberFormatException e) {
-//	            e.printStackTrace();
-//	        }
-//
-//	        Estacao estacao = estacaoRepository.findById(estacaoId).orElse(null);
-//	        System.out.printf("ID ESTACAO - %d%n", estacaoId);
-//
-//	        if (veiculo != null && estacao != null) {
-//	            Manutencao manutencao = new Manutencao();
-//	            mv = new ModelAndView("redirect:/manutencoes/" + manutencao.getIdManutencao());
-//	            
-//	            manutencao.setEstacao(estacao);
-//	            manutencao.setVeiculo(veiculo);
-//	            
-//	    
-//	            manutencao = requisicao.toManutencao(manutencao);
-//	            
-//	            System.out.println("Data de entrada recebida: " + manutencao.getDataEntrada());
-//	            System.out.println("Data de saída recebida: " + manutencao.getDataSaida());
-//	            
-//	      
-//	            // Salve a manutenção no banco de dados
-//	            
-//	            this.manutencaoRepository.save(manutencao);
-//
-//
-//	            return mv;
-//	        } else {
-//	            System.out.println("Não foi possível realizar agendamento.");
-//	            return new ModelAndView("redirect:/veiculos");
-//	        }
-//	    }
-//	}
-//
-//	@GetMapping("/manutencoes/{idManutencao}")
-//	public ModelAndView show(@PathVariable Integer idManutencao) {
-//
-//		Optional<Manutencao> optional = this.manutencaoRepository.findById(idManutencao);
-//
-//		if (optional.isPresent()) {
-//			Manutencao manutencao = optional.get();
-//
-//			ModelAndView mv = new ModelAndView("manutencoes/show");
-//			mv.addObject("manutencao", manutencao);
-//			return mv;
-//		} else {
-//			System.out.println("Registro não consta no banco ou não foi encontrado.");
-//			return new ModelAndView("redirect:/manutencoes");
-//		}
-//	}
+
+
+//	 O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
+//	 de dados thymeleaf
+	@ModelAttribute(value = "requisicaoContrato")
+	public requisicaoContrato getRequisicaoContrato() {
+		return new requisicaoContrato();
+	}
+
+	@PostMapping("/contratos")
+	public ModelAndView create(@Valid requisicaoContrato requisicao, BindingResult result, RedirectAttributes redirectAttributes) {
+	    ModelAndView mv = new ModelAndView("contratos/new");
+
+	    if (result.hasErrors()) {
+	        System.out.println("\n**********************Invalid Input Found**************************\n");
+	        
+	        // Percorre os erros de campo (field errors)
+	        for (FieldError error : result.getFieldErrors()) {
+	            System.out.println("Field: " + error.getField());
+	            System.out.println("Message: " + error.getDefaultMessage());
+
+	            // Adicione a mensagem de erro ao RedirectAttributes se necessário
+	            redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
+	        }
+
+	        // Percorre os erros globais
+	        for (ObjectError error : result.getGlobalErrors()) {
+	            System.out.println("Object: " + error.getObjectName());
+	            System.out.println("Message: " + error.getDefaultMessage());
+
+	            // Adicione a mensagem de erro ao RedirectAttributes se necessário
+	            redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
+	        }
+	        
+	        return mv;
+	    } else {
+	        Reserva reserva = reservaRepository.findById(requisicao.getIdReserva()).orElse(null);
+	        System.out.println("Reserva encontrada no método 'create': " + requisicao.getReserva());
+	     
+
+	        if (reserva != null) {
+	            Contrato contrato = new Contrato();
+	            mv = new ModelAndView("redirect:/contratos/" + contrato.getIdContrato());
+
+	            contrato.setReserva(reserva);
+	            
+	            contrato = requisicao.toContrato(contrato);
+
+	            // Salve o contrato no banco de dados (ou faça o que for necessário)
+	            this.contratoRepository.save(contrato);
+
+	            // Redirecione para a página do contrato recém-criado
+	            System.out.println("Lista de CNHs no contrato após toContrato: " + contrato.getCnhs());
+	            System.out.println("ID do contrato: " + contrato.getIdContrato());
+	            return new ModelAndView("redirect:/contratos/" + contrato.getIdContrato());
+	        } else {
+	            // Lógica para lidar com a reserva não encontrada
+	            System.out.println("Reserva não encontrada.");
+	            return new ModelAndView("redirect:/veiculos");
+	        }
+
+	    }
+	}
+	
+
+
+
+	@GetMapping("/contratos/{idContrato}")
+	public ModelAndView show(@PathVariable Integer idContrato) {
+
+		Optional<Contrato> optional = this.contratoRepository.findById(idContrato);
+
+		if (optional.isPresent()) {
+			Contrato contrato = optional.get();
+
+			ModelAndView mv = new ModelAndView("contratos/show");
+			mv.addObject("contrato", contrato);
+			return mv;
+		} else {
+			System.out.println("Registro não consta no banco ou não foi encontrado.");
+			return new ModelAndView("redirect:/veiculos");
+		}
+	}
+	
+	
+	@GetMapping("/contratos/{idContrato}/edit")
+	public ModelAndView edit(@PathVariable Integer idContrato, requisicaoContrato requisicao) {
+		Optional<Contrato> optional = this.contratoRepository.findById(idContrato);
+
+		if (optional.isPresent()) {
+			System.out.printf("%d", idContrato);
+			Contrato contrato = optional.get();
+			requisicao.fromContrato(contrato);
+			ModelAndView mv = new ModelAndView("contratos/edit");
+			
+			return mv;
+		} else {
+			System.out.println("Registro não consta no banco ou não foi encontrado.");
+			return new ModelAndView("redirect:/veiculos");
+		}
+	}
+	
 //
 //	@GetMapping("/manutencoes/{idManutencao}/delete")
 //	public String delete(@PathVariable Integer idManutencao) {

@@ -178,12 +178,13 @@ public void fromReserva(Reserva reserva) {
 	this.dataDevolucao = reserva.getDataDevolucao();
 	this.valorPago = reserva.getValorPago();
 }
-
 @Override
 public String toString() {
-	return "requisicaoReserva [veiculo=" + veiculo + ", dataReserva=" + dataReserva + ", dataDevolucao=" + dataDevolucao
-			+ ", valorPago=" + valorPago + "]";
-} 
+	return "requisicaoReserva [veiculo=" + veiculo + ", veiculoId=" + veiculoId + ", dataReserva=" + dataReserva
+			+ ", dataDevolucao=" + dataDevolucao + ", valorPago=" + valorPago + "]";
+}
+
+
 	
 	
 	

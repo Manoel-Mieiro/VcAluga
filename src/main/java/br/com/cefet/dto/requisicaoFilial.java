@@ -159,16 +159,16 @@ public void fromFilial(Filial filial) {
 	this.quantidadeVeiculos = filial.getQuantidadeVeiculos();
 	this.cota = filial.getCota();
 	
+}
+
+@Override
+public String toString() {
+	return "requisicaoFilial [cnpj=" + cnpj + ", endereco=" + endereco + ", complemento=" + complemento + ", numero="
+			+ numero + ", cep=" + cep + ", bairro=" + bairro + ", uf=" + uf + ", quantidadeVeiculos="
+			+ quantidadeVeiculos + ", cota=" + cota + "]";
 } 
 	
-	@Override
-	public String toString() {
-		return "requisicaoFilial [cnpj=" + cnpj + ", endereco=" + endereco + ", complemento="
-				+ complemento + ", numero=" + numero + ", cep=" + cep
-				+ ", bairro=" + bairro + ", uf=" + uf + ", quantidadeVeiculos=" + quantidadeVeiculos
-				+", cota=" + cota + "]";
-	}
-	
+
 	
 	
 	}

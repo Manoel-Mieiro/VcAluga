@@ -2,22 +2,34 @@ package br.com.cefet.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotNull;
 @Entity
 public class Contrato {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idContrato;
 	@OneToOne
-	@JoinColumn(name="cnpj")
-	private Filial cnpj;
+	@JoinColumn(name="idFilial")
+	private Filial filial;
+	@Column(nullable = false, name = "DataEmissao")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	private Date dataEmissao;
 	@ManyToOne
 	@JoinColumn(name="veiculoId")
@@ -29,7 +41,7 @@ public class Contrato {
 //	private String nomeCompleto;
 	private String assinaturaGestor;
 	private String assinaturaCliente;
-	private ArrayList<String> cnhs = new ArrayList<String>(); // coleção de CNHs
+	private List<Long> cnhs;
 	
 	public int getIdContrato() {
 		return idContrato;
@@ -39,12 +51,12 @@ public class Contrato {
 		this.idContrato = idContrato;
 	}
 
-	public Filial getCnpj() {
-		return cnpj;
+	public Filial getFilial() {
+		return filial;
 	}
 
-	public void setCnpj(Filial cnpj) {
-		this.cnpj = cnpj;
+	public void setFilial(Filial filial) {
+		this.filial = filial;
 	}
 
 	public Date getDataEmissao() {
@@ -80,16 +92,16 @@ public class Contrato {
 		this.assinaturaCliente = assinaturaCliente;
 	}
 
-	public ArrayList<String> getCnhs() {
+	public List<Long> getCnhs() {
 		return cnhs;
 	}
 
-	public void setCnhs(ArrayList<String> cnhs) {
+	public void setCnhs(List<Long> cnhs) {
 		this.cnhs = cnhs;
 	}
 
 	//Método para adicionar CNHs
-	 public void adicionarCNH(String numeroCNH) {
+	 public void adicionarCNH(Long numeroCNH) {
 	        this.cnhs.add(numeroCNH);
 	    }
 	 
@@ -107,10 +119,10 @@ public class Contrato {
 		super();
 	}
 
-	public Contrato(Filial cnpj, Date dataEmissao, Veiculo veiculo, Reserva reserva, String assinaturaGestor,
-			String assinaturaCliente, ArrayList<String> cnhs) {
+	public Contrato(Filial filial, Date dataEmissao, Veiculo veiculo, Reserva reserva, String assinaturaGestor,
+			String assinaturaCliente, ArrayList<Long> cnhs) {
 		super();
-		this.cnpj = cnpj;
+		this.filial = filial;
 		this.dataEmissao = dataEmissao;
 		this.veiculo = veiculo;
 		this.reserva = reserva;
@@ -118,6 +130,7 @@ public class Contrato {
 		this.assinaturaCliente = assinaturaCliente;
 		this.cnhs = cnhs;
 	}
+
 
 	
 

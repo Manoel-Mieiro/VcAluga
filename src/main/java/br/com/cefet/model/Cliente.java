@@ -1,14 +1,18 @@
 package br.com.cefet.model;
 
-public class Cliente extends Usuário{
+public class Cliente extends Usuario{
 	private String cpf;
-	private int telefone;
+	private String telefone;
 	private String email;
+	
+	
+	public Cliente() {
+		super();
+	}
 	public Cliente(String nome, String sobrenome) {
 		super(nome, sobrenome);
-		// TODO Auto-generated constructor stub
 	}
-	public Cliente(String cpf, int telefone, String email) {
+	public Cliente(String cpf, String telefone, String email) {
 		super();
 		this.cpf = cpf;
 		this.telefone = telefone;
@@ -21,10 +25,10 @@ public class Cliente extends Usuário{
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public int getTelefone() {
+	public String getTelefone() {
 		return telefone;
 	}
-	public void setTelefone(int telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 	public String getEmail() {
