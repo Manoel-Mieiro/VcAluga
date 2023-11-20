@@ -110,5 +110,21 @@ public class Veiculo {
 		this.branch = branch;
 	}
 
-
+	public float obterValorDiaria(Categoria categoria) {
+        return diaria(categoriaVeiculo);
+    }
+	
+	private float diaria(Categoria categoria) {
+	    switch (categoria) {
+	        case Popular:
+	            return 100.0F;
+	        case Economico:
+	            return 150.0F;
+	        case Luxo:
+	            return 200.0F;
+	        default:
+	            return 0.0F;
+	    }
+	}
+	
 }

@@ -2,6 +2,7 @@ package br.com.cefet.controller;
 
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -12,12 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.cefet.dto.requisicaoEstacao;
 import br.com.cefet.dto.requisicaoManutencao;
@@ -81,51 +85,80 @@ public class ManutencaoController {
 	}
 
 	@PostMapping("/manutencoes")
-	public ModelAndView create(@ModelAttribute requisicaoManutencao requisicao, BindingResult result) {
-	    ModelAndView mv = new ModelAndView("manutencoes/new");
+	public ModelAndView create(@Valid requisicaoManutencao requisicao, BindingResult result, RedirectAttributes redirectAttributes) {
+		Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
+		System.out.printf("ID VEICULO - %d%n", requisicao.getVeiculoId());
+		int estacaoId = 0;
+		try {
+			estacaoId = Integer.parseInt(requisicao.getEstacaoId());
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
 
-	    if (result.hasErrors()) {
-	        System.out.println("\n**********************Invalid Input Found**************************\n");
-	        return mv;
-	    } else {
-	        Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
-	        System.out.printf("ID VEICULO - %d%n", requisicao.getVeiculoId());
+		Estacao estacao = estacaoRepository.findById(estacaoId).orElse(null);
+		System.out.printf("ID ESTACAO - %d%n", estacaoId);
+		ModelAndView mv = new ModelAndView("manutencoes/new");
 
-	        int estacaoId = 0;
-	        try {
-	            estacaoId = Integer.parseInt(requisicao.getEstacaoId());
-	        } catch (NumberFormatException e) {
-	            e.printStackTrace();
-	        }
+		
+		 List<Estacao> estacoes = estacaoRepository.findAll();
+		 mv.addObject("estacoes", estacoes);
+		if (result.hasErrors()) {
+			System.out.println("\n**********************Invalid Input Found**************************\n");
 
-	        Estacao estacao = estacaoRepository.findById(estacaoId).orElse(null);
-	        System.out.printf("ID ESTACAO - %d%n", estacaoId);
+			// Percorre os erros de campo (field errors)
+			for (FieldError error : result.getFieldErrors()) {
+				System.out.println("Field: " + error.getField());
+				System.out.println("Message: " + error.getDefaultMessage());
 
-	        if (veiculo != null && estacao != null) {
-	            Manutencao manutencao = new Manutencao();
-	            mv = new ModelAndView("redirect:/manutencoes/" + manutencao.getIdManutencao());
-	            
-	            manutencao.setEstacao(estacao);
-	            manutencao.setVeiculo(veiculo);
-	            
-	    
-	            manutencao = requisicao.toManutencao(manutencao);
-	            
-	            System.out.println("Data de entrada recebida: " + manutencao.getDataEntrada());
-	            System.out.println("Data de saída recebida: " + manutencao.getDataSaida());
-	            
-	      
-	            // Salve a manutenção no banco de dados
-	            
-	            this.manutencaoRepository.save(manutencao);
+				// Adicione a mensagem de erro ao RedirectAttributes se necessário
+				redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
+			}
 
+			// Percorre os erros globais
+			for (ObjectError error : result.getGlobalErrors()) {
+				System.out.println("Object: " + error.getObjectName());
+				System.out.println("Message: " + error.getDefaultMessage());
 
-	            return mv;
-	        } else {
-	            System.out.println("Não foi possível realizar agendamento.");
-	            return new ModelAndView("redirect:/veiculos");
-	        }
-	    }
+				// Adicione a mensagem de erro ao RedirectAttributes se necessário
+				redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
+			}
+			mv.addObject("veiculo", veiculo);
+			mv.addObject("estacao", estacao);
+			mv.addObject("dataEntrada", requisicao.getDataEntrada());
+			mv.addObject("dataSaida", requisicao.getDataSaida());
+			return mv;
+		} else {
+		if (veiculo != null && estacao != null) {
+				Manutencao manutencao = new Manutencao();
+				mv = new ModelAndView("redirect:/manutencoes/" + manutencao.getIdManutencao());
+
+				manutencao.setEstacao(estacao);
+				manutencao.setVeiculo(veiculo);
+
+				manutencao = requisicao.toManutencao(manutencao);
+
+				System.out.println("Data de entrada recebida: " + manutencao.getDataEntrada());
+				System.out.println("Data de saída recebida: " + manutencao.getDataSaida());
+
+				LocalDate localDateReserva = manutencao.getDataEntrada().toInstant().atZone(ZoneId.systemDefault())
+						.toLocalDate();
+
+				if (localDateReserva.isBefore(LocalDate.now())) {
+					mv.addObject("estacao", estacao);
+					mv.addObject("veiculo", veiculo);
+					mv.addObject("dataEntrada", requisicao.getDataEntrada());
+					mv.addObject("dataSaida", requisicao.getDataSaida());
+					return mv;
+				}
+
+				this.manutencaoRepository.save(manutencao);
+
+				return mv;
+			} else {
+				System.out.println("Não foi possível realizar agendamento.");
+				return new ModelAndView("redirect:/veiculos");
+			}
+		}
 	}
 
 	@GetMapping("/manutencoes/{idManutencao}")

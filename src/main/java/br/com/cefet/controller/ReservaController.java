@@ -1,6 +1,9 @@
 package br.com.cefet.controller;
 
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.cefet.dto.requisicaoReserva;
 import br.com.cefet.model.Reserva;
@@ -40,21 +46,31 @@ public class ReservaController {
 		return mv;
 	}
 
-		@GetMapping("/reservas/new")
-		public ModelAndView novo(@RequestParam(name = "veiculoId") int veiculoId) {
-			Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
-	
-			if (optional.isPresent()) {
-				Veiculo veiculo = optional.get();
-				// Adicione o veiculo ao modelo para que ele esteja disponível na página
-				ModelAndView mv = new ModelAndView("reservas/new");
-				mv.addObject("veiculo", veiculo);
-				return mv;
-			} else {
-				System.out.println("Veículo não encontrado.");
-				return new ModelAndView("redirect:/veiculos");
-			}
-		}
+	@GetMapping("/reservas/new")
+	public ModelAndView novo(@RequestParam(name = "veiculoId") int veiculoId) {
+	    Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
+
+	    if (optional.isPresent()) {
+	        Veiculo veiculo = optional.get();
+	        ModelAndView mv = new ModelAndView("reservas/new");
+	        Reserva reserva = new Reserva();
+	        
+	        // Defina o veículo na reserva antes de acessar suas propriedades
+	        reserva.setVeiculo(veiculo);
+
+	        // Agora você pode acessar a categoria do veículo
+	        reserva.setValorPago(veiculo.obterValorDiaria(reserva.getCategoriaVeiculo()));
+	        
+	        mv.addObject("veiculo", veiculo);
+	        mv.addObject("reserva", reserva);
+	        
+	        return mv;
+	    } else {
+	        System.out.println("Veículo não encontrado.");
+	        return new ModelAndView("redirect:/veiculos");
+	    }
+	}
+
 		
 
 
@@ -66,11 +82,35 @@ public class ReservaController {
 	}
 	
     @PostMapping("/reservas")
-    public ModelAndView create(@ModelAttribute requisicaoReserva requisicao) {
+    public ModelAndView create(@Valid requisicaoReserva requisicao, BindingResult result, RedirectAttributes redirectAttributes) {
     	Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
+    	ModelAndView mv = new ModelAndView("redirect:/reservas/new");
+    	if (result.hasErrors()) {
+	        System.out.println("\n**********************Invalid Input Found**************************\n");
+	        
+	        // Percorre os erros de campo (field errors)
+	        for (FieldError error : result.getFieldErrors()) {
+	            System.out.println("Field: " + error.getField());
+	            System.out.println("Message: " + error.getDefaultMessage());
+
+	            // Adicione a mensagem de erro ao RedirectAttributes se necessário
+	            redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
+	        }
+
+	        // Percorre os erros globais
+	        for (ObjectError error : result.getGlobalErrors()) {
+	            System.out.println("Object: " + error.getObjectName());
+	            System.out.println("Message: " + error.getDefaultMessage());
+
+	            // Adicione a mensagem de erro ao RedirectAttributes se necessário
+	            redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
+	        }
+	        mv.addObject("veiculoId", requisicao.getVeiculoId());
+	        return mv;
+    	}else {
         if (veiculo != null) {
         	Reserva reserva = new Reserva();
-//           	ModelAndView mv = new ModelAndView("redirect:/contratos/new?idReserva=" + reserva.getIdReserva());
+        	
             reserva.setVeiculo(veiculo);
             reserva.setCategoriaVeiculo(veiculo);
             reserva.setModeloVeiculo(veiculo);
@@ -81,22 +121,33 @@ public class ReservaController {
             reserva.setBranch(veiculo);
             
 //            
+            
             reserva.setDataReserva(requisicao.getDataReserva());
             reserva.setDataDevolucao(requisicao.getDataDevolucao());
-            reserva.setValorPago(requisicao.getValorPago());
+            requisicao.setValorPago(veiculo.obterValorDiaria(requisicao.getCategoriaVeiculo()));
+            
+            LocalDate localDateReserva = reserva.getDataReserva().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            
+            if (localDateReserva.isBefore(LocalDate.now())) {
+                
+                mv.addObject("veiculoId", requisicao.getVeiculoId());
+                return mv;
+            }
 
-//            reserva = requisicao.toReserva();
-            // Salve a reserva no banco de dados
             reservaRepository.save(reserva);
 
             // Redirecione para uma página de sucesso ou qualquer outra ação necessária
-            ModelAndView mv = new ModelAndView("redirect:/contratos/new?idReserva=" + reserva.getIdReserva());
+            mv = new ModelAndView("redirect:/contratos/new?idReserva=" + reserva.getIdReserva());
+
             return mv;
-        } else {
+        } 
+    		
+    	else {
             // Trate o caso em que o veículo não foi encontrado
         	System.out.println("Registro não consta no banco ou não foi encontrado.");
             return new ModelAndView ("redirect:/reservas/new");
         }
+    	}
     }
 	
 	@GetMapping("/reservas/{idReserva}")

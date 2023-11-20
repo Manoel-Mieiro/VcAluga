@@ -23,7 +23,7 @@
 		<div class="container">
 			<div class="row">
 				<!-- th: object atrela automaticamente o form ao objeto de requisição do pacote DTO -->
-				<form th:object="${requisicaoUsuario}" action="usuarios" method="post">
+				<form th:object="${requisicaoUsuario}" action="/usuarios" method="post">
 				<input type="hidden" name="usuarioId" value="${usuario.id}">
 					<div class="mb-3">
 						<label class="form-lable">Nome</label>
@@ -58,8 +58,8 @@
 					<div class="mb-3">
 						<label class="form-lable">Tipo</label>
 						<select type="text" class="form-select" th:field="*{tipo}">
-							<!-- <option value="Cliente">Cliente</option>
-							<option value="Funcionário">Funcionário</option> -->
+							<option value="Cliente">Cliente</option>
+							<option value="Funcionário">Funcionário</option>
 							<option th:each="tipo : ${tipo}" th:value="${tipo}" th:text="${tipo}"></option>
 						</select>
 					</div>

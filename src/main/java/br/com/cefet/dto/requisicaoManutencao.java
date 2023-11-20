@@ -5,22 +5,27 @@ import java.util.Date;
 import br.com.cefet.model.Estacao;
 import br.com.cefet.model.Manutencao;
 import br.com.cefet.model.Veiculo;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class requisicaoManutencao {
 	@NotNull
 	private int idManutencao;
-	@NotNull
+	@Valid // Indica que o objeto veiculo deve ser validado
 	private Veiculo veiculo;
-	@NotNull
+	
 	private int veiculoId;
-	@NotNull
+	
+	@Valid
 	private Estacao estacao;
-	@NotNull
+	
 	private String estacaoId;
-	@NotNull
+	@NotNull(message = "A data de reserva não pode ser nula.")
+    @Future(message = "A data de reserva deve ser no futuro.")
 	private Date dataEntrada;
-	@NotNull
+	@NotNull(message = "A data de reserva não pode ser nula.")
 	private Date dataSaida;
 	
 

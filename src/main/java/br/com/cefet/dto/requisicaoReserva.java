@@ -2,6 +2,11 @@ package br.com.cefet.dto;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.cefet.model.Categoria;
 import br.com.cefet.model.Filial;
@@ -9,7 +14,9 @@ import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Reserva;
 import br.com.cefet.model.Veiculo;
+import br.com.cefet.repository.VeiculoRepository;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -19,11 +26,10 @@ public class requisicaoReserva {
 	private Veiculo veiculo;
     @NotNull
     private int veiculoId; 
-	@NotNull
-	//adicionar notação para D+1
+    @NotNull(message = "A data de reserva não pode ser nula.")
+    @Future(message = "A data de reserva deve ser no futuro.")
 	private Date dataReserva;
-	@NotNull
-	//limitar x dias
+	@NotNull(message = "A data de reserva não pode ser nula.")
 	private Date dataDevolucao;
 	@NotNull
 	private float valorPago;
@@ -184,9 +190,6 @@ public String toString() {
 			+ ", dataDevolucao=" + dataDevolucao + ", valorPago=" + valorPago + "]";
 }
 
-
-	
-	
 	
 	
 	
