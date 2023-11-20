@@ -13,7 +13,7 @@ public class Filial {
 	// Bloco do Spring
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int idFilial;
 	@Column(nullable = false)
 	@CNPJ(message = "CNPJ inválido.")
 	private String cnpj;
@@ -34,11 +34,11 @@ public class Filial {
 	@Column(nullable = false)
 	private float cota;	//atributo usado para calcular qtd a ser reservada pela filial
 	
-	public int getId() {
-		return id;
+	public int getIdFilial() {
+		return idFilial;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int idFilial) {
+		this.idFilial = idFilial;
 	}
 	public String getCnpj() {
 		return cnpj;
@@ -114,10 +114,14 @@ public class Filial {
 	}
 	@Override
 	public String toString() {
-		return "Filial [id=" + id + ", cnpj=" + cnpj + ", endereco=" + endereco + ", complemento=" + complemento
-				+ ", numero=" + numero + ", cep=" + cep + ", bairro=" + bairro + ", uf=" + uf + ", quantidadeVeiculos="
-				+ quantidadeVeiculos + ", cota=" + cota + "]";
+		return "Filial [idFilial=" + idFilial + ", cnpj=" + cnpj + ", endereco=" + endereco + ", complemento="
+				+ complemento + ", numero=" + numero + ", cep=" + cep + ", bairro=" + bairro + ", uf=" + uf
+				+ ", quantidadeVeiculos=" + quantidadeVeiculos + ", cota=" + cota + "]";
 	}
+
 	
+
+	
+
 	
 }

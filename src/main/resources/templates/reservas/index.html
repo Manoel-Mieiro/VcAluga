@@ -38,6 +38,9 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="/filiais">Filiais</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="/contratos">Contratos</a>
+          </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="search" placeholder="Search">
@@ -71,11 +74,11 @@
     	<td class="col-1" th:text="${reserva.getIdReserva()}">ID</td>
        	<td class ="col-2" th:text="${reserva.veiculo?.marcaVeiculo + ' ' + reserva.veiculo?.modeloVeiculo + ' ' + reserva.veiculo?.ano + ' ' + reserva.veiculo?.cor}">Veículo</td>
         <td class="col-3" th:text="${reserva.veiculo?.placa}">Placa</td>
-        <td class="col-4" th:text="${reserva.veiculo?.filial}">Filial</td>
+       <td class="col-4" th:text="${reserva.veiculo?.branch?.uf}">Filial</td>
         <td class="col-5" th:text="${reserva.dataReserva}">Data Início</td>
 		<td class="col-6" th:text="${reserva.dataDevolucao}">Data Final</td>
         <td class="col-7" th:text="${reserva.valorPago}">Total(R$)</td>   
-        <td class="col-1"><a th:href="@{/reservas/{idReserva}/show(idReserva = ${reserva.idReserva})}">Detalhes</a></td>
+        <td class="col-1"><a th:href="@{/reservas/{idReserva}(idReserva = ${reserva.idReserva})}">Detalhes</a></td>
        	<td class="col-1"><a th:href="@{/reservas/{idReserva}/edit(idReserva = ${reserva.idReserva})}">Editar</a></td>
         <td class="col-1"><a th:href="@{/reservas/{idReserva}/delete(idReserva = ${reserva.idReserva})}">Deletar</a></td> 
     </tr>

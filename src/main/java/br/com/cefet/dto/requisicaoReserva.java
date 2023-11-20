@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 import br.com.cefet.model.Categoria;
+import br.com.cefet.model.Filial;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Reserva;
@@ -50,8 +51,8 @@ public class requisicaoReserva {
 		return veiculo.getAno();
 	}
 	
-	public String getFilial() {
-		return veiculo.getFilial();
+	public Filial getBranch() {
+		return veiculo.getBranch();
 	}
 	
 	public void setCategoriaVeiculo(Veiculo veiculo) {
@@ -91,9 +92,9 @@ public class requisicaoReserva {
 		}
 	}
 	
-	public void setFilial(Veiculo veiculo) {
+	public void setBranch(Veiculo veiculo) {
 		if(veiculo != null) {
-			veiculo.setFilial(getFilial());
+			veiculo.setBranch(getBranch());
 		}
 	}
 	
@@ -150,7 +151,7 @@ public Reserva toReserva() {
 		reserva.setPlaca(this.veiculo);
 		reserva.setCor(this.veiculo);
 		reserva.setAno(this.veiculo);
-		reserva.setFilial(this.veiculo);
+		reserva.setBranch(this.veiculo);
 		return reserva;
 	} 
 
@@ -166,7 +167,7 @@ public Reserva toReserva(Reserva reserva) {
 	reserva.setPlaca(veiculo);
 	reserva.setCor(veiculo);
 	reserva.setAno(veiculo);
-	reserva.setFilial(veiculo);
+	reserva.setBranch(veiculo);
 	
 	return reserva;
 } 
@@ -177,12 +178,13 @@ public void fromReserva(Reserva reserva) {
 	this.dataDevolucao = reserva.getDataDevolucao();
 	this.valorPago = reserva.getValorPago();
 }
-
 @Override
 public String toString() {
-	return "requisicaoReserva [veiculo=" + veiculo + ", dataReserva=" + dataReserva + ", dataDevolucao=" + dataDevolucao
-			+ ", valorPago=" + valorPago + "]";
-} 
+	return "requisicaoReserva [veiculo=" + veiculo + ", veiculoId=" + veiculoId + ", dataReserva=" + dataReserva
+			+ ", dataDevolucao=" + dataDevolucao + ", valorPago=" + valorPago + "]";
+}
+
+
 	
 	
 	

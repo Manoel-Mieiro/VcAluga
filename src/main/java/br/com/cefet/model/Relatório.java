@@ -5,16 +5,16 @@ import org.springframework.data.annotation.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
-public class Relatorio {
+public class Relatório {
 	// Bloco do Spring
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	// Atributos
 	private int id;
-	private int veiculosManutencao;
-	private int veiculosReservados;
-	private int veiculosCota;
-	private int veiculosDisponiveis; //pode ser retorno de função
+	private int veículosManutenção;
+	private int veículosReservados;
+	private int veículosCota;
+	private int veículosDisponíveis; //pode ser retorno de função
 
 }

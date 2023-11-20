@@ -77,7 +77,8 @@ public void fromEstacao(Estacao estacao) {
 public String toString() {
 	return "requisicaoEstacao [cep=" + cep + ", endereco=" + endereco + ", numero=" + numero + ", status=" + status
 			+ "]";
-} 
-	
+}
+
+
 
 	}

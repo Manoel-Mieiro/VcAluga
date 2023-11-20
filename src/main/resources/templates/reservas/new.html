@@ -39,8 +39,9 @@
 		<div class="container">
 			<div class="row">
 				<!-- th: object atrela automaticamente o form ao objeto de requisição do pacote DTO -->
-				<form th:object="${requisicaoReserva}" th:action="@{'/reservas'}" method="post">
-				 <input type="hidden" name="veiculoId" th:value="${veiculo.id}">
+				<form th:object="${requisicaoReserva}" th:action="@{'/reservas'}"
+					method="post">
+					<input type="hidden" name="veiculoId" th:value="${veiculo.id}">
 					<div class="mb-3">
 						<label class="form-lable">Marca</label> <input type="text"
 							class="form-control" th:value="${veiculo.marcaVeiculo}"
@@ -52,10 +53,11 @@
 							readonly="readonly">
 					</div>
 					<div class="mb-3">
-						<label class="form-lable">Filial</label> <input type="text"
-							class="form-control" th:value="${veiculo.filial}"
+						<label class="form-label">Filial</label> <input type="text"
+							class="form-control" th:value="${veiculo.branch?.uf}"
 							readonly="readonly">
 					</div>
+
 					<div class="mb-3">
 						<label class="form-lable">Categoria</label> <input type="text"
 							class="form-control" th:value="${veiculo.categoriaVeiculo}"

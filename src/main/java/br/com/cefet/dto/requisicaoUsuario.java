@@ -69,16 +69,7 @@ public void fromUsuario(Usuario usuario) {
 @Override
 public String toString() {
 	return "requisicaoUsuario [nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email + ", tipo=" + tipo
-			+ ", senha=" + senha + ", telefone=" + telefone + ", cpf=" + cpf
-			+ "]";
-}
-
-public Conta getTipo() {
-    return this.tipo;
-}
-
-public void setTipo(Conta tipo) {
-    this.tipo = tipo;
+			+ ", senha=" + senha + ", telefone=" + telefone + ", cpf=" + cpf + "]";
 }
 
 

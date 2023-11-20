@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class requisicaoMotorista {
 	@NotNull
+<<<<<<< HEAD
 	private int id;
 	@NotBlank
 	@NotNull
@@ -13,10 +14,14 @@ public class requisicaoMotorista {
 	@NotBlank
 	@NotNull
 	private String sobrenome;
+=======
+	private int idMotorista;
+>>>>>>> cb7ffacdad20912bd8b98744ae45e6dede3c354f
 	@NotBlank
 	@NotNull
 	private String cnh;
 
+<<<<<<< HEAD
 public int getId() {
 		return id;
 	}
@@ -39,6 +44,14 @@ public int getId() {
 
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
+=======
+	public int getIdMotorista() {
+		return idMotorista;
+	}
+
+	public void setIdMotorista(int idMotorista) {
+		this.idMotorista = idMotorista;
+>>>>>>> cb7ffacdad20912bd8b98744ae45e6dede3c354f
 	}
 
 	public String getCnh() {
@@ -49,6 +62,7 @@ public int getId() {
 		this.cnh = cnh;
 	}
 
+<<<<<<< HEAD
 public Motorista toMotorista() {
 		Motorista motorista = new Motorista();
 		motorista.setId(this.id);
@@ -85,3 +99,22 @@ public void fromMotorista(Motorista motorista) {
 	
 	
 	}
+=======
+	public Motorista toMotorista() {
+		Motorista Motorista = new Motorista();
+		Motorista.setCnh(this.cnh);
+		return Motorista;
+	}
+
+	public Motorista toMotorista(Motorista Motorista) {
+		Motorista.setCnh(this.cnh);
+
+		return Motorista;
+	}
+
+	public void fromMotorista(Motorista Motorista) {
+		this.cnh = Motorista.getCnh();
+	}
+
+}
+>>>>>>> cb7ffacdad20912bd8b98744ae45e6dede3c354f
