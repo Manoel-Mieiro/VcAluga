@@ -1,6 +1,8 @@
 package br.com.cefet.model;
 
 
+
+import org.hibernate.validator.constraints.br.CPF;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
 
 @Entity
 public class Usuario {
@@ -19,6 +22,7 @@ public class Usuario {
 	@Column(nullable = false)
 	private String sobrenome; // nome paterno
 	@Column(nullable = false)
+	@Email(message = "E-mail inválido.")
 	private String email;
 	@Enumerated(EnumType.STRING)
 	private Conta tipo;	//enum para selecionar tipo de conta e pedir a devida credencial
@@ -26,6 +30,7 @@ public class Usuario {
 	@Column(nullable = false)
 	private String telefone;
 	@Column(nullable = false)
+	@CPF(message = "CPF inválido.")
 	private String cpf; 
 	public Usuario() {
 		// TODO Auto-generated constructor stub
@@ -99,6 +104,5 @@ public class Usuario {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
 	
 }

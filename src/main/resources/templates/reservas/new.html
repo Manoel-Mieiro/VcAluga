@@ -65,10 +65,14 @@
 					</div>
 					<div class="mb-3">
 						<label class="form-lable">Data de Início</label> <input
-							type="text" class="form-control datepicker"
+							type="text" class="form-control datepicker is-invalid"
 							th:errorclass="is-invalid" th:field="*{dataReserva}">
-						<div class="invalid-feedback" th:errors="*{dataReserva}"></div>
+						<div class="invalid-feedback"
+							th:if="${#fields.hasErrors('dataReserva')}"
+							th:errors="*{dataReserva}">Data Inválida</div>
 					</div>
+
+
 					<div class="mb-3">
 						<label class="form-lable">Data de Fim</label> <input type="text"
 							class="form-control datepicker" th:errorclass="is-invalid"
@@ -78,9 +82,10 @@
 					<div class="mb-3">
 						<label class="form-lable">Diária</label> <input type="text"
 							class="form-control" th:errorclass="is-invalid"
-							th:field="*{valorPago}">
+							th:field="*{valorPago}" readonly="readonly">
 						<div class="invalid-feedback" th:errors="*{valorPago}"></div>
 					</div>
+
 					<td class="row">
 						<button class="btn btn-primary" type="submit">Reservar</button>
 					</td> <a href="javascript:history.back()">Voltar</a>

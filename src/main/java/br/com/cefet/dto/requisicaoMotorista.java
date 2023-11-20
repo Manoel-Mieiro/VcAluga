@@ -9,14 +9,38 @@ public class requisicaoMotorista {
 	private int idMotorista;
 	@NotBlank
 	@NotNull
+	private String nome;
+	@NotBlank
+	@NotNull
+	private String sobrenome;
+	@NotBlank
+	@NotNull
 	private String cnh;
 
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
+	}
+	
 	public int getIdMotorista() {
 		return idMotorista;
 	}
 
 	public void setIdMotorista(int idMotorista) {
 		this.idMotorista = idMotorista;
+
 	}
 
 	public String getCnh() {
@@ -27,20 +51,39 @@ public class requisicaoMotorista {
 		this.cnh = cnh;
 	}
 
-	public Motorista toMotorista() {
-		Motorista Motorista = new Motorista();
-		Motorista.setCnh(this.cnh);
-		return Motorista;
-	}
 
-	public Motorista toMotorista(Motorista Motorista) {
-		Motorista.setCnh(this.cnh);
+public Motorista toMotorista() {
+		Motorista motorista = new Motorista();
+		motorista.setIdMotorista(this.idMotorista);
+		motorista.setCnh(this.cnh);
+		motorista.setNome(this.nome);
+		motorista.setSobrenome(this.sobrenome);
+		
+		return motorista;
+	} 
 
-		return Motorista;
-	}
+//Metodo toVeiculo para update de um veiculo existente
+public Motorista toMotorista(Motorista motorista) {
+	motorista.setIdMotorista(this.idMotorista);
+	motorista.setCnh(this.cnh);
+	motorista.setNome(this.nome);
+	motorista.setSobrenome(this.sobrenome);
+	
+	return motorista;
+} 
 
-	public void fromMotorista(Motorista Motorista) {
-		this.cnh = Motorista.getCnh();
-	}
+public void fromMotorista(Motorista motorista) {
+	this.idMotorista = motorista.getIdMotorista();
+	this.cnh = motorista.getCnh();
+	this.nome = motorista.getNome();
+	this.sobrenome = motorista.getSobrenome();
+	
+}
 
+@Override
+public String toString() {
+	return "requisicaoMotorista [nome=" + nome + ", sobrenome=" + sobrenome + ", cnh=" + cnh + "]";
+} 
+	
+	
 }
