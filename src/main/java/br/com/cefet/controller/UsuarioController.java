@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.cefet.dto.requisicaoCliente;
 import br.com.cefet.dto.requisicaoUsuario;
 import br.com.cefet.model.Conta;
 import br.com.cefet.model.Usuario;
@@ -67,6 +68,22 @@ public class UsuarioController {
 			// Create do CRUD
 			this.usuarioRepository.save(usuario);
 			System.out.println("ID do novo usuário: " + usuario.getId());
+			
+	        if (usuario.getTipo() == Conta.Cliente) {
+	            // Se for cliente, redirecionar para o formulário de cliente
+	            ModelAndView mv = new ModelAndView("redirect:/clientes/new?idUsuario=" +  usuario.getId());
+	            mv.addObject("requisicaoCliente", new requisicaoCliente());
+	            // Adicione outros atributos ou objetos necessários
+	            return mv;
+	        }
+//	        else if (usuario.getTipo() == Conta.Funcionário) {
+//	            // Se for funcionário, redirecionar para o formulário de funcionário
+//	            ModelAndView mv = new ModelAndView("/funcionarios/new");
+////	            mv.addObject("requisicaoFuncionario", new requisicaoFuncionario());
+//	            // Adicione outros atributos ou objetos necessários
+//	            return mv;
+//	        }
+			
 			return new ModelAndView("redirect:/usuarios/" + usuario.getId());
 		}
 	}

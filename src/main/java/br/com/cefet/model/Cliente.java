@@ -3,6 +3,8 @@ package br.com.cefet.model;
 import java.sql.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -21,11 +23,11 @@ public class Cliente extends Usuario{
 	private String cidade;
 	@Column(nullable = false)
 	private String estado;
-	@Column(nullable = false)
+	@Column(nullable = false, name = "DataNascimento")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
-	@Column
-	@ManyToMany(mappedBy = "cliente")
+	@ManyToMany(mappedBy = "clientes")
 	private List<Reserva> reservas;
 	
 	public String getEndereco() {
