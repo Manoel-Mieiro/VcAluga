@@ -4,12 +4,14 @@ import br.com.cefet.model.Estacao;
 import br.com.cefet.model.Status;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class requisicaoEstacao {
 	@NotNull
 	private int id;
 	@NotBlank
 	@NotNull
+	@Pattern(regexp = "\\d{5}-\\d{3}", message = "Formato de CEP inválido")
 	private String cep;
 	@NotBlank
 	@NotNull

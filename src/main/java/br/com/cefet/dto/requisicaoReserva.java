@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,8 +29,11 @@ public class requisicaoReserva {
     private int veiculoId; 
     @NotNull(message = "A data de reserva não pode ser nula.")
     @Future(message = "A data de reserva deve ser no futuro.")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dataReserva;
 	@NotNull(message = "A data de reserva não pode ser nula.")
+    @Future(message = "A data de reserva deve ser no futuro.")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dataDevolucao;
 	@NotNull
 	private float valorPago;

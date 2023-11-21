@@ -31,12 +31,12 @@ public class Reserva {
 	// @ManyToMany // private Cliente cliente;
 
 	@Column(nullable = false, name = "DataReserva")
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
 	private Date dataReserva;
 
 	@Column(nullable = false, name = "DataDevolucao")
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
 	private Date dataDevolucao;
 
