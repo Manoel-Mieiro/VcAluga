@@ -1,6 +1,7 @@
 package br.com.cefet.model;
 
-import java.sql.Date;
+
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,6 +31,7 @@ public class Cliente extends Usuario{
 	@ManyToMany(mappedBy = "clientes")
 	private List<Reserva> reservas;
 	
+
 	public String getEndereco() {
 		return endereco;
 	}

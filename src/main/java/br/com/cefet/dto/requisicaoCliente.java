@@ -2,16 +2,13 @@ package br.com.cefet.dto;
 
 import br.com.cefet.model.Usuario;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import br.com.cefet.model.Cliente;
-import br.com.cefet.model.Conta;
 import br.com.cefet.model.Reserva;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Email;
@@ -20,6 +17,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class requisicaoCliente {
 	private Usuario usuario;
+	private int idUsuario;
 	@NotBlank
     private String nome;
     
@@ -50,6 +48,12 @@ public class requisicaoCliente {
 	
 	
 	
+	public int getIdUsuario() {
+		return idUsuario;
+	}
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
+	}
 	public Usuario getUsuario() {
 		return usuario;
 	}

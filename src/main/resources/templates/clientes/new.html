@@ -39,7 +39,7 @@
 				<!-- th: object atrela automaticamente o form ao objeto de requisição do pacote DTO -->
 				<form th:object="${requisicaoCliente}" action="/clientes"
 					method="post">
-					<input type="hidden" name="usuarioId" value="${usuario.id}">
+					<input type="hidden" name="idUsuario" th:value="${usuario.id}">
 					<div class="mb-3">
 						<label class="form-lable">Nome</label> <input type="text"
 							class="form-control" th:field="${usuario.nome}"

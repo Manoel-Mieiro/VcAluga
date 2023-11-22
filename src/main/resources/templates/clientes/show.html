@@ -23,9 +23,9 @@
 			<div class="row">
 				<div class="col-24">
 					<h2>Detalhes do Cliente</h2>
-					<b>Nome:</b> <span th:text="${cliente.usuario.nome}"></span><br>
-					<b>Sobrenome:</b> <span th:text="${cliente.usuario.sobrenome}"></span><br />
-					<b>E-mail:</b> <span th:text="${cliente.usuario.email}"></span><br />
+					<b>Nome:</b> <span th:text="${cliente.getNome()}"></span><br>
+					<b>Sobrenome:</b> <span th:text="${cliente.getSobrenome()}"></span><br />
+					<b>E-mail:</b> <span th:text="${cliente.getEmail()}"></span><br />
 					<b>Endereço:</b> <span th:text="${cliente.endereco}"></span><br />
 					<b>Número:</b> <span th:text="${cliente.numero}"></span><br /> <b>Bairro:</b>
 					<span th:text="${cliente.bairro}"></span><br /> <b>Cidade:</b> <span
