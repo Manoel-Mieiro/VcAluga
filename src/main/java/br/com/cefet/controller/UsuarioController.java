@@ -37,6 +37,16 @@ public class UsuarioController {
 
 		return mv;
 	}
+	
+	
+	@GetMapping("/cadastros")
+	public ModelAndView signup() {
+
+		ModelAndView mv = new ModelAndView("cadastros/type");
+
+		return mv;
+	}
+
 
 	@GetMapping("/usuarios/new")
 	public ModelAndView novo() {

@@ -1,6 +1,5 @@
 package br.com.cefet.controller;
 
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -35,9 +34,23 @@ public class ClienteController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private ClienteRepository clienteRepository;
+
+	private String nome;
+
+	private String sobrenome;
+
+	private String email;
+
+	private String tipo;
+
+	private String senha;
+
+	private String telefone;
+
+	private String cpf;
 
 //	@GetMapping("/usuarios/clientes")
 //	public ModelAndView index() {
@@ -49,180 +62,153 @@ public class ClienteController {
 //	    return mv;
 //	}
 
-
 	@GetMapping("/clientes/new")
-	public ModelAndView novo(@RequestParam(name = "idUsuario") int idUsuario) {
-	    Optional<Usuario> optionalUsuario = usuarioRepository.findById(idUsuario);
-	    ModelAndView mv = new ModelAndView("clientes/new");
+	public ModelAndView novo() {
 
-	    if (optionalUsuario.isPresent()) {
-	    	Usuario usuario = optionalUsuario.get();
-	        System.out.println("Usuario de ID: " + usuario.getId());
-	        
-//	        requisicaoCliente requisicao = new requisicaoCliente();
-//	        requisicao.setUsuario(usuario);
-	        
-//	        mv.addObject("requisicaoCliente", requisicao);
-	        mv.addObject("usuario", usuario);
-	        System.out.println("Usuario: " + usuario);
-	        return mv;
-	    } else {
-	        System.out.println("Usuario não encontrado.");
-	        return new ModelAndView("redirect:/veiculos");
-	    }
+		ModelAndView mv = new ModelAndView("clientes/new");
+		return mv;
+
 	}
-
 
 	@ModelAttribute(value = "requisicaoCliente")
 	public requisicaoCliente getRequisicaoCliente() {
 		return new requisicaoCliente();
 	}
-	
+
 	@PostMapping("/clientes")
-	public ModelAndView create(@Valid requisicaoCliente requisicao, BindingResult result, RedirectAttributes redirectAttributes) {
-		 ModelAndView mv = new ModelAndView("/clientes/new");
+	public ModelAndView create(@Valid requisicaoCliente requisicao, BindingResult result,
+			RedirectAttributes redirectAttributes) {
+		ModelAndView mv = new ModelAndView("/clientes/new");
 		if (result.hasErrors()) {
-	        System.out.println("\n**********************Invalid Input Found**************************\n");
+			System.out.println("\n**********************Invalid Input Found**************************\n");
 
-	        // Percorre os erros de campo (field errors)
-	        for (FieldError error : result.getFieldErrors()) {
-	            System.out.println("Field: " + error.getField());
-	            System.out.println("Message: " + error.getDefaultMessage());
+			// Percorre os erros de campo (field errors)
+			for (FieldError error : result.getFieldErrors()) {
+				System.out.println("Field: " + error.getField());
+				System.out.println("Message: " + error.getDefaultMessage());
 
-	            // Adicione a mensagem de erro ao RedirectAttributes se necessário
-	            redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
-	        }
+				// Adicione a mensagem de erro ao RedirectAttributes se necessário
+				redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
+			}
 
-	        // Percorre os erros globais
-	        for (ObjectError error : result.getGlobalErrors()) {
-	            System.out.println("Object: " + error.getObjectName());
-	            System.out.println("Message: " + error.getDefaultMessage());
+			// Percorre os erros globais
+			for (ObjectError error : result.getGlobalErrors()) {
+				System.out.println("Object: " + error.getObjectName());
+				System.out.println("Message: " + error.getDefaultMessage());
 
-	            // Adicione a mensagem de erro ao RedirectAttributes se necessário
-	            redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
-	        }
-	        
-	        
-	        return mv;
-	    } else {
+				// Adicione a mensagem de erro ao RedirectAttributes se necessário
+				redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
+			}
 
-//	    	int usuarioId = requisicao.getUsuario().getId();
-	    	Usuario usuario = usuarioRepository.findById(requisicao.getIdUsuario()).orElse(null);
+			return mv;
+		} else {
 
-	    	
-	        System.out.println("USER = " + requisicao.getUsuario());
-	    	
-	        // Obtenha o usuário do banco de dados com base no ID
-	        if (usuario != null) {
-	        	Cliente cliente = new Cliente();
-	        	System.out.println("Cai no IF");
-	            // Crie um novo cliente e configure seus atributos
-	            
-	            cliente.setNome(usuario.getNome());
-	            cliente.setSobrenome(usuario.getSobrenome());
-	            cliente.setEmail(usuario.getEmail());
-	            cliente.setCpf(usuario.getCpf());
-	            cliente.setId(usuario.getId());
-	            cliente.setTipo(usuario.getTipo());
-	            cliente.setSenha(usuario.getSenha());
-	            cliente.setTelefone(usuario.getTelefone());
-	            cliente = requisicao.toCliente(cliente);
-	            
+			Cliente cliente = new Cliente();
+			Usuario usuario = requisicao.getRu().toUsuario();
+			System.out.println("USER - " + usuario.getNome() + " " + usuario.getSobrenome());
+			cliente.setNome(usuario.getNome());
+			cliente.setSobrenome(usuario.getSobrenome());
+			cliente.setEmail(usuario.getEmail());
+			cliente.setTipo(usuario.getTipo());
+			cliente.setSenha(usuario.getSenha());
+			cliente.setTelefone(usuario.getTelefone());
+			cliente.setCpf(usuario.getCpf());
+		    cliente = requisicao.toCliente(cliente);
 
-	            // Salve o cliente no banco de dados
-	            this.clienteRepository.save(cliente);
+			this.clienteRepository.save(cliente);
 
-	            System.out.println("ID do novo cliente: " + cliente.getId());
+//			Integer idUsuario = usuario.getId() - 1;
+//			UsuarioController uc = new UsuarioController();
+//			uc.delete(idUsuario);
+			System.out.println("ID do novo cliente: " + cliente.getId());
 
-	            // Redirecione para a página do cliente recém-criado
-	            mv = new ModelAndView("redirect:/clientes/" + cliente.getId());
-	            return mv;
-	        } else {
-	            // Usuário não encontrado, redirecione para uma página apropriada
-	            return new ModelAndView("redirect:/veiculos"); // ou outra página adequada
-	        }
-	    }
+			mv = new ModelAndView("redirect:/clientes/" + cliente.getId());
+			return mv;
+		}
+
 	}
-
 
 	@GetMapping("/clientes/{id}")
 	public ModelAndView show(@PathVariable Integer id) {
-	    Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+		Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
 
-	    if (optionalUsuario.isPresent()) {
-	        Usuario usuario = optionalUsuario.get();
+		if (optionalUsuario.isPresent()) {
+			Usuario usuario = optionalUsuario.get();
 
-	        // Agora que você tem o usuário, obtenha o ID do usuário
-	        Integer idUsuario = usuario.getId() + 1;
+			// Agora que você tem o usuário, obtenha o ID do usuário
+			Integer idUsuario = usuario.getId();
 
-	        // Use o ID do usuário para buscar o cliente
-	        Optional<Cliente> optionalCliente = clienteRepository.findById(idUsuario);
+			// Use o ID do usuário para buscar o cliente
+			Optional<Cliente> optionalCliente = clienteRepository.findById(idUsuario);
 
-	        if (optionalCliente.isPresent()) {
-	            Cliente cliente = optionalCliente.get();
+			if (optionalCliente.isPresent()) {
+				Cliente cliente = optionalCliente.get();
 
-	            ModelAndView mv = new ModelAndView("clientes/show");
-	            mv.addObject("cliente", cliente);
-	            return mv;
-	        } else {
-	            System.out.println("Cliente não encontrado para o usuário com ID: " + idUsuario);
-	            return new ModelAndView("redirect:/usuarios");
-	        }
-	    } else {
-	        System.out.println("Usuário não encontrado");
-	        return new ModelAndView("redirect:/usuarios");
-	    }
+				ModelAndView mv = new ModelAndView("clientes/show");
+				mv.addObject("cliente", cliente);
+				return mv;
+			} else {
+				System.out.println("Cliente não encontrado para o usuário com ID: " + idUsuario);
+				return new ModelAndView("redirect:/usuarios");
+			}
+		} else {
+			System.out.println("Usuário não encontrado");
+			return new ModelAndView("redirect:/usuarios");
+		}
 	}
 
+	@GetMapping("/clientes/{id}/edit")
+	public ModelAndView edit(@PathVariable Integer id, requisicaoCliente requisicao, requisicaoUsuario ru) {
+		Optional<Cliente> optional = this.clienteRepository.findById(id);
+		Optional<Usuario> optionalU = this.usuarioRepository.findById(id);
+		
+		if (optional.isPresent()) {
+			System.out.printf("%d%n", id);
+			Cliente cliente = optional.get();
+			Usuario usuario = optionalU.get();
+			System.out.println("USER - " + usuario);
+			requisicao.fromCliente(cliente);
+			ru.fromUsuario(usuario);
+			ModelAndView mv = new ModelAndView("clientes/edit");
+//			mv.addObject("usuario", usuario);
+			System.out.println("NOME - " + cliente.getNome());
+			
+			return mv;
+		} else {
+			System.out.println("Registro não consta no banco ou não foi encontrado.");
+			return new ModelAndView("redirect:/usuarios");
+		}
+	}
 
-//	@GetMapping("/usuarios/{id}/edit")
-//	public ModelAndView edit(@PathVariable Integer id, requisicaoUsuario requisicao) {
-//		Optional<Usuario> optional = this.usuarioRepository.findById(id);
-//
-//		if (optional.isPresent()) {
-//			System.out.printf("%d", id);
-//			Usuario usuario = optional.get();
-//			requisicao.fromUsuario(usuario);
-//			ModelAndView mv = new ModelAndView("usuarios/edit");
-//			mv.addObject("tipo", Conta.values());
-//			return mv;
-//		} else {
-//			System.out.println("Registro não consta no banco ou não foi encontrado.");
-//			return new ModelAndView("redirect:/usuarios");
-//		}
-//	}
-//
-//	@PostMapping("/usuarios/{id}")
-//	public ModelAndView update(@PathVariable Integer id, @Valid requisicaoUsuario requisicao, BindingResult result) {
-//		if (result.hasErrors()) {
-//			System.out.println("\n**********************Invalid Input Found**************************\n");
-//
-//			ModelAndView mv = new ModelAndView("usuarios/edit");
-//
-//			mv.addObject("tipo", Conta.values());
-//			return mv;
-//		} else {
-//			Optional<Usuario> optional = this.usuarioRepository.findById(id);
-//			if (optional.isPresent()) {
-//				Usuario usuario = requisicao.toUsuario(optional.get());
-//				this.usuarioRepository.save(usuario);
-//				return new ModelAndView("redirect:/usuarios/" + usuario.getId());
-//			} else {
-//				System.out.println("Registro não consta no banco ou não foi encontrado.");
-//				return new ModelAndView("redirect:/usuarios");
-//			}
-//		}
-//	}
-//
-//	@GetMapping("/usuarios/{id}/delete")
-//	public String delete(@PathVariable Integer id) {
-//		try {
-//			this.usuarioRepository.deleteById(id);
-//			return "redirect:/usuarios";
-//		} catch (EmptyResultDataAccessException e) {
-//			System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
-//			return "redirect:/usuarios";
-//		}
-//	}
+	@PostMapping("/clientes/{id}")
+	public ModelAndView update(@PathVariable Integer id, @Valid requisicaoCliente requisicao, BindingResult result) {
+		if (result.hasErrors()) {
+			System.out.println("\n**********************Invalid Input Found**************************\n");
+
+			ModelAndView mv = new ModelAndView("clientes/edit");
+
+			return mv;
+		} else {
+			Optional<Cliente> optional = this.clienteRepository.findById(id);
+			if (optional.isPresent()) {
+				Cliente cliente = requisicao.toCliente(optional.get());
+				this.clienteRepository.save(cliente);
+				return new ModelAndView("redirect:/clientes/" + cliente.getId());
+			} else {
+				System.out.println("Registro não consta no banco ou não foi encontrado.");
+				return new ModelAndView("redirect:/usuarios");
+			}
+		}
+	}
+
+	@GetMapping("/clientes/{id}/delete")
+	public String delete(@PathVariable Integer id) {
+		try {
+			this.clienteRepository.deleteById(id);
+			return "redirect:/clientes";
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
+			return "redirect:/clientes";
+		}
+	}
 }
-

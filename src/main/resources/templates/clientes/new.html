@@ -39,8 +39,51 @@
 				<!-- th: object atrela automaticamente o form ao objeto de requisição do pacote DTO -->
 				<form th:object="${requisicaoCliente}" action="/clientes"
 					method="post">
-					<input type="hidden" name="idUsuario" th:value="${usuario.id}">
+					<input type="hidden" name="idUsuario" value="${ru.id}">
+					<!--<input type="hidden" name="idUsuario" th:value="${usuario.id}">-->
 					<div class="mb-3">
+						<label class="form-lable">Nome</label>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.nome}">
+						<div class="invalid-feedback" th:errors="*{ru.nome}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Sobrenome</label>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.sobrenome}">
+						<div class="invalid-feedback" th:errors="*{ru.sobrenome}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">E-mail</label>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.email}">
+						<div class="invalid-feedback" th:errors="*{ru.email}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Senha</label>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.senha}">
+						<div class="invalid-feedback" th:errors="*{ru.senha}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Telefone com DDD</label>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.telefone}">
+						<div class="invalid-feedback" th:errors="*{ru.telefone}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">CPF</label>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.cpf}">
+						<div class="invalid-feedback" th:errors="*{ru.cpf}"></div>
+					</div>
+					
+					
+					
+					<!--<div class="mb-3">
+						<label class="form-lable">Tipo</label>
+						<select type="text" class="form-select" th:field="*{tipo}">
+							<option value="Cliente">Cliente</option>
+							<option value="Funcionário">Funcionário</option>
+							<option th:each="tipo : ${tipo}" th:value="${tipo}" th:text="${tipo}"></option>
+						</select>
+					</div>-->
+					
+					<!--<div class="mb-3">
 						<label class="form-lable">Nome</label> <input type="text"
 							class="form-control" th:field="${usuario.nome}"
 							readonly="readonly">
@@ -54,7 +97,7 @@
 						<label class="form-lable">E-mail</label> <input type="text"
 							class="form-control" th:field="${usuario.email}"
 							readonly="readonly">
-					</div>
+					</div>-->
 					<div class="mb-3">
 						<label class="form-lable">Endereco</label> <input type="text"
 							class="form-control" th:errorclass="is-invalid"

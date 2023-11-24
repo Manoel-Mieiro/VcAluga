@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
 		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-	<title>Editar Usuário</title>
+	<title>Editar Cliente</title>
 </head>
 
 <body>
@@ -23,50 +23,81 @@
 		<div class="container">
 			<div class="row">
 				<!-- th: object atrela automaticamente o form ao objeto de requisição do pacote DTO -->
-				<form th:object="${requisicaoUsuario}" th:action="@{'/usuarios/' + ${id}}" method="post">
+		<form th:object="${requisicaoCliente}" th:action="@{'/clientes/' + ${id}}" method="post">
+					<input type="hidden" name="idUsuario" value="${ru.id}">
+					<!--<input type="hidden" name="idUsuario" th:value="${usuario.id}">-->
 					<div class="mb-3">
 						<label class="form-lable">Nome</label>
-						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{nome}">
-						<div class="invalid-feedback" th:errors="*{nome}"></div>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.nome}">
+						<div class="invalid-feedback" th:errors="*{ru.nome}"></div>
 					</div>
 					<div class="mb-3">
 						<label class="form-lable">Sobrenome</label>
-						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{sobrenome}">
-						<div class="invalid-feedback" th:errors="*{sobrenome}"></div>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.sobrenome}">
+						<div class="invalid-feedback" th:errors="*{ru.sobrenome}"></div>
 					</div>
 					<div class="mb-3">
 						<label class="form-lable">E-mail</label>
-						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{email}">
-						<div class="invalid-feedback" th:errors="*{email}"></div>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.email}">
+						<div class="invalid-feedback" th:errors="*{ru.email}"></div>
 					</div>
 					<div class="mb-3">
 						<label class="form-lable">Senha</label>
-						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{senha}">
-						<div class="invalid-feedback" th:errors="*{senha}"></div>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.senha}">
+						<div class="invalid-feedback" th:errors="*{ru.senha}"></div>
 					</div>
 					<div class="mb-3">
 						<label class="form-lable">Telefone com DDD</label>
-						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{telefone}">
-						<div class="invalid-feedback" th:errors="*{telefone}"></div>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.telefone}">
+						<div class="invalid-feedback" th:errors="*{ru.telefone}"></div>
 					</div>
 					<div class="mb-3">
 						<label class="form-lable">CPF</label>
-						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{cpf}">
-						<div class="invalid-feedback" th:errors="*{cpf}"></div>
+						<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{ru.cpf}">
+						<div class="invalid-feedback" th:errors="*{ru.cpf}"></div>
 					</div>
 					<div class="mb-3">
-						<label class="form-lable">Conta</label>
-						<select type="text" class="form-select" th:field="*{tipo}">
-							<!-- <option value="Cliente">Cliente</option>
-							<option value="Funcionário">Funcionário</option> -->
-							<option th:each="tipo : ${tipo}" th:value="${tipo}" th:text="${tipo}"></option>
-						</select>
-						<div></div>
+						<label class="form-lable">Endereco</label> <input type="text"
+							class="form-control" th:errorclass="is-invalid"
+							th:field="*{endereco}">
+						<div class="invalid-feedback" th:errors="*{endereco}"></div>
 					</div>
+					<div class="mb-3">
+						<label class="form-lable">Numero</label> <input type="text"
+							class="form-control" th:errorclass="is-invalid"
+							th:field="*{numero}">
+						<div class="invalid-feedback" th:errors="*{numero}"></div>
 					</div>
-					<button class="btn btn-primary" type="submit">Editar</button>
+					<div class="mb-3">
+						<label class="form-lable">Bairro</label> <input type="text"
+							class="form-control" th:errorclass="is-invalid"
+							th:field="*{bairro}">
+						<div class="invalid-feedback" th:errors="*{bairro}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Cidade</label> <input type="text"
+							class="form-control" th:errorclass="is-invalid"
+							th:field="*{cidade}">
+						<div class="invalid-feedback" th:errors="*{cidade}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Estado</label> <input type="text"
+							class="form-control" th:errorclass="is-invalid"
+							th:field="*{estado}">
+						<div class="invalid-feedback" th:errors="*{estado}"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">Data de Nascimento</label> <input
+							type="text" class="form-control datepicker is-invalid"
+							th:errorclass="is-invalid" th:field="*{dataNascimento}">
+						<div class="invalid-feedback"
+							th:if="${#fields.hasErrors('dataNascimento')}"
+							th:errors="*{dataNascimento}">Data Inválida</div>
+					</div>
+
+					<button class="btn btn-primary" type="submit">Registrar</button>
 					<a href="javascript:history.back()">Voltar</a>
-					
+
 				</form>
 			</div>
 		</div>
