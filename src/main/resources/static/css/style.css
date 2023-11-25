@@ -1,0 +1,47 @@
+:root {
+    --sidebar-color: rgba(230, 114, 99, 1);
+    --menu-font-color: rgba(97, 29, 20, 1);
+    --bar-color: rgba(224, 68, 47, 1);
+    --text-color: rgba(0, 0, 0, 0.76);
+    --navbar-color: rgba(87, 117, 144, 1);
+}
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .account-type {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        #customer, #employee {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #customer {
+            background-color: #3498db;
+        }
+
+        #employee {
+            background-color: #e74c3c;
+        }
+
+        .account-type i {
+            font-size: 48px;
+            color: #fff;
+        }
+        
+    .navbar.navbar-expand-lg{
+    background-color: var(--navbar-color) !important;
+}

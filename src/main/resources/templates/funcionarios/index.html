@@ -14,15 +14,11 @@
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 	crossorigin="anonymous">
 
-
    <link rel="stylesheet" href="../satic/css/style.css"
 	th:href="@{/css/style.css}">
 
 
-<title>Lista de Motoristas</title>
-
-
-
+<title>Lista de Usuários</title>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -37,7 +33,7 @@
 		<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item active"><a class="nav-link"
-					href="/veiculos">Veiculos </a></li>
+					href="/veiculos">Veiculos</a></li>
 				<li class="nav-item"><a class="nav-link" href="/reservas">Reservas</a>
 				</li>
 				<li class="nav-item"><a class="nav-link disabled"
@@ -49,10 +45,9 @@
 				<li class="nav-item"><a class="nav-link disabled"
 					href="/contratos">Contratos</a></li>
 				<li class="nav-item"><a class="nav-link disabled"
-					href="/motoristas">Motoristas<span class="sr-only">(current)</span></a>
-				</li>
+					href="/motoristas">Motoristas</a></li>
 				<li class="nav-item"><a class="nav-link disabled"
-					href="/usuarios">Usuários</a></li>
+					href="/usuarios">Usuários <span class="sr-only">(current)</span></a></li>
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
 				<input class="form-control mr-sm-2" type="search"
@@ -62,11 +57,7 @@
 		</div>
 	</nav>
 	<div class="p-3 mb-2 bg-body-tertiary">
-
-
-
-		<h1>Lista de Motoristas</h1>
-
+		<h1>Lista de Usuários</h1>
 
 		<div class="container mt-4">
 			<div class="row">
@@ -75,39 +66,42 @@
 						<thead>
 							<tr>
 								<th scope="col">ID</th>
-								<th scope="col">CNH</th>
 								<th scope="col">Nome</th>
 								<th scope="col">Sobrenome</th>
+								<!--Não coloquei senha e CPF por conta da privacidade do usuário-->
+								<th scope="col">E-mail</th>
+								<th scope="col">Telefone</th>
+								<th scope="col">Tipo</th>
 								<th scope="col">Detalhes</th>
 								<th scope="col">Editar</th>
 								<th scope="col">Deletar</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="motorista : ${motoristas}">
-								<td class="col-1" th:text="${motorista.getIdMotorista()}">ID</td>
-								<td class="col-2" th:text="${motorista.cnh}">CNH</td>
-								<td class="col-3" th:text="${motorista.nome}">Nome</td>
-								<td class="col-3" th:text="${motorista.sobrenome}">Sobrenome</td>
+							<tr th:each="usuario : ${usuarios}">
+								<td class="col-1" th:text="${usuario.getId()}">ID</td>
+								<td class="col-2" th:text="${usuario.nome}">Nome</td>
+								<td class="col-2" th:text="${usuario.sobrenome}">Sobrenome</td>
+								<td class="col-2" th:text="${usuario.email}">E-mail</td>
+								<td class="col-2" th:text="${usuario.telefone}">Telefone</td>
+								<td class="col-7" th:text="${usuario.tipo.toString()}">Tipo</td>
 								<td class="col-1"><a
-									th:href="@{/motoristas/{motoristaId}(motoristaId = ${motorista.idMotorista})}">Detalhes</a></td>
+									th:href="@{/usuarios/{usuarioId}(usuarioId = ${usuario.id})}">Detalhes</a></td>
 								<td class="col-1"><a
-									th:href="@{/motoristas/{motoristaId}/edit(motoristaId=${motorista.idMotorista})}">Editar</a></td>
+									th:href="@{/usuarios/{usuarioId}/edit(usuarioId = ${usuario.id})}">Editar</a></td>
 								<td class="col-1"><a
-									th:href="@{/motoristas/{motoristaId}/delete(motoristaId=${motorista.idMotorista})}">Deletar</a></td>
+									th:href="@{/usuarios/{usuarioId}/delete(usuarioId = ${usuario.id})}">Deletar</a></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 			<div class="row">
-				<a href="/motoristas/new">Novo Motorista</a>
+				<a href="/usuarios/new">Novo Usuário</a>
 			</div>
+
+			<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
 		</div>
 	</div>
-	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
-
-
-
-	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
 </body>
 </html>
