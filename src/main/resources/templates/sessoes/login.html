@@ -1,0 +1,67 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<!-- Necesário para o thymeleaf -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+
+   <link rel="stylesheet" href="../satic/css/style.css"
+	th:href="@{/css/style.css}">
+
+<title>Lista de Usuários</title>
+</head>
+<body>
+<h1>Login</h1>
+<br>
+<br>
+<form method="post" action="/login">
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-2 col-form-label">CPF</label>
+    <div class="col-sm-10">
+       <input type="text" class="form-control" id="inputCPF" name="cpf" placeholder="111.111.111-11" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword3" class="col-sm-2 col-form-label">Senha</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="inputPassword" name="senha" placeholder="Senha" required>
+    </div>
+    </div>
+  </div>
+  <fieldset class="form-group">
+    <div class="row">
+      <legend class="col-form-label col-sm-2 pt-0">Tipo</legend>
+      <input type="hidden" name="tipo" id="tipo" value="cliente">
+      <div class="col-sm-10">
+        <div class="form-check">
+        <input class="form-check-input" type="radio" name="tipo" id="gridRadios1" value="cliente" checked onclick="document.getElementById('tipo').value='cliente'">
+          <label class="form-check-label" for="gridRadios1">
+            Cliente
+          </label>
+        </div>
+        <div class="form-check">
+         <input class="form-check-input" type="radio" name="tipo" id="gridRadios2" value="funcionario" onclick="document.getElementById('tipo').value='funcionario'">
+          <label class="form-check-label" for="gridRadios2">
+            Funcionário
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary">Entrar</button>
+    </div>
+  </div>
+</form>
+</body>
+</html>
