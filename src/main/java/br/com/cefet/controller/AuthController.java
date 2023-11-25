@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.cefet.dto.requisicaoUsuario;
 import br.com.cefet.model.Cliente;
+import br.com.cefet.model.Conta;
 import br.com.cefet.model.Funcionario;
 import br.com.cefet.service.AuthService;
 
@@ -20,26 +22,29 @@ public class AuthController {
     @GetMapping("/sessoes")
     public ModelAndView showLoginForm() {
     	ModelAndView mv = new ModelAndView("sessoes/login");
+    	requisicaoUsuario ru = new requisicaoUsuario();
+    	mv.addObject("tipo", Conta.values());
         return mv; 
     }
 
     @PostMapping("/sessoes")
     public ModelAndView processLogin(@RequestParam String cpf, @RequestParam String senha, @RequestParam String tipo) {
-    	System.out.println("Nao cai");
-        ModelAndView mv = new ModelAndView("/veiculos");
-        if ("cliente".equals(tipo)) {
+    	 Conta conta = Conta.valueOf(tipo);
+    	 System.out.println("Tipo da conta - " + conta);
+        ModelAndView mv = new ModelAndView("/sessoes/login");
+        if (conta == Conta.Cliente) {
             System.out.println("Cai no cliente");
             Cliente cliente = authService.autenticarCliente(cpf, senha);
             if (cliente != null) {
                 // Lógica para login bem-sucedido como cliente
                 return new ModelAndView("redirect:/veiculos");
             }
-        } else if ("funcionario".equals(tipo)) {
-        	System.out.println("Cai no funça");
+        } else if (conta == Conta.Funcionário) {
+            System.out.println("Cai no funça");
             Funcionario funcionario = authService.autenticarFuncionario(cpf, senha);
             if (funcionario != null) {
                 // Lógica para login bem-sucedido como funcionário
-                return new ModelAndView("redirect:/funcionarios");
+                return new ModelAndView("redirect:/usuarios");
             }
         }
 
@@ -47,3 +52,4 @@ public class AuthController {
         return mv;
     }
 }
+

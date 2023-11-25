@@ -14,54 +14,42 @@
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 	crossorigin="anonymous">
 
-   <link rel="stylesheet" href="../satic/css/style.css"
+<link rel="stylesheet" href="../satic/css/style.css"
 	th:href="@{/css/style.css}">
 
 <title>Lista de Usuários</title>
 </head>
 <body>
-<h1>Login</h1>
-<br>
-<br>
-<form method="post" action="/login">
-  <div class="form-group row">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">CPF</label>
-    <div class="col-sm-10">
-       <input type="text" class="form-control" id="inputCPF" name="cpf" placeholder="111.111.111-11" required>
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword3" class="col-sm-2 col-form-label">Senha</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputPassword" name="senha" placeholder="Senha" required>
-    </div>
-    </div>
-  </div>
-  <fieldset class="form-group">
-    <div class="row">
-      <legend class="col-form-label col-sm-2 pt-0">Tipo</legend>
-      <input type="hidden" name="tipo" id="tipo" value="cliente">
-      <div class="col-sm-10">
-        <div class="form-check">
-        <input class="form-check-input" type="radio" name="tipo" id="gridRadios1" value="cliente" checked onclick="document.getElementById('tipo').value='cliente'">
-          <label class="form-check-label" for="gridRadios1">
-            Cliente
-          </label>
-        </div>
-        <div class="form-check">
-         <input class="form-check-input" type="radio" name="tipo" id="gridRadios2" value="funcionario" onclick="document.getElementById('tipo').value='funcionario'">
-          <label class="form-check-label" for="gridRadios2">
-            Funcionário
-          </label>
-        </div>
-      </div>
-    </div>
-  </fieldset>
-  <div class="form-group row">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Entrar</button>
-    </div>
-  </div>
-</form>
+	<h1>Login</h1>
+	<br>
+	<br>
+	<form method="post" action="/sessoes">
+		<div class="form-group row">
+			<label for="inputEmail3" class="col-sm-2 col-form-label">CPF</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="inputCPF" name="cpf"
+					placeholder="111.111.111-11" required>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="inputPassword3" class="col-sm-2 col-form-label">Senha</label>
+			<div class="col-sm-10">
+				<input type="password" class="form-control" id="inputPassword"
+					name="senha" placeholder="Senha" required>
+			</div>
+		</div>
+		<div class="mb-3">
+			<label class="form-lable">Tipo</label> <select class="form-select"
+				name="tipo">
+				<option value="Cliente">Cliente</option>
+				<option value="Funcionário">Funcionário</option>
+			</select>
+		</div>
+		<div class="form-group row">
+			<div class="col-sm-10">
+				<button type="submit" class="btn btn-primary">Entrar</button>
+			</div>
+		</div>
+	</form>
 </body>
 </html>
