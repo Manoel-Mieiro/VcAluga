@@ -2,16 +2,30 @@ package br.com.cefet.model;
 
 import org.springframework.data.annotation.Id;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
+@Entity
 public class NF {
-	// Bloco do Spring
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
-	// Atributos
-	private int id;
-	private int númeroNF;
+	private int idNF;
+	@Column(nullable = false)	
+	private int numeroNF;
+	
+	public int getIdNF() {
+		return idNF;
+	}
+	public void setIdNF(int idNF) {
+		this.idNF = idNF;
+	}
+	public int getNumeroNF() {
+		return numeroNF;
+	}
+	public void setNumeroNF(int numeroNF) {
+		this.numeroNF = numeroNF;
+	}
 
 }

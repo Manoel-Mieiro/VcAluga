@@ -104,8 +104,6 @@ public class Contrato {
 	 public void adicionarCNH(Long numeroCNH) {
 	        this.cnhs.add(numeroCNH);
 	    }
-	 
-	 
 	
 	public Reserva getReserva() {
 		return reserva;

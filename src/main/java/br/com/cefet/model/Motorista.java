@@ -61,7 +61,44 @@ public class Motorista {
 		this.cnh = cnh;
 	}
 	
-	
-	
+    public static boolean validarCNH(String cnh) {
+    	
+        if (cnh == null || !cnh.matches("\\d{11}")) {
+            return false;
+        }
+
+        if (cnh.matches("(\\d)\\1{10}")) {
+            return false;
+        }
+
+        String digitos = cnh.substring(0, 9);
+        String dv1 = cnh.substring(9, 10);
+        String dv2 = cnh.substring(10);
+
+        int soma = 0;
+        int peso = 2;
+
+        for (int i = 8; i >= 0; i--) {
+            soma += Integer.parseInt(String.valueOf(digitos.charAt(i))) * peso;
+            peso++;
+        }
+
+        int resto = soma % 11;
+        int digitoVerificador1 = (resto < 2) ? 0 : 11 - resto;
+
+        soma = 0;
+        peso = 2;
+        digitos = digitos + digitoVerificador1;
+
+        for (int i = 9; i >= 0; i--) {
+            soma += Integer.parseInt(String.valueOf(digitos.charAt(i))) * peso;
+            peso++;
+        }
+
+        resto = soma % 11;
+        int digitoVerificador2 = (resto < 2) ? 0 : 11 - resto;
+
+        return dv1.equals(String.valueOf(digitoVerificador1)) && dv2.equals(String.valueOf(digitoVerificador2));
+    }
 	
 }
