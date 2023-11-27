@@ -37,7 +37,16 @@ public class requisicaoReserva {
 	private Date dataDevolucao;
 	@NotNull
 	private float valorPago;
+	private String status;
 
+	
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public Categoria getCategoriaVeiculo() {
 		 if (veiculo != null) {
 		        return veiculo.getCategoriaVeiculo();
@@ -159,6 +168,7 @@ public Reserva toReserva() {
 //		reserva.setVeiculo(this.veiculo);
 		reserva.setDataReserva(this.dataReserva);
 		reserva.setDataDevolucao(this.dataDevolucao);
+		reserva.setStatus(this.status);
 //		reserva.setValorPago(this.valorPago);
 //		reserva.setCategoriaVeiculo(this.veiculo);
 //		reserva.setModeloVeiculo(this.veiculo);
@@ -175,6 +185,7 @@ public Reserva toReserva(Reserva reserva) {
 //	reserva.setVeiculo(this.veiculo);
 	reserva.setDataReserva(this.dataReserva);
 	reserva.setDataDevolucao(this.dataDevolucao);
+	reserva.setStatus(this.status);
 //	reserva.setValorPago(this.valorPago);
 //	reserva.setCategoriaVeiculo(veiculo);
 //	reserva.setModeloVeiculo(veiculo);
@@ -192,14 +203,14 @@ public void fromReserva(Reserva reserva) {
 	this.dataReserva = reserva.getDataReserva();
 	this.dataDevolucao = reserva.getDataDevolucao();
 	this.valorPago = reserva.getValorPago();
+	this.status = reserva.getStatus();
 }
+
 @Override
 public String toString() {
 	return "requisicaoReserva [veiculo=" + veiculo + ", veiculoId=" + veiculoId + ", dataReserva=" + dataReserva
-			+ ", dataDevolucao=" + dataDevolucao + ", valorPago=" + valorPago + "]";
+			+ ", dataDevolucao=" + dataDevolucao + ", valorPago=" + valorPago + ", status=" + status + "]";
 }
-
-	
 	
 	
 	}

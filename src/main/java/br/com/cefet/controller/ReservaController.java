@@ -38,8 +38,8 @@ public class ReservaController {
 	@GetMapping("/reservas")
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView("reservas/index");
-
-		List<Reserva> reservas = this.reservaRepository.findAll();
+		List<Reserva> reservas = this.reservaRepository.findByStatus("Reservado");
+		/* List<Reserva> reservas = this.reservaRepository.findAll(); */
 		mv.addObject("reservas", reservas);
 
 		return mv;
@@ -121,14 +121,13 @@ public class ReservaController {
 			reserva.setCor(veiculo);
 			reserva.setAno(veiculo);
 			reserva.setBranch(veiculo);
-
 //            
 
 //			reserva.setDataReserva(requisicao.getDataReserva());
 //			reserva.setDataDevolucao(requisicao.getDataDevolucao());
 			reserva.setValorPago(veiculo.obterValorDiaria(requisicao.getCategoriaVeiculo()));
 			reserva = requisicao.toReserva(reserva);
-
+			reserva.setStatus("Reservado");
 			LocalDate localDateReserva = reserva.getDataReserva().toInstant().atZone(ZoneId.systemDefault())
 					.toLocalDate();
 			System.out.println("DATA INSERIDA: " + localDateReserva);
@@ -204,6 +203,28 @@ public class ReservaController {
 		}
 	}
 
+	@PostMapping("/reservas/{idReserva}/archive")
+	public ModelAndView archive(@PathVariable Integer idReserva, @Valid requisicaoReserva requisicao,
+			BindingResult result) {
+		if (result.hasErrors()) {
+			System.out.println("\n**********************Invalid Input Found**************************\n");
+
+			ModelAndView mv = new ModelAndView("reservas/edit");
+			return mv;
+		} else {
+			Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
+			if (optional.isPresent()) {
+				Reserva reserva = optional.get();
+				reserva.setStatus("Arquivado");
+				this.reservaRepository.save(reserva);
+				return new ModelAndView("/reservas");
+			} else {
+				System.out.println("Registro não consta no banco ou não foi encontrado.");
+				return new ModelAndView("redirect:/reservas");
+			}
+		}
+	}
+	
 	@GetMapping("/reservas/{idReserva}/delete")
 	public String delete(@PathVariable Integer idReserva) {
 		try {

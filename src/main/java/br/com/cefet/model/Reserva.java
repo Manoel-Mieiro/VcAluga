@@ -52,7 +52,11 @@ public class Reserva {
 	    joinColumns = @JoinColumn(name = "idReserva"),
 	    inverseJoinColumns = @JoinColumn(name = "idUsuario")
 	)
+	
 	private List<Cliente> clientes;
+	
+	@Column(nullable = false)
+	private String status;
 
 	public Reserva() {
 		super();
@@ -85,6 +89,16 @@ public class Reserva {
 		return veiculo.getBranch();
 	}
 	
+	
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public void setCategoriaVeiculo(Veiculo veiculo) {
 		if(veiculo != null) {
 			veiculo.setCategoriaVeiculo(getCategoriaVeiculo());
@@ -187,15 +201,18 @@ public class Reserva {
 	}
 
 
-
-	public Reserva(Veiculo veiculo, Date dataReserva, Date dataDevolucao, float valorPago) {
+	public Reserva(Veiculo veiculo, Date dataReserva, Date dataDevolucao, float valorPago, String status,
+			List<Cliente> clientes) {
 		super();
 		this.veiculo = veiculo;
 		this.dataReserva = dataReserva;
 		this.dataDevolucao = dataDevolucao;
 		this.valorPago = valorPago;
+		this.status = status;
+		this.clientes = clientes;
 	}
 
+	 
 
 
 
