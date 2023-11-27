@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.cefet.dto.requisicaoReserva;
 import br.com.cefet.model.Cliente;
+import br.com.cefet.model.Funcionario;
 import br.com.cefet.model.Reserva;
 import br.com.cefet.model.Veiculo;
 import br.com.cefet.repository.ClienteRepository;
@@ -40,27 +41,43 @@ public class ReservaController {
 	private ReservaRepository reservaRepository;
 	@Autowired
 	private VeiculoRepository veiculoRepository;
-	
+
 	@Autowired
 	private ClienteRepository clienteRepository;
-	
+
 	@Autowired
 	private SessaoService sessaoService;
 
 	@GetMapping("/reservas")
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView("reservas/index");
-		List<Reserva> reservas = this.reservaRepository.findByStatus("Reservado");
-		/* List<Reserva> reservas = this.reservaRepository.findAll(); */
-		mv.addObject("reservas", reservas);
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		if (funcionario == null && cliente == null) {
+			System.out.println("Sessão vazia!");
+			return new ModelAndView("redirect:/sessoes");
 
-		return mv;
+		} else {
+			if (funcionario != null) {
+				List<Reserva> reservas = this.reservaRepository.findByStatus("Reservado");
+				mv.addObject("reservas", reservas);
+			}
+			if (cliente != null) {
+				List<Reserva> reservas = this.reservaRepository.findByStatusAndCliente("Reservado", cliente);
+				mv.addObject("reservas", reservas);
+			}
+			return mv;
+		}
+		/* List<Reserva> reservas = this.reservaRepository.findAll(); */
 	}
 
 	@GetMapping("/reservas/new")
 	public ModelAndView novo(@RequestParam(name = "veiculoId") int veiculoId) {
 		Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
-		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
 		Cliente cliente = sessaoService.obterClienteDaSessao(session);
 		if (cliente == null) {
 			System.out.println("Cliente nulo!");
@@ -84,12 +101,12 @@ public class ReservaController {
 
 				return mv;
 
-		} else {
-			System.out.println("Veículo não encontrado.");
-			return new ModelAndView("redirect:/veiculos");
+			} else {
+				System.out.println("Veículo não encontrado.");
+				return new ModelAndView("redirect:/veiculos");
+			}
 		}
 	}
-}
 
 //	 O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
 //	 de dados thymeleaf
@@ -99,7 +116,7 @@ public class ReservaController {
 	}
 
 	@PostMapping("/reservas")
-	public ModelAndView create(@Valid requisicaoReserva requisicao, BindingResult result, HttpSession session, 
+	public ModelAndView create(@Valid requisicaoReserva requisicao, BindingResult result, HttpSession session,
 			RedirectAttributes redirectAttributes) {
 		Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
 		System.out.println("Veiculo ID: " + veiculo.getId());
@@ -133,9 +150,9 @@ public class ReservaController {
 			reserva.setCliente(cliente);
 			reserva.setVeiculo(veiculo);
 			System.out.println("Veiculo: " + reserva.getVeiculo());
-	        veiculo.setStatus("Reservado");
-	        veiculoRepository.save(veiculo);
-	        System.out.println("Veiculo: " + veiculo.getStatus());
+			veiculo.setStatus("Reservado");
+			veiculoRepository.save(veiculo);
+			System.out.println("Veiculo: " + veiculo.getStatus());
 			reserva.setCategoriaVeiculo(veiculo);
 			System.out.println("Categoria: " + reserva.getVeiculo().getCategoriaVeiculo());
 			reserva.setModeloVeiculo(veiculo);
@@ -155,7 +172,7 @@ public class ReservaController {
 					.toLocalDate();
 			System.out.println("DATA INSERIDA: " + localDateReserva);
 			System.out.println("TODAY: " + localDateReserva.isBefore(LocalDate.now()));
-			
+
 			if (localDateReserva.isBefore(LocalDate.now())) {
 
 				mv.addObject("veiculoId", requisicao.getVeiculoId());
@@ -163,7 +180,7 @@ public class ReservaController {
 			}
 			this.clienteRepository.save(cliente);
 			this.reservaRepository.save(reserva);
-			
+
 			// Redirecione para uma página de sucesso ou qualquer outra ação necessária
 			mv = new ModelAndView("redirect:/contratos/new?idReserva=" + reserva.getIdReserva());
 
@@ -184,10 +201,10 @@ public class ReservaController {
 			mv.addObject("cliente", cliente);
 			mv.addObject("reserva", reserva);
 			return mv;
-		} else if (cliente == null){
+		} else if (cliente == null) {
 			System.out.println("Cliente nulo!");
 			return new ModelAndView("redirect:/sessoes");
-		}else {			
+		} else {
 			System.out.println("Registro não consta no banco ou não foi encontrado.");
 			return new ModelAndView("redirect:/reservas");
 		}
@@ -232,22 +249,22 @@ public class ReservaController {
 
 	@GetMapping("/reservas/{idReserva}/archive")
 	public String archive(@PathVariable Integer idReserva) {
-		 
-			Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
-			if (optional.isPresent()) {
-				Reserva reserva = optional.get();
-				reserva.setStatus("Arquivado");
-				Veiculo veiculo = reserva.getVeiculo();
-				veiculo.setStatus("Disponível");
-				veiculoRepository.save(veiculo);
-				this.reservaRepository.save(reserva);
-				return "redirect:/veiculos";
-			} else {
-				System.out.println("Registro não consta no banco ou não foi encontrado.");
-				return "redirect:/reservas";
-			}
+
+		Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
+		if (optional.isPresent()) {
+			Reserva reserva = optional.get();
+			reserva.setStatus("Arquivado");
+			Veiculo veiculo = reserva.getVeiculo();
+			veiculo.setStatus("Disponível");
+			veiculoRepository.save(veiculo);
+			this.reservaRepository.save(reserva);
+			return "redirect:/veiculos";
+		} else {
+			System.out.println("Registro não consta no banco ou não foi encontrado.");
+			return "redirect:/reservas";
+		}
 	}
-	
+
 	@GetMapping("/reservas/{idReserva}/delete")
 	public String delete(@PathVariable Integer idReserva) {
 		try {
