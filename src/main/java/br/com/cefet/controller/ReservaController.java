@@ -110,7 +110,9 @@ public class ReservaController {
 			Reserva reserva = new Reserva();
 			reserva.setVeiculo(veiculo);
 			System.out.println("Veiculo: " + reserva.getVeiculo());
-			
+	        veiculo.setStatus("Reservado");
+	        veiculoRepository.save(veiculo);
+	        System.out.println("Veiculo: " + veiculo.getStatus());
 			reserva.setCategoriaVeiculo(veiculo);
 			System.out.println("Categoria: " + reserva.getVeiculo().getCategoriaVeiculo());
 			reserva.setModeloVeiculo(veiculo);

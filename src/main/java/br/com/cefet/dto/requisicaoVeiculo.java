@@ -37,12 +37,25 @@ public class requisicaoVeiculo {
 	private Filial branch;
 	@NotNull
 	private int branchId;
+	@NotNull
+	private String status;
+	private boolean emManutencao;
+	
 //	@NotNull
 //	private String uf;
 
 	
+	
 	public int getBranchId() {
 		return branchId;
+	}
+
+	public boolean isEmManutencao() {
+		return emManutencao;
+	}
+
+	public void setEmManutencao(boolean emManutencao) {
+		this.emManutencao = emManutencao;
 	}
 
 	public void setBranchId(int branchId) {
@@ -112,9 +125,19 @@ public class requisicaoVeiculo {
 //	public void setFilial(String filial) {
 //		this.filial = filial;
 //	}
+	
+	
 
 	public int getId() {
 		return id;
+	}
+
+	public @NotNull String getStatus() {
+		return status;
+	}
+
+	public void setStatus(@NotNull String status) {
+		this.status = status;
 	}
 
 	public void setId(int id) {
@@ -146,6 +169,8 @@ public class requisicaoVeiculo {
 		veiculo.setQuilometragem(this.quilometragem);
 		veiculo.setCor(this.cor);
 		veiculo.setAno(this.ano);
+		veiculo.setStatus(this.status);
+		veiculo.setEmManutencao(this.emManutencao);
 //		veiculo.setFilial(this.filial);
 //		veiculo.setBranch(this.branch);
 		
@@ -162,6 +187,8 @@ public class requisicaoVeiculo {
 		veiculo.setQuilometragem(this.quilometragem);
 		veiculo.setCor(this.cor);
 		veiculo.setAno(this.ano);
+		veiculo.setStatus(this.status);
+		veiculo.setEmManutencao(this.emManutencao);
 //		veiculo.setFilial(this.filial);
 //		veiculo.setBranch(this.branch);
 
@@ -176,6 +203,8 @@ public class requisicaoVeiculo {
 		this.quilometragem = veiculo.getQuilometragem();
 		this.cor = veiculo.getCor();
 		this.ano = veiculo.getAno();
+		this.status = veiculo.getStatus();
+		this.emManutencao = veiculo.isEmManutencao();
 //		this.filial = veiculo.getFilial();
 //		this.branch = veiculo.getBranch();
 	}
@@ -184,9 +213,9 @@ public class requisicaoVeiculo {
 	public String toString() {
 		return "requisicaoVeiculo [placa=" + placa + ", marcaVeiculo=" + marcaVeiculo + ", modeloVeiculo="
 				+ modeloVeiculo + ", categoriaVeiculo=" + categoriaVeiculo + ", quilometragem=" + quilometragem
-				+ ", cor=" + cor + ", ano=" + ano + ", branch=" + branch + ", branchId=" + branchId + "]";
+				+ ", cor=" + cor + ", ano=" + ano + ", branch=" + branch + ", branchId=" + branchId + ", status="
+				+ status + ", emManutencao=" + emManutencao + "]";
 	}
-
 
 
 

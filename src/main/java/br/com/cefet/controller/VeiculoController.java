@@ -39,7 +39,7 @@ public class VeiculoController {
 
 	@GetMapping("/veiculos")
 	public ModelAndView index() {
-		List<Veiculo> veiculos = this.veiculoRepository.findAll();
+		List<Veiculo> veiculos = this.veiculoRepository.findByStatus("Disponível");
 
 		ModelAndView mv = new ModelAndView("veiculos/index");
 		mv.addObject("veiculos", veiculos);
@@ -84,7 +84,8 @@ public class VeiculoController {
 				Veiculo veiculo = new Veiculo();
 				veiculo.setBranch(filial);
 				veiculo = requisicao.toVeiculo(veiculo);
-				
+				veiculo.setStatus("Disponível");
+				veiculo.setEmManutencao(false);
 
 				this.veiculoRepository.save(veiculo);
 				System.out.println("ID do veículo: " + veiculo.getId());

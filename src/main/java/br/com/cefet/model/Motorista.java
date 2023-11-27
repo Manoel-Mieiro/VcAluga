@@ -1,9 +1,7 @@
 package br.com.cefet.model;
 
-
-
+import java.util.List;
 import java.util.Set;
-
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import jakarta.persistence.ManyToMany;
-
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Motorista {
@@ -25,13 +23,15 @@ public class Motorista {
 	private String sobrenome;
 	@Column(nullable = false)
 	private String cnh;
-
+	
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public String getSobrenome() {
 		return sobrenome;
 	}
@@ -39,16 +39,20 @@ public class Motorista {
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
 	}
+
 	public int getIdMotorista() {
 		return idMotorista;
 	}
+
 	public void setIdMotorista(int idMotorista) {
 		this.idMotorista = idMotorista;
 
 	}
+
 	public String getCnh() {
 		return cnh;
 	}
+
 	public void setCnh(String cnh) {
 		this.cnh = cnh;
 	}
@@ -56,12 +60,15 @@ public class Motorista {
 	public Motorista() {
 		super();
 	}
-	public Motorista(String cnh) {
+
+	public Motorista(String nome, String sobrenome, String cnh) {
 		super();
+		this.nome = nome;
+		this.sobrenome = sobrenome;
 		this.cnh = cnh;
 	}
+
+
 	
-	
-	
-	
+
 }

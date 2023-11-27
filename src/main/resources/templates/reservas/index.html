@@ -104,7 +104,8 @@
         <td class="col-7" th:text="${reserva.valorPago}">Total(R$)</td>   
         <td class="col-1"><a th:href="@{/reservas/{idReserva}(idReserva = ${reserva.idReserva})}">Detalhes</a></td>
        	<td class="col-1"><a th:href="@{/reservas/{idReserva}/edit(idReserva = ${reserva.idReserva})}">Editar</a></td>
-        <td class="col-1"><a th:href="@{/reservas/{idReserva}/delete(idReserva = ${reserva.idReserva})}">Deletar</a></td> 
+        <td class="col-1"><a th:href="@{/reservas/{idReserva}/delete(idReserva = ${reserva.idReserva})}">Deletar</a></td>
+        <td class="col-1"><a th:href="@{/manutencoes/new(veiculoId=${veiculo.id})}">Agendar manutenção</a></td> 
     </tr>
 </tbody>
             </table>
