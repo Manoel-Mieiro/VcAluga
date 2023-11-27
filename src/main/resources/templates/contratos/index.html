@@ -8,7 +8,11 @@
      <!--Bootstrap CSS--> 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="../style.css">
+ <!-- Font Awesome icons -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <link rel="stylesheet" href="../satic/css/style.css"
+	th:href="@{/css/style.css}">
 
     <title>Lista de Contratos</title>
   </head>
@@ -25,9 +29,6 @@
             <a class="nav-link" href="/veiculos">Veiculos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/reservas">Reservas</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link disabled" href="/manutencoes">Manutenção</a>
           </li>
           <li class="nav-item">
@@ -39,16 +40,37 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="/contratos">Contratos<span class="sr-only">(current)</span></a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="/motoristas">Motoristas</a>
+          </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+      </a>
+      <a class="nav-link disabled" href="/sessoes">
+        <div class="account-type">
+            <div id="customer">
+                <i class="fa-solid fa-user"></i>
+                <span class="icon_sub">Conta</span>
+            </div>
+        </div>
+    </a>
+    <a class="nav-link disabled" href="/reservas">
+      <div class="account-type">
+          <div id="customer">
+            <i class="fa-solid fa-basket-shopping"></i>
+              <span class="icon_sub">Reservas</span>
+          </div>
+      </div>
+  </a>
       </div>
     </nav>
     <div class="p-3 mb-2 bg-body-tertiary">
     <h1>Contratos</h1>
 		
+    <div class="search-container">
+      <input type="text" placeholder="Pesquisar">
+      <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+
 		<div class="container mt-4">
     <div class="row">
         <div class="col-12">
@@ -70,7 +92,7 @@
         <td class="col-2" th:text="${contrato.reserva?.branch.cnpj}">CNPJ</td>
         <td class="col-3" th:text="${contrato.dataEmissao}">Data de Emissão</td>
         <td class="col-2" th:text="${contrato.reserva?.veiculo?.placa}">Placa</td>
-        <td class="col-2" th:text="${contrato.cnhs}"CNHs</td>
+        <td class="col-2" th:text="${contrato.cnhs}">Placa</td>
         <td class="col-1"><a th:href="@{/contratos/{idContrato}(idContrato = ${contrato.idContrato})}">Detalhes</a></td>
         <td class="col-1"><a th:href="@{/contratos/{idContrato}/edit(idContrato = ${contrato.idContrato})}">Editar</a></td>  
     </tr>

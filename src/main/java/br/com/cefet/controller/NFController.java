@@ -28,7 +28,7 @@ public class NFController {
 	public ModelAndView index() {
 
 		List<NF> nfs = this.nfRepository.findAll();
-
+		System.out.println("LIsta de NFS: " + nfs);
 		ModelAndView mv = new ModelAndView("nfs/index");
 		mv.addObject("nfs", nfs);
 
@@ -66,15 +66,15 @@ public class NFController {
 		}
 	}
 
-	@GetMapping("/nfs/{id}")
-	public ModelAndView show(@PathVariable Integer id) {
+	@GetMapping("/nfs/{idNF}")
+	public ModelAndView show(@PathVariable Integer idNF) {
 
-		Optional<NF> optional = this.nfRepository.findById(id);
+		Optional<NF> optional = this.nfRepository.findById(idNF);
 
 		if (optional.isPresent()) {
 			NF nf = optional.get();
 
-			ModelAndView mv = new ModelAndView("filiais/show");
+			ModelAndView mv = new ModelAndView("nfs/show");
 			mv.addObject("nf", nf);
 			return mv;
 		} else {
@@ -84,30 +84,10 @@ public class NFController {
 	}
 
 
-
-	@PostMapping("/nfs/{id}")
-	public ModelAndView update(@PathVariable Integer id, @Valid requisicaoNF requisicao, BindingResult result) {
-		if (result.hasErrors()) {
-			System.out.println("\n**********************Invalid Input Found**************************\n");
-			ModelAndView mv = new ModelAndView("nfs/edit");
-			return mv;
-		} else {
-			Optional<NF> optional = this.nfRepository.findById(id);
-			if (optional.isPresent()) {
-				NF nf = requisicao.toNF(optional.get());
-				this.nfRepository.save(nf);
-				return new ModelAndView("redirect:/nfs/" + nf.getIdNF());
-			} else {
-				System.out.println("Registro não consta no banco ou não foi encontrado.");
-				return new ModelAndView("redirect:/nfs");
-			}
-		}
-	}
-
-	@GetMapping("/nfs/{id}/delete")
-	public String delete(@PathVariable Integer id) {
+	@GetMapping("/nfs/{idNF}/delete")
+	public String delete(@PathVariable Integer idNF) {
 		try {
-			this.nfRepository.deleteById(id);
+			this.nfRepository.deleteById(idNF);
 			return "redirect:/nfs";
 		} catch (EmptyResultDataAccessException e) {
 			System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");

@@ -1,6 +1,7 @@
 package br.com.cefet.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -42,6 +45,18 @@ public class Reserva {
 
 	@Column(nullable = false, name = "ValorPago")
 	private float valorPago;
+	
+	@ManyToMany
+	@JoinTable(
+	    name = "cliente_reserva",
+	    joinColumns = @JoinColumn(name = "idReserva"),
+	    inverseJoinColumns = @JoinColumn(name = "idUsuario")
+	)
+	
+	private List<Cliente> clientes;
+	
+	@Column(nullable = false)
+	private String status;
 
 	public Reserva() {
 		super();
@@ -74,6 +89,16 @@ public class Reserva {
 		return veiculo.getBranch();
 	}
 	
+	
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public void setCategoriaVeiculo(Veiculo veiculo) {
 		if(veiculo != null) {
 			veiculo.setCategoriaVeiculo(getCategoriaVeiculo());
@@ -176,15 +201,18 @@ public class Reserva {
 	}
 
 
-
-	public Reserva(Veiculo veiculo, Date dataReserva, Date dataDevolucao, float valorPago) {
+	public Reserva(Veiculo veiculo, Date dataReserva, Date dataDevolucao, float valorPago, String status,
+			List<Cliente> clientes) {
 		super();
 		this.veiculo = veiculo;
 		this.dataReserva = dataReserva;
 		this.dataDevolucao = dataDevolucao;
 		this.valorPago = valorPago;
+		this.status = status;
+		this.clientes = clientes;
 	}
 
+	 
 
 
 

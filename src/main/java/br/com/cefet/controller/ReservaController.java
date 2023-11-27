@@ -1,6 +1,5 @@
 package br.com.cefet.controller;
 
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -34,13 +33,13 @@ public class ReservaController {
 	@Autowired
 	private ReservaRepository reservaRepository;
 	@Autowired
-	private VeiculoRepository veiculoRepository; 
+	private VeiculoRepository veiculoRepository;
 
 	@GetMapping("/reservas")
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView("reservas/index");
-		
-		List<Reserva> reservas = this.reservaRepository.findAll();
+		List<Reserva> reservas = this.reservaRepository.findByStatus("Reservado");
+		/* List<Reserva> reservas = this.reservaRepository.findAll(); */
 		mv.addObject("reservas", reservas);
 
 		return mv;
@@ -48,31 +47,29 @@ public class ReservaController {
 
 	@GetMapping("/reservas/new")
 	public ModelAndView novo(@RequestParam(name = "veiculoId") int veiculoId) {
-	    Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
+		Optional<Veiculo> optional = veiculoRepository.findById(veiculoId);
 
-	    if (optional.isPresent()) {
-	        Veiculo veiculo = optional.get();
-	        ModelAndView mv = new ModelAndView("reservas/new");
-	        Reserva reserva = new Reserva();
-	        
-	        // Defina o veículo na reserva antes de acessar suas propriedades
-	        reserva.setVeiculo(veiculo);
+		if (optional.isPresent()) {
+			Veiculo veiculo = optional.get();
+			ModelAndView mv = new ModelAndView("reservas/new");
+			Reserva reserva = new Reserva();
 
-	        // Agora você pode acessar a categoria do veículo
-	        reserva.setValorPago(veiculo.obterValorDiaria(reserva.getCategoriaVeiculo()));
-	        
-	        mv.addObject("veiculo", veiculo);
-	        mv.addObject("reserva", reserva);
-	        
-	        return mv;
-	    } else {
-	        System.out.println("Veículo não encontrado.");
-	        return new ModelAndView("redirect:/veiculos");
-	    }
+			// Defina o veículo na reserva antes de acessar suas propriedades
+			reserva.setVeiculo(veiculo);
+			System.out.println("Categoria " + reserva.getVeiculo().getCategoriaVeiculo());
+			// Agora você pode acessar a categoria do veículo
+			reserva.setValorPago(veiculo.obterValorDiaria(reserva.getCategoriaVeiculo()));
+			System.out.println("valor " + reserva.getValorPago());
+
+			mv.addObject("veiculo", veiculo);
+			mv.addObject("reserva", reserva);
+
+			return mv;
+		} else {
+			System.out.println("Veículo não encontrado.");
+			return new ModelAndView("redirect:/veiculos");
+		}
 	}
-
-		
-
 
 //	 O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
 //	 de dados thymeleaf
@@ -80,81 +77,81 @@ public class ReservaController {
 	public requisicaoReserva getRequisicaoReserva() {
 		return new requisicaoReserva();
 	}
-	
-    @PostMapping("/reservas")
-    public ModelAndView create(@Valid requisicaoReserva requisicao, BindingResult result, RedirectAttributes redirectAttributes) {
-    	Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
-    	ModelAndView mv = new ModelAndView("redirect:/reservas/new");
-    	if (result.hasErrors()) {
-	        System.out.println("\n**********************Invalid Input Found**************************\n");
-	        
-	        // Percorre os erros de campo (field errors)
-	        for (FieldError error : result.getFieldErrors()) {
-	            System.out.println("Field: " + error.getField());
-	            System.out.println("Message: " + error.getDefaultMessage());
 
-	            // Adicione a mensagem de erro ao RedirectAttributes se necessário
-	            redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
-	        }
+	@PostMapping("/reservas")
+	public ModelAndView create(@Valid requisicaoReserva requisicao, BindingResult result,
+			RedirectAttributes redirectAttributes) {
+		Veiculo veiculo = veiculoRepository.findById(requisicao.getVeiculoId()).orElse(null);
+		System.out.println("Veiculo ID: " + veiculo.getId());
+		ModelAndView mv = new ModelAndView("redirect:/reservas/new");
+		if (result.hasErrors()) {
+			System.out.println("\n**********************Invalid Input Found**************************\n");
 
-	        // Percorre os erros globais
-	        for (ObjectError error : result.getGlobalErrors()) {
-	            System.out.println("Object: " + error.getObjectName());
-	            System.out.println("Message: " + error.getDefaultMessage());
+			// Percorre os erros de campo (field errors)
+			for (FieldError error : result.getFieldErrors()) {
+				System.out.println("Field: " + error.getField());
+				System.out.println("Message: " + error.getDefaultMessage());
 
-	            // Adicione a mensagem de erro ao RedirectAttributes se necessário
-	            redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
-	        }
-	        mv.addObject("veiculoId", requisicao.getVeiculoId());
-	        return mv;
-    	}else {
-        if (veiculo != null) {
-        	Reserva reserva = new Reserva();
-        	
-            reserva.setVeiculo(veiculo);
-            reserva.setCategoriaVeiculo(veiculo);
-            reserva.setModeloVeiculo(veiculo);
-            reserva.setMarcaVeiculo(veiculo);
-            reserva.setPlaca(veiculo);
-            reserva.setCor(veiculo);
-            reserva.setAno(veiculo);
-            reserva.setBranch(veiculo);
-            
+				// Adicione a mensagem de erro ao RedirectAttributes se necessário
+				redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
+			}
+
+			// Percorre os erros globais
+			for (ObjectError error : result.getGlobalErrors()) {
+				System.out.println("Object: " + error.getObjectName());
+				System.out.println("Message: " + error.getDefaultMessage());
+
+				// Adicione a mensagem de erro ao RedirectAttributes se necessário
+				redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
+			}
+			mv.addObject("veiculoId", requisicao.getVeiculoId());
+			return mv;
+		} else {
+			Reserva reserva = new Reserva();
+			reserva.setVeiculo(veiculo);
+			System.out.println("Veiculo: " + reserva.getVeiculo());
+	        veiculo.setStatus("Reservado");
+	        veiculoRepository.save(veiculo);
+	        System.out.println("Veiculo: " + veiculo.getStatus());
+			reserva.setCategoriaVeiculo(veiculo);
+			System.out.println("Categoria: " + reserva.getVeiculo().getCategoriaVeiculo());
+			reserva.setModeloVeiculo(veiculo);
+			reserva.setMarcaVeiculo(veiculo);
+			reserva.setPlaca(veiculo);
+			reserva.setCor(veiculo);
+			reserva.setAno(veiculo);
+			reserva.setBranch(veiculo);
 //            
-            
-            reserva.setDataReserva(requisicao.getDataReserva());
-            reserva.setDataDevolucao(requisicao.getDataDevolucao());
-            requisicao.setValorPago(veiculo.obterValorDiaria(requisicao.getCategoriaVeiculo()));
-            
-            LocalDate localDateReserva = reserva.getDataReserva().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            
-            if (localDateReserva.isBefore(LocalDate.now())) {
-                
-                mv.addObject("veiculoId", requisicao.getVeiculoId());
-                return mv;
-            }
 
-            reservaRepository.save(reserva);
+//			reserva.setDataReserva(requisicao.getDataReserva());
+//			reserva.setDataDevolucao(requisicao.getDataDevolucao());
+			reserva.setValorPago(veiculo.obterValorDiaria(requisicao.getCategoriaVeiculo()));
+			reserva = requisicao.toReserva(reserva);
+			reserva.setStatus("Reservado");
+			LocalDate localDateReserva = reserva.getDataReserva().toInstant().atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			System.out.println("DATA INSERIDA: " + localDateReserva);
+			System.out.println("TODAY: " + localDateReserva.isBefore(LocalDate.now()));
+			
+			if (localDateReserva.isBefore(LocalDate.now())) {
 
-            // Redirecione para uma página de sucesso ou qualquer outra ação necessária
-            mv = new ModelAndView("redirect:/contratos/new?idReserva=" + reserva.getIdReserva());
+				mv.addObject("veiculoId", requisicao.getVeiculoId());
+				return mv;
+			}
 
-            return mv;
-        } 
-    		
-    	else {
-            // Trate o caso em que o veículo não foi encontrado
-        	System.out.println("Registro não consta no banco ou não foi encontrado.");
-            return new ModelAndView ("redirect:/reservas/new");
-        }
-    	}
-    }
-	
+			this.reservaRepository.save(reserva);
+
+			// Redirecione para uma página de sucesso ou qualquer outra ação necessária
+			mv = new ModelAndView("redirect:/contratos/new?idReserva=" + reserva.getIdReserva());
+
+			return mv;
+		}
+	}
+
 	@GetMapping("/reservas/{idReserva}")
 	public ModelAndView show(@PathVariable Integer idReserva) {
 
 		Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
-		
 
 		if (optional.isPresent()) {
 			Reserva reserva = optional.get();
@@ -206,6 +203,28 @@ public class ReservaController {
 		}
 	}
 
+	@PostMapping("/reservas/{idReserva}/archive")
+	public ModelAndView archive(@PathVariable Integer idReserva, @Valid requisicaoReserva requisicao,
+			BindingResult result) {
+		if (result.hasErrors()) {
+			System.out.println("\n**********************Invalid Input Found**************************\n");
+
+			ModelAndView mv = new ModelAndView("reservas/edit");
+			return mv;
+		} else {
+			Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
+			if (optional.isPresent()) {
+				Reserva reserva = optional.get();
+				reserva.setStatus("Arquivado");
+				this.reservaRepository.save(reserva);
+				return new ModelAndView("/reservas");
+			} else {
+				System.out.println("Registro não consta no banco ou não foi encontrado.");
+				return new ModelAndView("redirect:/reservas");
+			}
+		}
+	}
+	
 	@GetMapping("/reservas/{idReserva}/delete")
 	public String delete(@PathVariable Integer idReserva) {
 		try {

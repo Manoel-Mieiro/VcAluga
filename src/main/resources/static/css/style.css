@@ -1,0 +1,88 @@
+:root {
+    --sidebar-color: rgba(230, 114, 99, 1);
+    --menu-font-color: rgba(97, 29, 20, 1);
+    --bar-color: rgba(224, 68, 47, 1);
+    --text-color: rgba(0, 0, 0, 0.76);
+    --navbar-color: rgba(87, 117, 144, 1);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    text-align: center;
+}
+
+.account-type {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#customer {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    align-items: center; /* Centralizar verticalmente ícone e texto */
+}
+
+#customer span {
+    margin-left: 10px; /* Adicione margem à esquerda para separar o ícone do texto */
+}
+
+#customer i {
+    font-size: 1em;
+    color: #fff;
+}
+
+#customer {
+    /* background-color: #3498db; */
+}
+
+.icon_sub {
+    color: white;
+}
+
+.navbar.navbar-expand-lg {
+    background-color: var(--navbar-color) !important;
+}
+
+/* search-bar */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border-radius: 15px; */
+    overflow: hidden;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); Adiciona uma sombra suave */
+    background: none; /* Remove o background */
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px 0 0 25px;
+    width: 80vh;
+}
+
+button {
+    background-color: var(--navbar-color);
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 0 15px 15px 0;
+    cursor: pointer;
+}
+
+/* Adiciona um estilo ao botão quando hover */
+button:hover {
+    background-color: #2980b9;
+}
+
+/* end search-bar */

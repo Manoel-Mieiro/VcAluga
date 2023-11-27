@@ -4,6 +4,7 @@ import br.com.cefet.model.Usuario;
 import br.com.cefet.model.Conta;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class requisicaoUsuario {
 	@NotNull
@@ -23,6 +24,7 @@ public class requisicaoUsuario {
 	private String senha;
 	@NotBlank
 	@NotNull
+	@Pattern(regexp = "\\(\\d{2}\\)\\s?9\\d{4}-\\d{4}", message = "Formato de Telefone inválido")
 	private String telefone;
 	@NotBlank
 	@NotNull
@@ -92,7 +94,7 @@ public Usuario toUsuario() {
 		usuario.setNome(this.nome);
 		usuario.setSobrenome(this.sobrenome);
 		usuario.setEmail(this.email);
-		usuario.setTipo(this.tipo);
+		usuario.setTipo(Conta.Cliente);
 		usuario.setSenha(this.senha);
 		usuario.setTelefone(this.telefone);
 		usuario.setCpf(this.cpf);

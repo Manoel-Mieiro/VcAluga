@@ -128,13 +128,13 @@ public class ManutencaoController {
 			mv.addObject("dataSaida", requisicao.getDataSaida());
 			return mv;
 		} else {
-		if (veiculo != null && estacao != null) {
+		if (veiculo != null && estacao != null && !veiculoRepository.isVeiculoEmManutencao(veiculo.getId())) {
 				Manutencao manutencao = new Manutencao();
 				mv = new ModelAndView("redirect:/manutencoes/" + manutencao.getIdManutencao());
 
 				manutencao.setEstacao(estacao);
 				manutencao.setVeiculo(veiculo);
-
+				veiculo.setEmManutencao(true);
 				manutencao = requisicao.toManutencao(manutencao);
 
 				System.out.println("Data de entrada recebida: " + manutencao.getDataEntrada());

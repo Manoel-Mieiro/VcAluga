@@ -1,11 +1,11 @@
 package br.com.cefet.model;
 
-import org.springframework.data.annotation.Id;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class NF {
@@ -27,5 +27,14 @@ public class NF {
 	public void setNumeroNF(int numeroNF) {
 		this.numeroNF = numeroNF;
 	}
+	public NF() {
+		super();
+	}
+	public NF(int numeroNF) {
+		super();
+		this.numeroNF = numeroNF;
+	}
+	
+	
 
 }

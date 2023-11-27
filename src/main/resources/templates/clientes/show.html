@@ -1,0 +1,45 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<!-- Necesário para o thymeleaf -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+
+<title>Perfil</title>
+<body>
+	<h1>Perfil do Cliente</h1>
+
+	<main>
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-24">
+					<h2>Detalhes do Cliente</h2>
+					<b>Nome:</b> <span th:text="${cliente.getNome()}"></span><br>
+					<b>Sobrenome:</b> <span th:text="${cliente.getSobrenome()}"></span><br />
+					<b>E-mail:</b> <span th:text="${cliente.getEmail()}"></span><br />
+					<b>Endereço:</b> <span th:text="${cliente.endereco}"></span><br />
+					<b>Número:</b> <span th:text="${cliente.numero}"></span><br /> <b>Bairro:</b>
+					<span th:text="${cliente.bairro}"></span><br /> <b>Cidade:</b> <span
+						th:text="${cliente.cidade}"></span><br /> <b>Estado:</b> <span
+						th:text="${cliente.estado}"></span><br /> <b>Data de
+						Nascimento:</b> <span
+						th:text="${#dates.format(cliente.dataNascimento, 'dd/MM/yyyy')}"></span><br />
+
+				</div>
+			</div>
+			<a th:href="@{/clientes/{id}/delete(id = ${cliente.id})}">Excluir Conta</a>
+			<a href="javascript:history.back()">Voltar</a>
+		</div>
+	</main>
+
+</body>
+</html>

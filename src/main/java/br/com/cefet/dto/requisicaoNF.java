@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 public class requisicaoNF {
 	@NotNull
 	private int idNF;
-	@NotBlank
 	@NotNull
 	private int numeroNF;
 	

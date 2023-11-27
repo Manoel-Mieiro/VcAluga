@@ -3,6 +3,7 @@ package br.com.cefet.dto;
 import br.com.cefet.model.Filial;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class requisicaoFilial {
 	@NotNull
@@ -20,6 +21,7 @@ public class requisicaoFilial {
 	private short numero;
 	@NotBlank
 	@NotNull
+	@Pattern(regexp = "\\d{5}-\\d{3}", message = "Formato de CEP inválido")
 	private String cep;
 	@NotBlank
 	@NotNull
