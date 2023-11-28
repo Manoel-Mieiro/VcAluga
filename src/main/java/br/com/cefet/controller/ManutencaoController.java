@@ -31,6 +31,7 @@ import br.com.cefet.model.Categoria;
 import br.com.cefet.model.Estacao;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
+import br.com.cefet.model.Status;
 import br.com.cefet.model.Manutencao;
 import br.com.cefet.model.Veiculo;
 import br.com.cefet.repository.EstacaoRepository;
@@ -135,6 +136,7 @@ public class ManutencaoController {
 				manutencao.setEstacao(estacao);
 				manutencao.setVeiculo(veiculo);
 				veiculo.setEmManutencao(true);
+				estacao.setStatus(Status.Reservado);
 				manutencao = requisicao.toManutencao(manutencao);
 
 				System.out.println("Data de entrada recebida: " + manutencao.getDataEntrada());
@@ -180,12 +182,29 @@ public class ManutencaoController {
 
 	@GetMapping("/manutencoes/{idManutencao}/delete")
 	public String delete(@PathVariable Integer idManutencao) {
-		try {
-			this.manutencaoRepository.deleteById(idManutencao);
-			return "redirect:/manutencoes";
-		} catch (EmptyResultDataAccessException e) {
-			System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
-			return "redirect:/manutencoes";
-		}
+	    try {
+	        Optional<Manutencao> optional = this.manutencaoRepository.findById(idManutencao);
+	        if (optional.isPresent()) {
+	            Manutencao manutencao = optional.get();
+	            Estacao estacao = manutencao.getEstacao();
+	            Veiculo veiculo = manutencao.getVeiculo();
+	            this.manutencaoRepository.deleteById(idManutencao);
+
+	            // Atualiza o status da estação para 'Livre'
+	            estacao.setStatus(Status.Livre);
+	            estacaoRepository.save(estacao);
+	            veiculo.setEmManutencao(false);
+	            veiculoRepository.save(veiculo);
+
+	            return "redirect:/manutencoes";
+	        } else {
+	            System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
+	            return "redirect:/manutencoes";
+	        }
+	    } catch (EmptyResultDataAccessException e) {
+	        System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
+	        return "redirect:/manutencoes";
+	    }
 	}
+
 }
