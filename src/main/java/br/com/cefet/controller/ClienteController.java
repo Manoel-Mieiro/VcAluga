@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,6 +29,8 @@ import br.com.cefet.model.Reserva;
 import br.com.cefet.model.Usuario;
 import br.com.cefet.repository.ClienteRepository;
 import br.com.cefet.repository.UsuarioRepository;
+import br.com.cefet.service.SessaoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -37,6 +41,9 @@ public class ClienteController {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private SessaoService sessaoService;
 
 	private String nome;
 
@@ -69,7 +76,56 @@ public class ClienteController {
 		return mv;
 
 	}
+	
+//	@GetMapping("/clientes/jsessionid={sessionId}/profile")
+//	public ModelAndView profile(@PathVariable String sessionId, HttpSession session) {
+//	    // Verifique se o sessionId corresponde ao da sessão atual, se necessário
+//	    if (session.getId().equals(sessionId)) {
+//	        Cliente cliente = sessaoService.obterClienteDaSessao(session);
+//	        System.out.println("Cliente: " + cliente);
+//	        if (cliente != null) {		
+//	            ModelAndView mv = new ModelAndView("clientes/profile");
+//	            mv.addObject("cliente", cliente);
+//	            return mv;
+//	        } else {
+//	        	System.out.println("Cliente: " + cliente);
+//	            return new ModelAndView("redirect:/sessoes");
+//	        }
+//	    } else {
+//	    	System.out.println("Sessão indevida");
+//	        return new ModelAndView("redirect:/sessoes");
+//	    }
+//	}
 
+
+
+	@GetMapping("/clientes/profile/{sessionId}")
+	public ModelAndView profile(@PathVariable String sessionId) {
+	    // Obter a sessão
+	    HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+	    System.out.println("Session ID de session - " + session);
+	    
+	    // Verificar se o sessionId corresponde ao da sessão atual
+	    if (session.getId().equals(sessionId)) {
+	        Cliente cliente = sessaoService.obterClienteDaSessao(session);
+	        System.out.println("Cliente: " + cliente);
+	        if (cliente != null) {
+	            ModelAndView mv = new ModelAndView("clientes/profile");
+	            mv.addObject("cliente", cliente);
+	            return mv;
+	        } else {
+	            System.out.println("Cliente: " + cliente);
+	            return new ModelAndView("redirect:/sessoes");
+	        }
+	    } else {
+	        System.out.println("Sessão indevida");
+	        return new ModelAndView("redirect:/sessoes");
+	    }
+	}
+
+
+
+	
 	@ModelAttribute(value = "requisicaoCliente")
 	public requisicaoCliente getRequisicaoCliente() {
 		return new requisicaoCliente();
