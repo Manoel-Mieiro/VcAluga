@@ -81,7 +81,7 @@
                     <th scope="col">CNPJ</th>
                     <th scope="col">Data de Emissão</th>
                     <th scope="col">Placa</th>
-                    <th scope="col">CNHs</th>
+                    <!-- <th scope="col">CNHs</th> -->
                     <th scope="col">Detalhes</th>
                     <th scope="col">Cancelamento</th>
                 </tr>
@@ -92,7 +92,7 @@
         <td class="col-2" th:text="${contrato.reserva?.branch.cnpj}">CNPJ</td>
         <td class="col-3" th:text="${contrato.dataEmissao}">Data de Emissão</td>
         <td class="col-2" th:text="${contrato.reserva?.veiculo?.placa}">Placa</td>
-        <td class="col-2" th:text="${contrato.cnhs}">Placa</td>
+     <!--    <td class="col-2" th:text="${contrato.cnh}">CNH</td> -->
         <td class="col-1"><a th:href="@{/contratos/{idContrato}(idContrato = ${contrato.idContrato})}">Detalhes</a></td>
         <td class="col-1"><a th:href="@{/contratos/{idContrato}/edit(idContrato = ${contrato.idContrato})}">Editar</a></td>  
     </tr>

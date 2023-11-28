@@ -1,6 +1,6 @@
 package br.com.cefet.dto;
 
-import br.com.cefet.model.Usuario;
+
 
 import java.util.Date;
 import java.util.List;
@@ -8,14 +8,12 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import br.com.cefet.model.Cliente;
-import br.com.cefet.model.Conta;
+import br.com.cefet.model.Motorista;
 import br.com.cefet.model.Reserva;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 
 public class requisicaoCliente {
 	@NotNull
@@ -40,11 +38,21 @@ public class requisicaoCliente {
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 	private List<Reserva> reservas;
+	private List<Motorista> motoristas;
 	
 	
 	
 	
-	
+public List<Motorista> getMotoristas() {
+		return motoristas;
+	}
+
+
+	public void setMotoristas(List<Motorista> motoristas) {
+		this.motoristas = motoristas;
+	}
+
+
 public requisicaoUsuario getRu() {
 		return ru;
 	}
@@ -178,13 +186,8 @@ public requisicaoUsuario getRu() {
 	public String toString() {
 		return "requisicaoCliente [ru=" + ru + ", endereco=" + endereco + ", numero=" + numero + ", bairro=" + bairro
 				+ ", cidade=" + cidade + ", estado=" + estado + ", dataNascimento=" + dataNascimento + ", reservas="
-				+ reservas + "]";
+				+ reservas + ", motoristas=" + motoristas + "]";
 	}
-
-
-
-
-	
 	
 	
 	}

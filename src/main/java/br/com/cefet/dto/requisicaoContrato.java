@@ -60,7 +60,7 @@ public class requisicaoContrato {
 	private String assinaturaCliente;
 	@NotNull(message = "A lista de CNHs não pode ser nula")
 	@Size(max = 11, message = "Cada CNH deve ter no máximo 11 dígitos")
-	private List<Long> cnhs;
+	private Long cnh;
 
 	public int getIdContrato() {
 		return idContrato;
@@ -226,21 +226,14 @@ public class requisicaoContrato {
 		this.assinaturaCliente = assinaturaCliente;
 	}
 
-	public List<Long> getCnhs() {
-		return cnhs;
+	public Long getCnh() {
+		return cnh;
 	}
 
-	public void setCnhs(List<Long> cnhs) {
-		this.cnhs = cnhs;
+	public void setCnhs(Long cnh) {
+		this.cnh = cnh;
 	}
 
-	// Função para adicionar mais CNHs
-	public void adicionarCnh(Long cnh) {
-		if (this.cnhs == null) {
-			this.cnhs = new ArrayList<>();
-		}
-		this.cnhs.add(cnh);
-	}
 	
 
 	
@@ -252,7 +245,7 @@ public class requisicaoContrato {
 		contrato.setDataEmissao(this.dataEmissao);
 		contrato.setAssinaturaCliente(this.assinaturaCliente);
 		contrato.setAssinaturaGestor(this.assinaturaGestor);
-		contrato.setCnhs(this.cnhs);
+		contrato.setCnh(this.cnh);
 		return contrato;
 	}
 
@@ -265,7 +258,7 @@ public class requisicaoContrato {
 		contratoExistente.setDataEmissao(this.dataEmissao);
 		contratoExistente.setAssinaturaCliente(this.assinaturaCliente);
 		contratoExistente.setAssinaturaGestor(this.assinaturaGestor);
-		contratoExistente.setCnhs(this.cnhs);
+		contratoExistente.setCnh(this.cnh);
 		return contratoExistente;
 	}
 
@@ -319,7 +312,7 @@ public class requisicaoContrato {
 		this.assinaturaGestor = contrato.getAssinaturaGestor();
 
 		// Ajuste para CNHs, se necessário
-		this.cnhs = contrato.getCnhs();
+		this.cnh = contrato.getCnh();
 	}
 
 	public void preencherComReserva(Reserva reserva) {
@@ -356,7 +349,7 @@ public class requisicaoContrato {
 				+ quilometragem + ", cor=" + cor + ", ano=" + ano + ", reserva=" + reserva + ", idReserva=" + idReserva
 				+ ", dataReserva=" + dataReserva + ", dataDevolucao=" + dataDevolucao + ", valorPago=" + valorPago
 				+ ", dataEmissao=" + dataEmissao + ", assinaturaGestor=" + assinaturaGestor + ", assinaturaCliente="
-				+ assinaturaCliente + ", cnhs=" + cnhs + "]";
+				+ assinaturaCliente + ", cnh=" + cnh + "]";
 	}
 
 	

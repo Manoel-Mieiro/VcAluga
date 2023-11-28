@@ -82,14 +82,6 @@
 							readonly="readonly">
 					</div>
 					<div class="mb-3">
-						<label for="cnhs">CNHs:</label> <input type="text"
-							class="form-control" id="cnhs" name="cnhs" th:field="*{cnhs}" th:errorclass="is-invalid">
-							<div class="invalid-feedback" th:errors="*{cnhs}"></div>
-						<button type="button" onclick="adicionarCnh()">Adicionar
-							CNH</button>
-							
-					</div>
-					<div class="mb-3">
 						<label class="form-label">Assinatura do Cliente</label> <input
 							type="text" class="form-control" th:field="*{assinaturaCliente}">
 						<div class="invalid-feedback" th:errors="*{assinaturaCliente}"></div>
@@ -114,25 +106,7 @@
 		integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- Adicionar/Remover CNHs -->
-	<script>
-		function adicionarCnh() {
-			var cnhInput = document.getElementById("cnhs");
-			var cnhValue = cnhInput.value.trim();
-
-			if (cnhValue !== "") {
-				var cnhsList = document.createElement("ul");
-				cnhsList.innerHTML = "<li>"
-						+ cnhValue
-						+ " <button type='button' onclick='removerCnh(this)'>Remover</button></li>";
-				document.getElementById("cnhs").parentNode.appendChild(cnhsList);
-				cnhInput.value = "";
-			}
-		}
-
-		function removerCnh(button) {
-			button.parentNode.parentNode.removeChild(button.parentNode);
-		}
-	</script>
+	
 </body>
 
 </html>

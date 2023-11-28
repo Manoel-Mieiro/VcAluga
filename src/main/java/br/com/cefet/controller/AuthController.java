@@ -73,5 +73,13 @@ public class AuthController {
         System.out.println("Credenciais inválidas!");
         return mv;
     }
+    
+    
+	/*
+	 * @GetMapping("/sessoes") public String logout(HttpSession session) {
+	 * 
+	 * // Redireciona para a página de login após o logout return
+	 * "redirect:/sessoes"; }
+	 */
 }
 

@@ -146,7 +146,7 @@ public class ContratoController {
 	            this.contratoRepository.save(contrato);
 
 	            // Redirecione para a página do contrato recém-criado
-	            System.out.println("Lista de CNHs no contrato após toContrato: " + contrato.getCnhs());
+//	            System.out.println("Lista de CNHs no contrato após toContrato: " + contrato.getCnhs());
 	            System.out.println("ID do contrato: " + contrato.getIdContrato());
 	            return new ModelAndView("redirect:/contratos/" + contrato.getIdContrato());
 	        } else {

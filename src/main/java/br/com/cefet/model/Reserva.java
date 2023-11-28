@@ -30,9 +30,7 @@ public class Reserva {
 
 	@JoinColumn(name = "veiculoId")
 	private Veiculo veiculo;
-
-	// @ManyToMany // private Cliente cliente;
-
+	
 	@Column(nullable = false, name = "DataReserva")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
@@ -46,14 +44,9 @@ public class Reserva {
 	@Column(nullable = false, name = "ValorPago")
 	private float valorPago;
 	
-	@ManyToMany
-	@JoinTable(
-	    name = "cliente_reserva",
-	    joinColumns = @JoinColumn(name = "idReserva"),
-	    inverseJoinColumns = @JoinColumn(name = "idUsuario")
-	)
-	
-	private List<Cliente> clientes;
+	 @ManyToOne
+	    @JoinColumn(name = "id_cliente")
+	    private Cliente cliente;
 	
 	@Column(nullable = false)
 	private String status;
@@ -61,6 +54,20 @@ public class Reserva {
 	public Reserva() {
 		super();
 	}
+
+
+	
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+
 
 	public Categoria getCategoriaVeiculo() {
 		return veiculo.getCategoriaVeiculo();
@@ -201,16 +208,20 @@ public class Reserva {
 	}
 
 
-	public Reserva(Veiculo veiculo, Date dataReserva, Date dataDevolucao, float valorPago, String status,
-			List<Cliente> clientes) {
+
+	public Reserva(Veiculo veiculo, Date dataReserva, Date dataDevolucao, float valorPago, Cliente cliente,
+			String status) {
 		super();
 		this.veiculo = veiculo;
 		this.dataReserva = dataReserva;
 		this.dataDevolucao = dataDevolucao;
 		this.valorPago = valorPago;
+		this.cliente = cliente;
 		this.status = status;
-		this.clientes = clientes;
 	}
+
+
+
 
 	 
 

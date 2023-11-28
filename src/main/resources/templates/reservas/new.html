@@ -43,6 +43,16 @@
 					method="post">
 					<input type="hidden" name="veiculoId" th:value="${veiculo.id}">
 					<div class="mb-3">
+						<label class="form-lable">Nome do Cliente</label> <input
+							type="text" class="form-control" th:value="${cliente.nome + ' ' + cliente.sobrenome}"
+							readonly>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">CPF do Cliente</label> <input
+							type="text" class="form-control" th:field="${cliente.cpf}"
+							readonly>
+					</div>
+					<div class="mb-3">
 						<label class="form-lable">Marca</label> <input type="text"
 							class="form-control" th:value="${veiculo.marcaVeiculo}"
 							readonly="readonly">
