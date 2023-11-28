@@ -27,7 +27,7 @@ public class requisicaoManutencao {
 	private Date dataEntrada;
 	@NotNull(message = "A data de reserva não pode ser nula.")
 	private Date dataSaida;
-	
+	private String status;
 
 	public int getIdManutencao() {
 		return idManutencao;
@@ -84,6 +84,14 @@ public class requisicaoManutencao {
 	public void setDataSaida(Date dataSaida) {
 		this.dataSaida = dataSaida;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public Manutencao toManutencao() {
 		Manutencao manutencao = new Manutencao();
@@ -114,8 +122,10 @@ public class requisicaoManutencao {
 	@Override
 	public String toString() {
 		return "requisicaoManutencao [veiculo=" + veiculo + ", veiculoId=" + veiculoId + ", estacao=" + estacao
-				+ ", estacaoId=" + estacaoId + ", dataEntrada=" + dataEntrada + ", dataSaida=" + dataSaida + "]";
+				+ ", estacaoId=" + estacaoId + ", dataEntrada=" + dataEntrada + ", dataSaida=" + dataSaida + ", status="
+				+ status + "]";
 	}
+
 
 
 }

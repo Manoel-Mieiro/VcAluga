@@ -52,7 +52,7 @@ public class ManutencaoController {
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView("manutencoes/index");
 
-		List<Manutencao> manutencoes = this.manutencaoRepository.findAll();
+		List<Manutencao> manutencoes = this.manutencaoRepository.findByStatus("Corrente");
 		mv.addObject("manutencoes", manutencoes);
 
 		return mv;
@@ -135,6 +135,7 @@ public class ManutencaoController {
 
 				manutencao.setEstacao(estacao);
 				manutencao.setVeiculo(veiculo);
+				manutencao.setStatus("Corrente");
 				veiculo.setEmManutencao(true);
 				estacao.setStatus(Status.Reservado);
 				manutencao = requisicao.toManutencao(manutencao);
@@ -179,6 +180,34 @@ public class ManutencaoController {
 			return new ModelAndView("redirect:/manutencoes");
 		}
 	}
+	
+		
+		@GetMapping("/manutencoes/{idManutencao}/archive")
+		public String archive(@PathVariable Integer idManutencao) {
+		    try {
+		        Optional<Manutencao> optional = this.manutencaoRepository.findById(idManutencao);
+		        if (optional.isPresent()) {
+		            Manutencao manutencao = optional.get();
+		            Estacao estacao = manutencao.getEstacao();
+		            Veiculo veiculo = manutencao.getVeiculo();
+		            // Atualiza o status da estação para 'Livre'
+		            manutencao.setStatus("Arquivado");
+		            this.manutencaoRepository.save(manutencao);
+		            estacao.setStatus(Status.Livre);
+		            estacaoRepository.save(estacao);
+		            veiculo.setEmManutencao(false);
+		            veiculoRepository.save(veiculo);
+
+		            return "redirect:/manutencoes";
+		        } else {
+		            System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
+		            return "redirect:/manutencoes";
+		        }
+		    } catch (EmptyResultDataAccessException e) {
+		        System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
+		        return "redirect:/manutencoes";
+		    }
+		}
 
 	@GetMapping("/manutencoes/{idManutencao}/delete")
 	public String delete(@PathVariable Integer idManutencao) {

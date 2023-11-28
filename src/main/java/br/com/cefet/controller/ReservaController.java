@@ -203,26 +203,22 @@ public class ReservaController {
 		}
 	}
 
-	@PostMapping("/reservas/{idReserva}/archive")
-	public ModelAndView archive(@PathVariable Integer idReserva, @Valid requisicaoReserva requisicao,
-			BindingResult result) {
-		if (result.hasErrors()) {
-			System.out.println("\n**********************Invalid Input Found**************************\n");
-
-			ModelAndView mv = new ModelAndView("reservas/edit");
-			return mv;
-		} else {
+	@GetMapping("/reservas/{idReserva}/archive")
+	public String archive(@PathVariable Integer idReserva) {
+		 
 			Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
 			if (optional.isPresent()) {
 				Reserva reserva = optional.get();
 				reserva.setStatus("Arquivado");
+				Veiculo veiculo = reserva.getVeiculo();
+				veiculo.setStatus("Disponível");
+				veiculoRepository.save(veiculo);
 				this.reservaRepository.save(reserva);
-				return new ModelAndView("/reservas");
+				return "redirect:/veiculos";
 			} else {
 				System.out.println("Registro não consta no banco ou não foi encontrado.");
-				return new ModelAndView("redirect:/reservas");
+				return "redirect:/reservas";
 			}
-		}
 	}
 	
 	@GetMapping("/reservas/{idReserva}/delete")

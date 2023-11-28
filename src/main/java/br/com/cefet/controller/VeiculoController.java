@@ -39,8 +39,8 @@ public class VeiculoController {
 
 	@GetMapping("/veiculos")
 	public ModelAndView index() {
-		List<Veiculo> veiculos = this.veiculoRepository.findByStatus("Disponível");
-
+//		List<Veiculo> veiculos = this.veiculoRepository.findByStatus("Disponível");
+		List<Veiculo> veiculos = this.veiculoRepository.findByStatusAndEmManutencao("Disponível", false);
 		ModelAndView mv = new ModelAndView("veiculos/index");
 		mv.addObject("veiculos", veiculos);
 
