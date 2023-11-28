@@ -34,9 +34,17 @@ public class Cliente extends Usuario{
     private List<Reserva> reservas;
 	@OneToMany(mappedBy = "cliente")  
     private List<Motorista> motoristas;
+	@OneToMany(mappedBy = "cliente")
+    private List<Contrato> contratos;
 
 	
 	
+	public List<Contrato> getContratos() {
+		return contratos;
+	}
+	public void setContratos(List<Contrato> contratos) {
+		this.contratos = contratos;
+	}
 	public List<Motorista> getMotoristas() {
 		return motoristas;
 	}
@@ -89,7 +97,7 @@ public class Cliente extends Usuario{
 		super();
 	}
 	public Cliente(String endereco, String numero, String bairro, String cidade, String estado, Date dataNascimento,
-			List<Reserva> reservas, List<Motorista> motoristas) {
+			List<Reserva> reservas, List<Motorista> motoristas, List<Contrato> contratos) {
 		super();
 		this.endereco = endereco;
 		this.numero = numero;
@@ -99,8 +107,10 @@ public class Cliente extends Usuario{
 		this.dataNascimento = dataNascimento;
 		this.reservas = reservas;
 		this.motoristas = motoristas;
+		this.contratos = contratos;
 	}
 
+	
 	
 
 	

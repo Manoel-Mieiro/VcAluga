@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import br.com.cefet.model.Cliente;
+import br.com.cefet.model.Contrato;
 import br.com.cefet.model.Motorista;
 import br.com.cefet.model.Reserva;
 import jakarta.persistence.Temporal;
@@ -39,10 +40,22 @@ public class requisicaoCliente {
 	private Date dataNascimento;
 	private List<Reserva> reservas;
 	private List<Motorista> motoristas;
+	   private List<Contrato> contratos;
+
 	
 	
 	
 	
+public List<Contrato> getContratos() {
+		return contratos;
+	}
+
+
+	public void setContratos(List<Contrato> contratos) {
+		this.contratos = contratos;
+	}
+
+
 public List<Motorista> getMotoristas() {
 		return motoristas;
 	}
@@ -186,8 +199,11 @@ public requisicaoUsuario getRu() {
 	public String toString() {
 		return "requisicaoCliente [ru=" + ru + ", endereco=" + endereco + ", numero=" + numero + ", bairro=" + bairro
 				+ ", cidade=" + cidade + ", estado=" + estado + ", dataNascimento=" + dataNascimento + ", reservas="
-				+ reservas + ", motoristas=" + motoristas + "]";
+				+ reservas + ", motoristas=" + motoristas + ", contratos=" + contratos + "]";
 	}
+
+
+	
 	
 	
 	}

@@ -29,7 +29,16 @@
 					<input type="hidden" name="idReserva"
 						th:field="${reserva.idReserva}"> <input type="hidden"
 						name="idVeiculo" th:field="${veiculo.id}">
-
+					<div class="mb-3">
+						<label class="form-lable">Nome do Cliente</label> <input
+							type="text" class="form-control"
+							th:value="${cliente.nome + ' ' + cliente.sobrenome}" readonly>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">CPF do Cliente</label> <input
+							type="text" class="form-control" th:field="${cliente.cpf}"
+							readonly>
+					</div>
 					<!-- Campos da reserva -->
 					<div class="mb-3">
 						<label class="form-label">Placa do Veículo</label> <input
@@ -46,7 +55,7 @@
 							class="form-control" th:field="${veiculo.modeloVeiculo}"
 							readonly="readonly">
 					</div>
-				<div class="mb-3">
+					<div class="mb-3">
 						<label class="form-lable">CNPJ</label> <input type="text"
 							class="form-control" th:field="${filial.cnpj}"
 							readonly="readonly">
@@ -56,6 +65,16 @@
 							class="form-control" th:field="${veiculo.categoriaVeiculo}"
 							readonly="readonly">
 					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Selecione um Motorista</label> <select
+							class="form-control" th:field="*{motorista.idMotorista}">
+							<option th:each="motorista : ${motoristas}"
+								th:value="${motorista.idMotorista}"
+								th:text="${motorista.nome + ' ' + motorista.sobrenome}"></option>
+						</select>
+					</div>
+
 					<!-- Outros campos da reserva -->
 
 					<div class="mb-3">
@@ -106,7 +125,7 @@
 		integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- Adicionar/Remover CNHs -->
-	
+
 </body>
 
 </html>

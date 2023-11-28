@@ -38,8 +38,34 @@ public class Contrato {
     private Reserva reserva;
 	private String assinaturaGestor;
 	private String assinaturaCliente;
-	private Long cnh;
+
 	
+	@ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
+	
+	 @ManyToOne
+	    @JoinColumn(name = "id_motorista")
+	    private Motorista motorista;
+	
+	 
+	 
+	public Motorista getMotorista() {
+		return motorista;
+	}
+
+	public void setMotorista(Motorista motorista) {
+		this.motorista = motorista;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
 	public int getIdContrato() {
 		return idContrato;
 	}
@@ -91,14 +117,6 @@ public class Contrato {
 
 	
 	 
-	
-	public Long getCnh() {
-		return cnh;
-	}
-
-	public void setCnh(Long cnh) {
-		this.cnh = cnh;
-	}
 
 	public Reserva getReserva() {
 		return reserva;
@@ -113,7 +131,7 @@ public class Contrato {
 	}
 
 	public Contrato(Filial filial, Date dataEmissao, Veiculo veiculo, Reserva reserva, String assinaturaGestor,
-			String assinaturaCliente, Long cnh) {
+			String assinaturaCliente, Cliente cliente, Motorista motorista) {
 		super();
 		this.filial = filial;
 		this.dataEmissao = dataEmissao;
@@ -121,12 +139,14 @@ public class Contrato {
 		this.reserva = reserva;
 		this.assinaturaGestor = assinaturaGestor;
 		this.assinaturaCliente = assinaturaCliente;
-		this.cnh = cnh;
+		this.cliente = cliente;
+		this.motorista = motorista;
 	}
 
-
-
 	
+	
+
+
 
 	
 	
