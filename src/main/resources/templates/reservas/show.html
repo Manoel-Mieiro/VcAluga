@@ -19,6 +19,7 @@
         <div class="container mt-4">
             <div class="row">
                 <div class="col-24">
+                	<b>Nome Completo:</b> <span th:text="${cliente.nome + ' ' + cliente.sobrenome}"></span><br>
                     <b>Marca:</b> <span th:text="${reserva.veiculo?.marcaVeiculo}"></span><br>
                     <b>Modelo:</b> <span th:text="${reserva.veiculo?.modeloVeiculo}"></span><br/>
                     <b>Filial:</b> <span th:text="${reserva.veiculo?.branch.uf}"></span><br/>

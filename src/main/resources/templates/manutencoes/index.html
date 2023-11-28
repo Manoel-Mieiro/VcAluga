@@ -89,6 +89,7 @@
                     <th scope="col">Data de Saída</th>
                     <th scope="col">Detalhes</th>
                     <th scope="col">Cancelamento</th>
+                    <th scope="col">Liberação</th>
                 </tr>
                 </thead>
 <tbody>
@@ -101,7 +102,8 @@
         <td class="col-2" th:text="${manutencao.dataEntrada}">Data de Entrada</td>
         <td class="col-2" th:text="${manutencao.dataSaida}">Data de Saída</td>
         <td class="col-1"><a th:href="@{/manutencoes/{manutencaoId}(manutencaoId = ${manutencao.idManutencao})}">Detalhes</a></td>
-        <td class="col-1"><a th:href="@{/manutencoes/{manutencaoId}/delete(manutencaoId = ${manutencao.idManutencao})}">Desmarcar</a></td>  
+        <td class="col-1"><a th:href="@{/manutencoes/{manutencaoId}/delete(manutencaoId = ${manutencao.idManutencao})}">Desmarcar</a></td>
+        <td class="col-1"><a th:href="@{/manutencoes/{manutencaoId}/archive(manutencaoId = ${manutencao.idManutencao})}">Liberar Veículo</a></td>  
     </tr>
 </tbody>
             </table>

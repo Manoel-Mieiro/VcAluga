@@ -26,18 +26,29 @@
 		<div class="container">
 			<div class="row">
 				<!-- th: object atrela automaticamente o form ao objeto de requisição do pacote DTO -->
+
 				<form th:object="${requisicaoContrato}"
 					th:action="@{'/contratos/' + ${idContrato}}" method="post">
-<!-- 					<input type="hidden" name="idReserva"
+					<!-- <input type="hidden" name="idReserva"
 						th:field="${reserva.idReserva}"> <input type="hidden"
 						name="idVeiculo" th:field="${veiculo.id}">
+					<div class="mb-3">
+						<label class="form-lable">Nome do Cliente</label> <input
+							type="text" class="form-control"
+							th:value="${cliente.nome + ' ' + cliente.sobrenome}" readonly>
+					</div>
+					<div class="mb-3">
+						<label class="form-lable">CPF do Cliente</label> <input
+							type="text" class="form-control" th:field="${cliente.cpf}"
+							readonly>
+					</div>
 					Campos da reserva
 					<div class="mb-3">
 						<label class="form-label">Placa do Veículo</label> <input
 							type="text" class="form-control" th:field="${veiculo.placa}"
 							readonly="readonly">
-					</div> -->
-					<!-- <div class="mb-3">
+					</div>
+					<div class="mb-3">
 						<label class="form-lable">Marca</label> <input type="text"
 							class="form-control" th:field="${veiculo.marcaVeiculo}"
 							readonly="readonly">
@@ -57,6 +68,16 @@
 							class="form-control" th:field="${veiculo.categoriaVeiculo}"
 							readonly="readonly">
 					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Selecione um Motorista</label> <select
+							class="form-control" th:field="*{motorista.idMotorista}">
+							<option th:each="motorista : ${motoristas}"
+								th:value="${motorista.idMotorista}"
+								th:text="${motorista.nome + ' ' + motorista.sobrenome}"></option>
+						</select>
+					</div>
+
 					Outros campos da reserva
 
 					<div class="mb-3">
@@ -83,15 +104,6 @@
 							readonly="readonly">
 					</div>
 					<div class="mb-3">
-						<label for="cnhs">CNHs:</label> <input type="text"
-							class="form-control" id="cnhs" name="cnhs" th:field="*{cnhs}"
-							th:errorclass="is-invalid">
-						<div class="invalid-feedback" th:errors="*{cnhs}"></div>
-						<button type="button" onclick="adicionarCnh()">Adicionar
-							CNH</button>
-
-					</div>
-					<div class="mb-3">
 						<label class="form-label">Assinatura do Cliente</label> <input
 							type="text" class="form-control" th:field="*{assinaturaCliente}">
 						<div class="invalid-feedback" th:errors="*{assinaturaCliente}"></div>
@@ -100,10 +112,12 @@
 						<label class="form-label">Assinatura do Gestor</label> <input
 							type="text" class="form-control" th:field="*{assinaturaGestor}">
 						<div class="invalid-feedback" th:errors="*{assinaturaGestor}"></div>
-					</div>
- -->					<button class="btn btn-primary" type="submit">Editar</button>
-					<a href="javascript:history.back()">Voltar</a>
+					</div> -->
+					<!-- Outros campos do contrato -->
 
+					<button class="btn btn-primary" type="submit">Editar
+						Contrato</button>
+					<a href="javascript:history.back()">Voltar</a>
 				</form>
 			</div>
 		</div>
