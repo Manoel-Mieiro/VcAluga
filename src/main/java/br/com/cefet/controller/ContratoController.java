@@ -80,9 +80,19 @@ public class ContratoController {
 	@GetMapping("/contratos")
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView("contratos/index");
-
-		List<Contrato> contratos = this.contratoRepository.findAll();
-		mv.addObject("contratos", contratos);
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		if (cliente == null) {
+			System.out.println("Cliente nulo!");
+			return new ModelAndView("redirect:/sessoes");
+		}
+		
+			List<Contrato> contratos = this.contratoRepository.findByCliente(cliente);
+			List<Motorista> motoristas = this.motoristaRepository.findAll();
+			
+			mv.addObject("cliente", cliente);
+			mv.addObject("contratos", contratos);
+			mv.addObject("motoristas", motoristas);
 
 		return mv;
 	}
@@ -194,12 +204,20 @@ public class ContratoController {
 	public ModelAndView show(@PathVariable Integer idContrato) {
 
 		Optional<Contrato> optional = this.contratoRepository.findById(idContrato);
-
+		
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		if (cliente == null) {
+			System.out.println("Cliente nulo!");
+			return new ModelAndView("redirect:/sessoes");
+		}
+		
 		if (optional.isPresent()) {
 			Contrato contrato = optional.get();
 
 			ModelAndView mv = new ModelAndView("contratos/show");
 			mv.addObject("contrato", contrato);
+			mv.addObject("cliente", cliente);
 			return mv;
 		} else {
 			System.out.println("Registro não consta no banco ou não foi encontrado.");
@@ -210,13 +228,11 @@ public class ContratoController {
 	@GetMapping("/contratos/{idContrato}/edit")
 	public ModelAndView edit(@PathVariable Integer idContrato, requisicaoContrato requisicao) {
 		Optional<Contrato> optional = this.contratoRepository.findById(idContrato);
-
 		if (optional.isPresent()) {
 			System.out.printf("%d", idContrato);
 			Contrato contrato = optional.get();
 			requisicao.fromContrato(contrato);
 			ModelAndView mv = new ModelAndView("contratos/edit");
-
 			return mv;
 		} else {
 			System.out.println("Registro não consta no banco ou não foi encontrado.");
