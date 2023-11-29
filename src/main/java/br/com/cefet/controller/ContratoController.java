@@ -34,6 +34,7 @@ import br.com.cefet.model.Cliente;
 import br.com.cefet.model.Contrato;
 import br.com.cefet.model.Estacao;
 import br.com.cefet.model.Filial;
+import br.com.cefet.model.Funcionario;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Motorista;
 import br.com.cefet.model.Paletas;
@@ -82,19 +83,32 @@ public class ContratoController {
 		ModelAndView mv = new ModelAndView("contratos/index");
 		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
 		Cliente cliente = sessaoService.obterClienteDaSessao(session);
-		if (cliente == null) {
-			System.out.println("Não há contratos acossiados!");
-			return new ModelAndView("redirect:/sessoes");
-		}
-		
+		if (cliente != null) {
 			List<Contrato> contratos = this.contratoRepository.findByCliente(cliente);
 			List<Motorista> motoristas = this.motoristaRepository.findAll();
 			
 			mv.addObject("cliente", cliente);
 			mv.addObject("contratos", contratos);
 			mv.addObject("motoristas", motoristas);
+			return mv;
+			} 
+			else {
+				Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+				if (funcionario != null) {
+					List<Contrato> contratos = this.contratoRepository.findAll();
+					List<Motorista> motoristas = this.motoristaRepository.findAll();
+					mv.addObject("cliente", cliente);
+					mv.addObject("contratos", contratos);
+					mv.addObject("motoristas", motoristas);
+					return mv;
+			}
+			System.out.println("Não há contratos acossiados!");
+			return new ModelAndView("redirect:/sessoes");
+		}
+		
+			
 
-		return mv;
+		
 	}
 
 	@GetMapping("/contratos/new")
@@ -207,11 +221,11 @@ public class ContratoController {
 		
 		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
 		Cliente cliente = sessaoService.obterClienteDaSessao(session);
-		if (cliente == null) {
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		if (cliente == null && funcionario == null) {
 			System.out.println("Cliente nulo!");
 			return new ModelAndView("redirect:/sessoes");
 		}
-		
 		if (optional.isPresent()) {
 			Contrato contrato = optional.get();
 

@@ -19,7 +19,7 @@
         <div class="container mt-4">
             <div class="row">
                 <div class="col-24">
-                    <b>Nome Completo:</b> <span  th:text="${cliente.nome + ' ' + cliente.sobrenome}"></span><br>
+                    <b>Nome Completo:</b> <span  th:text="${contrato.cliente?.nome + ' ' + contrato.cliente?.sobrenome}"></span><br>
                 </div>
             </div>
             <br>

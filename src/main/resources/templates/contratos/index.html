@@ -93,7 +93,7 @@
     <tr th:each="contrato : ${contratos}">
     	<td class="col-1" th:text="${contrato.getIdContrato()}">ID</td>
         <td class="col-2" th:text="${contrato.reserva?.branch.cnpj}">CNPJ</td>
-        <td class="col-2" th:text="${cliente.nome + ' ' + cliente.sobrenome}">Cliente</td>
+        <td class="col-2" th:text="${contrato.cliente?.nome + ' ' + contrato.cliente?.sobrenome}">Cliente</td>
         <td class="col-3" th:text="${contrato.dataEmissao}">Data de Emissão</td>
         <td class="col-2" th:text="${contrato.motorista?.nome + ' ' + contrato.motorista.sobrenome}">Nome do Motorista</td>
         <td class="col-2" th:text="${contrato.motorista != null ? contrato.motorista.cnh : ''}">CNH</td>
