@@ -83,7 +83,7 @@ public class ContratoController {
 		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
 		Cliente cliente = sessaoService.obterClienteDaSessao(session);
 		if (cliente == null) {
-			System.out.println("Cliente nulo!");
+			System.out.println("Não há contratos acossiados!");
 			return new ModelAndView("redirect:/sessoes");
 		}
 		

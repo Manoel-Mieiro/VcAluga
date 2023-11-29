@@ -33,10 +33,15 @@ public class SessaoService {
 	    }
 	    
 	    
-	    public Usuario obterDadosSessao(HttpSession session) {
-	       
-	            return (Usuario) session.getAttribute("usuarioLogado");
-	       
+	    public Usuario obterDadosSessao(HttpSession session, Conta conta) {
+	    	 if (conta == Conta.Cliente) {
+	    		 return (Cliente) session.getAttribute("clienteLogado");
+	    	 } else if (conta == Conta.Funcionário) {
+	    		 return (Funcionario) session.getAttribute("funcionarioLogado");
+	    	 } else {
+	    		 return null;
+	    	 }
+	    	 
 	    }
 	    
 	    public void limparDadosSessao(HttpSession session, Conta conta) {

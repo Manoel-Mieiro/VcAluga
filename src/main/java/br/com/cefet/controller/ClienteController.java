@@ -110,7 +110,7 @@ public class ClienteController {
 	        Cliente cliente = sessaoService.obterClienteDaSessao(session);
 	        System.out.println("Cliente: " + cliente);
 	        if (cliente != null) {
-	            ModelAndView mv = new ModelAndView("clientes/profile");
+	            ModelAndView mv = new ModelAndView("clientes/profile"	);
 	            mv.addObject("cliente", cliente);
 	            return mv;
 	        } else {

@@ -45,7 +45,7 @@ public class FuncionarioController {
 
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
-	
+
 	@Autowired
 	private SessaoService sessaoService;
 
@@ -61,18 +61,48 @@ public class FuncionarioController {
 
 	@GetMapping("/funcionarios/new")
 	public ModelAndView novo() {
-		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
-		Usuario usuario = sessaoService.obterDadosSessao(session);
-		System.out.println("Tipo - " + usuario.getTipo());
-		if (usuario == null || usuario.getTipo() != Conta.Funcionário) {
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario usuario = sessaoService.obterFuncionarioDaSessao(session);
+		if (usuario == null) {
 			System.out.println("Acesso negado!");
 			return new ModelAndView("redirect:/sessoes");
+		} else if (usuario.getCargo() != Cargo.Gerente) {
+			System.out.println("Acesso restrito a gerentes");
+			return new ModelAndView("redirect:/sessoes");
+		} else {
+			ModelAndView mv = new ModelAndView("funcionarios/new");
+			mv.addObject("cargo", Cargo.values());
+			return mv;
 		}
-		ModelAndView mv = new ModelAndView("funcionarios/new");
-		mv.addObject("cargo", Cargo.values());
-		return mv;
 
 	}
+	
+	
+	@GetMapping("/funcionarios/profile/{sessionId}")
+	public ModelAndView profile(@PathVariable String sessionId) {
+	    // Obter a sessão
+	    HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+	    System.out.println("Session ID de session - " + session);
+	    
+	    // Verificar se o sessionId corresponde ao da sessão atual
+	    if (session.getId().equals(sessionId)) {
+	        Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+	        System.out.println("Funcionario: " + funcionario);
+	        if (funcionario != null) {
+	            ModelAndView mv = new ModelAndView("funcionarios/profile");
+	            mv.addObject("funcionario", funcionario);
+	            return mv;
+	        } else {
+	            System.out.println("Funcionario: " + funcionario);
+	            return new ModelAndView("redirect:/sessoes");
+	        }
+	    } else {
+	        System.out.println("Sessão indevida");
+	        return new ModelAndView("redirect:/sessoes");
+	    }
+	}
+
 
 	@ModelAttribute(value = "requisicaoFuncionario")
 	public requisicaoFuncionario getRequisicaoFuncionario() {
@@ -102,7 +132,7 @@ public class FuncionarioController {
 
 				// Adicione a mensagem de erro ao RedirectAttributes se necessário
 				redirectAttributes.addFlashAttribute("error", error.getDefaultMessage());
-				
+
 			}
 			mv.addObject("cargo", Cargo.values());
 			return mv;
@@ -118,7 +148,7 @@ public class FuncionarioController {
 			funcionario.setSenha(usuario.getSenha());
 			funcionario.setTelefone(usuario.getTelefone());
 			funcionario.setCpf(usuario.getCpf());
-		    funcionario = requisicao.toFuncionario(funcionario);
+			funcionario = requisicao.toFuncionario(funcionario);
 
 			this.funcionarioRepository.save(funcionario);
 
