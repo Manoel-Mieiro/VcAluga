@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import br.com.cefet.model.Cliente;
 import br.com.cefet.model.Conta;
 import br.com.cefet.model.Funcionario;
+import br.com.cefet.model.Usuario;
 import jakarta.servlet.http.HttpSession;
 
 @Service
@@ -26,6 +27,18 @@ public class SessaoService {
 	        return (Funcionario) session.getAttribute("funcionarioLogado");
 	    }
 
+	    
+	    public void armazenarDadosSessao(HttpSession session,Usuario usuario) {
+	            session.setAttribute("usuarioLogado", usuario);
+	    }
+	    
+	    
+	    public Usuario obterDadosSessao(HttpSession session) {
+	       
+	            return (Usuario) session.getAttribute("usuarioLogado");
+	       
+	    }
+	    
 	    public void limparDadosSessao(HttpSession session, Conta conta) {
 	        if (conta == Conta.Cliente) {
 	            session.removeAttribute("clienteLogado");

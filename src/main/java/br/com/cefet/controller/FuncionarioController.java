@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -31,6 +33,8 @@ import br.com.cefet.model.Usuario;
 import br.com.cefet.repository.ClienteRepository;
 import br.com.cefet.repository.FuncionarioRepository;
 import br.com.cefet.repository.UsuarioRepository;
+import br.com.cefet.service.SessaoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -41,6 +45,9 @@ public class FuncionarioController {
 
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
+	
+	@Autowired
+	private SessaoService sessaoService;
 
 //	@GetMapping("/usuarios/clientes")
 //	public ModelAndView index() {
@@ -54,7 +61,13 @@ public class FuncionarioController {
 
 	@GetMapping("/funcionarios/new")
 	public ModelAndView novo() {
-
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+		Usuario usuario = sessaoService.obterDadosSessao(session);
+		System.out.println("Tipo - " + usuario.getTipo());
+		if (usuario == null || usuario.getTipo() != Conta.Funcionário) {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/sessoes");
+		}
 		ModelAndView mv = new ModelAndView("funcionarios/new");
 		mv.addObject("cargo", Cargo.values());
 		return mv;
@@ -101,7 +114,7 @@ public class FuncionarioController {
 			funcionario.setNome(usuario.getNome());
 			funcionario.setSobrenome(usuario.getSobrenome());
 			funcionario.setEmail(usuario.getEmail());
-			funcionario.setTipo(usuario.getTipo());
+			funcionario.setTipo(Conta.Funcionário);
 			funcionario.setSenha(usuario.getSenha());
 			funcionario.setTelefone(usuario.getTelefone());
 			funcionario.setCpf(usuario.getCpf());

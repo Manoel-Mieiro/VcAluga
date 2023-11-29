@@ -14,67 +14,75 @@ import br.com.cefet.dto.requisicaoUsuario;
 import br.com.cefet.model.Cliente;
 import br.com.cefet.model.Conta;
 import br.com.cefet.model.Funcionario;
+import br.com.cefet.model.Usuario;
 import br.com.cefet.service.AuthService;
 import br.com.cefet.service.SessaoService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class AuthController {
-    @Autowired
-    private AuthService authService;
-    
-    @Autowired
-    private SessaoService sessaoService;
+	@Autowired
+	private AuthService authService;
 
-    @GetMapping("/sessoes")
-    public ModelAndView showLoginForm() {
-        ModelAndView mv;
+	@Autowired
+	private SessaoService sessaoService;
 
-        // Verifica se há um cliente na sessão
-        HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
-        Cliente cliente = sessaoService.obterClienteDaSessao(session);
+	@GetMapping("/sessoes")
+	public ModelAndView showLoginForm() {
+		ModelAndView mv;
 
-        if (cliente != null) {
-            System.out.println("Cliente - " + cliente);
-            mv = new ModelAndView("redirect:/clientes/profile/" + session.getId());
-        } else {
-            mv = new ModelAndView("sessoes/login");
-            requisicaoUsuario ru = new requisicaoUsuario();
-            mv.addObject("tipo", Conta.values());
-        }
+		// Verifica se há um cliente na sessão
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Cliente cliente = sessaoService.obterClienteDaSessao(session);
 
-        return mv;
-    }
+		if (cliente != null) {
+			System.out.println("Cliente - " + cliente);
+			mv = new ModelAndView("redirect:/clientes/profile/" + session.getId());
+		} else {
+			mv = new ModelAndView("sessoes/login");
+			requisicaoUsuario ru = new requisicaoUsuario();
+			mv.addObject("tipo", Conta.values());
+		}
 
+		return mv;
+	}
 
-    @PostMapping("/sessoes")
-    public ModelAndView processLogin(@RequestParam String cpf, @RequestParam String senha, @RequestParam String tipo,  HttpSession session) {
-    	 Conta conta = Conta.valueOf(tipo);
-    	 System.out.println("Tipo da conta - " + conta);
-        ModelAndView mv = new ModelAndView("/sessoes/login");
-        if (conta == Conta.Cliente) {
-            System.out.println("Cai no cliente");
-            Cliente cliente = authService.autenticarCliente(cpf, senha);
-            if (cliente != null) {
-            	 sessaoService.armazenarDadosCliente(session, cliente);
-            	 System.out.println("Sessao - " + session.getId());
-                return new ModelAndView("redirect:/usuarios");
-            }
-        } else if (conta == Conta.Funcionário) {
-            System.out.println("Cai no funça");
-            Funcionario funcionario = authService.autenticarFuncionario(cpf, senha);
-            if (funcionario != null) {
-            	sessaoService.armazenarDadosFuncionario(session, funcionario);
-           	 System.out.println("Sessao - " + session.getId());
-                return new ModelAndView("redirect:/usuarios");
-            }
-        }
+	@PostMapping("/sessoes")
+	public ModelAndView processLogin(@RequestParam String cpf, @RequestParam String senha, /*@RequestParam String tipo,*/
+			HttpSession session) {
+//    	 Conta conta = Conta.valueOf(tipo);
+//    	 System.out.println("Tipo da conta - " + conta);
+		ModelAndView mv = new ModelAndView("/sessoes/login");
+//        if (conta == Conta.Cliente) {
+//            System.out.println("Cai no cliente");
+//            Cliente cliente = authService.autenticarCliente(cpf, senha);
+//            if (cliente != null) {
+//            	 sessaoService.armazenarDadosCliente(session, cliente);
+//            	 System.out.println("Sessao - " + session.getId());
+//                return new ModelAndView("redirect:/usuarios");
+//            }
+//        } else if (conta == Conta.Funcionário) {
+//            System.out.println("Cai no funça");
+//            Funcionario funcionario = authService.autenticarFuncionario(cpf, senha);
+//            if (funcionario != null) {
+//            	sessaoService.armazenarDadosFuncionario(session, funcionario);
+//           	 System.out.println("Sessao - " + session.getId());
+//                return new ModelAndView("redirect:/usuarios");
+//            }
+//        }
+		Usuario usuario = authService.autenticarUsuario(cpf, senha);
+		if (usuario != null) {
+			sessaoService.armazenarDadosSessao(session, usuario);
+			System.out.println("Sessao - " + session.getId());
+			return new ModelAndView("redirect:/usuarios");
+		} else {
+			System.out.println("Credenciais inválidas!");
+		}
+		return mv;
+		
+	}
 
-        System.out.println("Credenciais inválidas!");
-        return mv;
-    }
-    
-    
 	/*
 	 * @GetMapping("/sessoes") public String logout(HttpSession session) {
 	 * 
@@ -82,4 +90,3 @@ public class AuthController {
 	 * "redirect:/sessoes"; }
 	 */
 }
-

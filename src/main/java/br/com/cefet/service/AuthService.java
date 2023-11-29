@@ -48,4 +48,13 @@ public class AuthService {
         return userOptional.isPresent() && userOptional.get().getSenha().equals(senha);
     }
     
+    
+    public Usuario autenticarUsuario(String cpf, String senha) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByCpf(cpf);
+        if (usuarioOptional.isPresent() && usuarioOptional.get().getSenha().equals(senha)) {
+            return usuarioOptional.get();
+        }
+        return null;
+    }
+    
 }

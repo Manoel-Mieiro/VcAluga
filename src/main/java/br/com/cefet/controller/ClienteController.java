@@ -165,7 +165,7 @@ public class ClienteController {
 			cliente.setNome(usuario.getNome());
 			cliente.setSobrenome(usuario.getSobrenome());
 			cliente.setEmail(usuario.getEmail());
-			cliente.setTipo(usuario.getTipo());
+			cliente.setTipo(Conta.Cliente);
 			cliente.setSenha(usuario.getSenha());
 			cliente.setTelefone(usuario.getTelefone());
 			cliente.setCpf(usuario.getCpf());
