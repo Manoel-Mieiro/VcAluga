@@ -82,10 +82,13 @@
         <p><strong>Data de Nascimento:</strong> <span th:text="${#dates.format(cliente.dataNascimento, 'dd/MM/yyyy')}"></span></p>
     </div>
     
-    <form method="post" action="/logout">
+<form id="logoutForm" method="post" action="/logout">
+    <input type="hidden" name="tipo" value="Cliente">
     <button type="submit">Logout</button>
 </form>
-    
+
+
    </div>
+   
 </body>
 </html>

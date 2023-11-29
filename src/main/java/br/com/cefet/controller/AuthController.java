@@ -79,6 +79,15 @@ public class AuthController {
 		System.out.println("Credenciais inválidas!");
 		return mv;
 	}
+	
+	@PostMapping("/logout") 
+	public ModelAndView logout (HttpSession session, @RequestParam String tipo) {
+		ModelAndView mv = new ModelAndView("redirect:/veiculos");
+		Conta conta = Conta.valueOf(tipo);
+		System.out.println("Tipo da conta - " + conta);
+		sessaoService.limparDadosSessao(session, conta);
+		return mv;
+	}
 
 	/*
 	 * @GetMapping("/sessoes") public String logout(HttpSession session) {

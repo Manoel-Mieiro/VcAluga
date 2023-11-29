@@ -78,10 +78,14 @@
         <p><strong>Cargo:</strong> <span th:text="${funcionario.cargo}"></span></p>
     </div>
     
-    <form method="post" action="/logout">
+<form id="logoutForm" method="post" action="/logout">
+    <input type="hidden" name="tipo" value="Funcionário">
     <button type="submit">Logout</button>
 </form>
+
     
    </div>
+   
+   
 </body>
 </html>
