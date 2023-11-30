@@ -21,7 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.cefet.dto.requisicaoMotorista;
 import br.com.cefet.model.Cliente;
+import br.com.cefet.model.Funcionario;
 import br.com.cefet.model.Motorista;
+import br.com.cefet.model.Reserva;
 import br.com.cefet.repository.ClienteRepository;
 import br.com.cefet.repository.MotoristaRepository;
 import br.com.cefet.service.AuthService;
@@ -44,10 +46,33 @@ public class MotoristaController {
 	@GetMapping("/motoristas")
 	public ModelAndView index() {
 
-		List<Motorista> motoristas = this.motoristaRepository.findAll();
+//		List<Motorista> motoristas = this.motoristaRepository.findAll();
 
 		ModelAndView mv = new ModelAndView("motoristas/index");
-		mv.addObject("motoristas", motoristas);
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		
+		if (funcionario == null && cliente == null) {
+			System.out.println("Sessão vazia!");
+			return new ModelAndView("redirect:/sessoes");
+
+		} else {
+			if (funcionario != null) {
+				List<Motorista> motoristas = this.motoristaRepository.findAll();
+				mv.addObject("motoristas", motoristas);
+			}
+			if (cliente != null) {
+				List<Motorista> motoristas = this.motoristaRepository.findByCliente(cliente);
+				if (motoristas.isEmpty()) {
+					System.out.println("Não há motoristas cadastrados!");
+					return new ModelAndView("redirect:/motoristas/new");
+				}
+				mv.addObject("motoristas", motoristas);
+			}
+		}
+//		mv.addObject("motoristas", motoristas);
 
 		return mv;
 	}

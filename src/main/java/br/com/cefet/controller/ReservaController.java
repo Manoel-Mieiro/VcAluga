@@ -25,9 +25,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.cefet.dto.requisicaoReserva;
 import br.com.cefet.model.Cliente;
 import br.com.cefet.model.Funcionario;
+import br.com.cefet.model.Motorista;
 import br.com.cefet.model.Reserva;
 import br.com.cefet.model.Veiculo;
 import br.com.cefet.repository.ClienteRepository;
+import br.com.cefet.repository.MotoristaRepository;
 import br.com.cefet.repository.ReservaRepository;
 import br.com.cefet.repository.VeiculoRepository;
 import br.com.cefet.service.SessaoService;
@@ -44,6 +46,10 @@ public class ReservaController {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private MotoristaRepository motoristaRepository;
+
 
 	@Autowired
 	private SessaoService sessaoService;
@@ -55,6 +61,7 @@ public class ReservaController {
 				.getSession();
 		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
 		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		
 		if (funcionario == null && cliente == null) {
 			System.out.println("Sessão vazia!");
 			return new ModelAndView("redirect:/sessoes");
@@ -79,6 +86,12 @@ public class ReservaController {
 		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
 				.getSession();
 		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		List<Motorista> motorista = motoristaRepository.findByCliente(cliente);
+		System.out.println("Motoristas - " + motorista);
+		if (motorista.isEmpty()) {
+			System.out.println("Cadastre um motorista para incluir no contrato");
+			return new ModelAndView("redirect:/motoristas");
+		}
 		if (cliente == null) {
 			System.out.println("Cliente nulo!");
 			return new ModelAndView("redirect:/sessoes");
