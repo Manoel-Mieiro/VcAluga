@@ -1,6 +1,7 @@
 package br.com.cefet.controller;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,13 +15,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.cefet.dto.requisicaoNF;
+import br.com.cefet.model.Cliente;
 import br.com.cefet.model.Contrato;
+import br.com.cefet.model.Funcionario;
+import br.com.cefet.model.Motorista;
 import br.com.cefet.model.NF;
 import br.com.cefet.repository.ContratoRepository;
 import br.com.cefet.repository.NFRepository;
+import br.com.cefet.service.SessaoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -31,16 +39,44 @@ public class NFController {
 
 	@Autowired
 	private ContratoRepository contratoRepository;
+	
+	@Autowired
+	private SessaoService sessaoService;
 
 	@GetMapping("/nfs")
 	public ModelAndView index() {
 
-		List<NF> nfs = this.nfRepository.findAll();
-		System.out.println("LIsta de NFS: " + nfs);
+//		List<NF> nfs = this.nfRepository.findAll();
+//		System.out.println("LIsta de NFS: " + nfs);
 		ModelAndView mv = new ModelAndView("nfs/index");
-		mv.addObject("nfs", nfs);
+		
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		if (cliente != null) {
+			List<Contrato> contratos = contratoRepository.findByCliente(cliente);
+			List<NF> nfs = new ArrayList<>();
 
-		return mv;
+			  for (Contrato contrato : contratos) {
+		            List<NF> notasFiscaisDoContrato = nfRepository.findByContrato(contrato);
+		            nfs.addAll(notasFiscaisDoContrato);
+		        }
+			  
+			  mv.addObject("cliente", cliente);
+		      mv.addObject("nfs", nfs);
+			
+			return mv;
+			} 
+			else {
+				Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+				if (funcionario != null) {
+					List<NF> nfs = this.nfRepository.findAll();
+					mv.addObject("nfs", nfs);
+					return mv;
+			}
+			System.out.println("Não há contratos acossiados!");
+			return new ModelAndView("redirect:/sessoes");
+		}
+//		mv.addObject("nfs", nfs);
 	}
 
 	@GetMapping("/nfs/{contratoId}/new")

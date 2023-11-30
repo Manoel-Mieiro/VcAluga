@@ -267,6 +267,13 @@ public class ReservaController {
 
 	@GetMapping("/reservas/{idReserva}/delete")
 	public String delete(@PathVariable Integer idReserva) {
+		Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
+		if (optional.isPresent()) {
+			Reserva reserva = optional.get();
+			Veiculo veiculo = reserva.getVeiculo();
+			veiculoRepository.save(veiculo);
+			veiculo.setStatus("Disponível");
+		}
 		try {
 			this.reservaRepository.deleteById(idReserva);
 			return "redirect:/reservas";

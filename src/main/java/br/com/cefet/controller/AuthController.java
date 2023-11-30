@@ -64,7 +64,7 @@ public class AuthController {
 			if (cliente != null) {
 				sessaoService.armazenarDadosCliente(session, cliente);
 				System.out.println("Sessao - " + session.getId());
-				return new ModelAndView("redirect:/usuarios");
+				return new ModelAndView("redirect:/veiculos");
 			}
 		} else if (conta == Conta.Funcionário) {
 			System.out.println("Cai no funça");
