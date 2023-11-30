@@ -1,5 +1,8 @@
 package br.com.cefet.controller;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,10 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.cefet.dto.requisicaoNF;
+import br.com.cefet.model.Contrato;
 import br.com.cefet.model.NF;
+import br.com.cefet.repository.ContratoRepository;
 import br.com.cefet.repository.NFRepository;
 import jakarta.validation.Valid;
 
@@ -23,6 +29,9 @@ public class NFController {
 
 	@Autowired
 	private NFRepository nfRepository;
+
+	@Autowired
+	private ContratoRepository contratoRepository;
 
 	@GetMapping("/nfs")
 	public ModelAndView index() {
@@ -35,12 +44,34 @@ public class NFController {
 		return mv;
 	}
 
-	@GetMapping("/nfs/new")
-	public ModelAndView novo() {
-
+	@GetMapping("/nfs/{contratoId}/new")
+	public ModelAndView novo(@PathVariable ("contratoId") int contratoId) {
 		ModelAndView mv = new ModelAndView("nfs/new");
 
-		return mv;
+		// Carregue o Contrato com base no ID
+		 Optional<Contrato> contratoOptional = contratoRepository.findById(contratoId);
+		 
+		    if (contratoOptional.isPresent()) {
+		        Contrato contrato = contratoOptional.get();
+		        NF nf = new NF();
+		        nf.setContrato(contrato);
+//		        LocalDate inicio = contrato.getReserva().getDataReserva().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//		        LocalDate fim = contrato.getReserva().getDataDevolucao().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		        LocalDate today = LocalDate.now();
+//		        nf.setValorSemImposto(nf.calcularValorSemImposto(inicio, fim));
+//		        nf.setValorDoImposto(nf.calcularValorImposto(inicio, fim));
+//		        nf.setValorTotal(nf.calcularTotal(inicio, fim));
+		        nf.setDataEmissao(today);
+		        nf.setNumeroNF(nf.gerarNumeroNF());
+		        this.nfRepository.save(nf);
+		        
+		        System.out.println("Número da NF gerado: " + nf.getNumeroNF());
+		        mv.addObject("nf", nf);
+			return mv;
+		} else {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/veiculos");
+		}
 
 	}
 
@@ -82,7 +113,6 @@ public class NFController {
 			return new ModelAndView("redirect:/nf");
 		}
 	}
-
 
 	@GetMapping("/nfs/{idNF}/delete")
 	public String delete(@PathVariable Integer idNF) {
