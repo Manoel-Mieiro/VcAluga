@@ -119,18 +119,21 @@ public float getValorTotal() {
 public NF toNF() {
 		NF nf = new NF();
 		nf.setNumeroNF(this.numeroNF);
+		nf.setDataEmissao(this.dataEmissao);
 		
 		return nf;
 	} 
 
 public NF toNF(NF nf) {
 	nf.setNumeroNF(this.numeroNF);
+	nf.setDataEmissao(this.dataEmissao);
 	
 	return nf;
 } 
 
 public void fromNF(NF nf) {
 	this.numeroNF = nf.getNumeroNF();
+	this.dataEmissao = nf.getDataEmissao();
 	
 }
 

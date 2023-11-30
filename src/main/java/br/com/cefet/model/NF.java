@@ -1,10 +1,9 @@
 package br.com.cefet.model;
 
-import java.time.temporal.ChronoUnit;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,7 +34,7 @@ public class NF {
 	@Column(nullable = false, name = "data_emissao")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
-	private LocalDate dataEmissao;
+	private Date dataEmissao;
 //	@Column(nullable = false)
 //	private Date dataVencimento;
 	@Column(nullable = false)
@@ -76,11 +75,11 @@ public class NF {
 		this.contrato = contrato;
 	}
 
-	public LocalDate getDataEmissao() {
+	public Date getDataEmissao() {
 		return dataEmissao;
 	}
 
-	public void setDataEmissao(LocalDate today) {
+	public void setDataEmissao(Date today) {
 		this.dataEmissao = today;
 	}
 
@@ -118,7 +117,7 @@ public class NF {
 
 
 
-	public NF(int numeroNF, float valorTotal, float valorSemImposto, Contrato contrato, LocalDate dataEmissao,
+	public NF(int numeroNF, float valorTotal, float valorSemImposto, Contrato contrato, Date dataEmissao,
 			float valorDoImposto) {
 		super();
 		this.numeroNF = gerarNumeroNF();
@@ -130,21 +129,21 @@ public class NF {
 	}
 
 
-	public Float calcularValorSemImposto(LocalDate inicio, LocalDate fim) {
-	    if (contrato != null && contrato.getReserva() != null && inicio != null && fim != null) {
-	        long diferencaDias = ChronoUnit.DAYS.between(inicio, fim) + 1;
-	        float valorDiaria = contrato.getReserva().getValorPago();
+    public Float calcularValorSemImposto(Date inicio, Date fim) {
+        if (contrato != null && contrato.getReserva() != null && inicio != null && fim != null) {
+            long diferencaDias = calcularDiferencaEmDias(inicio, fim) + 1;
+            float valorDiaria = contrato.getReserva().getValorPago();
 
-	        return valorDiaria * diferencaDias;
-	    } else {
-	        return null;
-	    }
-	}
+            return valorDiaria * diferencaDias;
+        } else {
+            return null;
+        }
+    }
 
 
 
 	
-	public Float calcularValorImposto(LocalDate inicio, LocalDate fim) {
+	public Float calcularValorImposto(Date inicio, Date fim) {
         if (contrato != null && contrato.getReserva() != null && inicio != null && fim != null) {
             return calcularValorSemImposto(inicio, fim) * aliquota;
         } else {
@@ -153,9 +152,9 @@ public class NF {
     }
 	
 
-	public Float calcularTotal(LocalDate inicio, LocalDate fim) {
+	public Float calcularTotal(Date inicio, Date fim) {
         if (contrato != null && contrato.getReserva() != null && inicio != null && fim != null) {
-            return calcularValorSemImposto(inicio, fim) * (1 - aliquota);
+            return calcularValorSemImposto(inicio, fim) * (1 + aliquota);
         } else {
             return null;
         }
@@ -164,6 +163,15 @@ public class NF {
 	  public int gerarNumeroNF() {
 	        Random random = new Random();
 	        return 100_000 + random.nextInt(900_000); // Gera um número aleatório entre 100.000 e 999.999
+	    }
+	  
+	  private long calcularDiferencaEmDias(Date inicio, Date fim) {
+	        long dateBeforeInMs = inicio.getTime();
+	        long dateAfterInMs = fim.getTime();
+
+	        long timeDiff = Math.abs(dateAfterInMs - dateBeforeInMs);
+
+	        return TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
 	    }
 	
 }

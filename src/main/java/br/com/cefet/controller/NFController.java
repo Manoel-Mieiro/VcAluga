@@ -1,7 +1,6 @@
 package br.com.cefet.controller;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -55,12 +54,16 @@ public class NFController {
 		        Contrato contrato = contratoOptional.get();
 		        NF nf = new NF();
 		        nf.setContrato(contrato);
-//		        LocalDate inicio = contrato.getReserva().getDataReserva().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//		        LocalDate fim = contrato.getReserva().getDataDevolucao().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		        LocalDate today = LocalDate.now();
-//		        nf.setValorSemImposto(nf.calcularValorSemImposto(inicio, fim));
-//		        nf.setValorDoImposto(nf.calcularValorImposto(inicio, fim));
-//		        nf.setValorTotal(nf.calcularTotal(inicio, fim));
+		        
+		        Date inicio = contrato.getReserva().getDataReserva();
+		        Date fim = contrato.getReserva().getDataDevolucao();
+		        System.out.println("Data Incio - " + inicio);
+		        System.out.println("Data Fim - " + fim);
+		        Date today = new Date();
+		        System.out.println("Today's - " + today);
+		        nf.setValorSemImposto(nf.calcularValorSemImposto(inicio, fim));
+		        nf.setValorDoImposto(nf.calcularValorImposto(inicio, fim));
+		        nf.setValorTotal(nf.calcularTotal(inicio, fim));
 		        nf.setDataEmissao(today);
 		        nf.setNumeroNF(nf.gerarNumeroNF());
 		        this.nfRepository.save(nf);
@@ -80,22 +83,7 @@ public class NFController {
 		return new requisicaoNF();
 	}
 
-	@PostMapping("/nfs")
-	public ModelAndView create(@Valid requisicaoNF requisicao, BindingResult result) {
-		if (result.hasErrors()) {
-			System.out.println("\n**********************Invalid Input Found**************************\n");
-			ModelAndView mv = new ModelAndView("/nfs/new");
-			return mv;
-		} else {
-			NF nf = new NF();
-			nf = requisicao.toNF();
 
-			// Create do CRUD
-			this.nfRepository.save(nf);
-			System.out.println("ID da nova Nota Fiscal: " + nf.getIdNF());
-			return new ModelAndView("redirect:/nfs/" + nf.getIdNF());
-		}
-	}
 
 	@GetMapping("/nfs/{idNF}")
 	public ModelAndView show(@PathVariable Integer idNF) {

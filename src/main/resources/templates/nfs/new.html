@@ -34,21 +34,22 @@
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Nome</label>
-						<p th:text="${nf.contrato.cliente?.nome + ' ' + nf.contrato.cliente?.sobrenome}"></p>
+						<p
+							th:text="${nf.contrato.cliente?.nome + ' ' + nf.contrato.cliente?.sobrenome}"></p>
 					</div>
 
 					<!-- Outros campos da Nota Fiscal -->
 					<!-- Exemplo: Valor Total -->
 					<div class="mb-3">
 						<label class="form-label">Valor Total</label>
-						<p th:text="*{valorTotal}"></p>
+						<p th:text="${nf.valorTotal}"></p>
 					</div>
 
 					<!-- Campo oculto para o ID do Contrato -->
 					<input type="hidden" th:field="*{contrato.idContrato}" />
 
 					<!-- Botões de ação -->
-					<button class="btn btn-primary" type="submit">Emitir</button>
+
 					<a href="javascript:history.back()" class="btn btn-secondary">Voltar</a>
 				</form>
 
