@@ -4,6 +4,7 @@
     --bar-color: rgba(224, 68, 47, 1);
     --text-color: rgba(0, 0, 0, 0.76);
     --navbar-color: rgba(87, 117, 144, 1);
+    --history-color: rgba(87, 117, 144, 0.3);
 }
 
 body {
@@ -95,4 +96,13 @@ button:hover {
     right: 1em;
     margin-right: 1em;
 }
+
+.fa-clock-rotate-left{
+    color: var(--navbar-color);
+}
+
+.fa-clock-rotate-left:hover {
+    color: var(--history-color);
+}
+
 /* End History btn*/
