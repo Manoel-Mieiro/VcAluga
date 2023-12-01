@@ -31,9 +31,11 @@ import br.com.cefet.dto.requisicaoReserva;
 import br.com.cefet.dto.requisicaoVeiculo;
 import br.com.cefet.model.Categoria;
 import br.com.cefet.model.Cliente;
+import br.com.cefet.model.Contrato;
 import br.com.cefet.model.Estacao;
 import br.com.cefet.model.Funcionario;
 import br.com.cefet.model.Marca;
+import br.com.cefet.model.Motorista;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Status;
 import br.com.cefet.model.Usuario;
@@ -110,6 +112,33 @@ public class ManutencaoController {
 		} else {
 			System.out.println("Veículo não encontrado.");
 			return new ModelAndView("redirect:/veiculos");
+		}
+	}
+	
+	
+	@GetMapping("/manutencoes/archive")
+	public ModelAndView historico() {
+		ModelAndView mv = new ModelAndView("manutencoes/archive");
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		if (cliente != null) {
+			List<Manutencao> manutencoes = this.manutencaoRepository.findByStatusAndUsuario("Arquivado", cliente);
+			
+			mv.addObject("cliente", cliente);
+			mv.addObject("manutencoes", manutencoes);
+			return mv;
+			} 
+			else {
+				Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+				if (funcionario != null) {
+					List<Manutencao> manutencoes = this.manutencaoRepository.findByStatus("Arquivado");
+					
+					mv.addObject("funcionario", funcionario);
+					mv.addObject("manutencoes", manutencoes);
+					return mv;
+			}
+			System.out.println("Não há contratos acossiados!");
+			return new ModelAndView("redirect:/sessoes");
 		}
 	}
 
