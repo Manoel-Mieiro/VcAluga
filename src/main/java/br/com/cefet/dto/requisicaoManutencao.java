@@ -4,6 +4,7 @@ import java.util.Date;
 
 import br.com.cefet.model.Estacao;
 import br.com.cefet.model.Manutencao;
+import br.com.cefet.model.Usuario;
 import br.com.cefet.model.Veiculo;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
@@ -28,6 +29,7 @@ public class requisicaoManutencao {
 	@NotNull(message = "A data de reserva não pode ser nula.")
 	private Date dataSaida;
 	private String status;
+	private Usuario usuario;
 
 	public int getIdManutencao() {
 		return idManutencao;
@@ -93,6 +95,16 @@ public class requisicaoManutencao {
 		this.status = status;
 	}
 
+	
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	public Manutencao toManutencao() {
 		Manutencao manutencao = new Manutencao();
 //		manutencao.setVeiculo(veiculo);
@@ -123,9 +135,7 @@ public class requisicaoManutencao {
 	public String toString() {
 		return "requisicaoManutencao [veiculo=" + veiculo + ", veiculoId=" + veiculoId + ", estacao=" + estacao
 				+ ", estacaoId=" + estacaoId + ", dataEntrada=" + dataEntrada + ", dataSaida=" + dataSaida + ", status="
-				+ status + "]";
+				+ status + ", usuario=" + usuario + "]";
 	}
-
-
 
 }

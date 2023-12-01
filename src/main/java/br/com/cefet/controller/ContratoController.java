@@ -116,6 +116,40 @@ public class ContratoController {
 
 		
 	}
+	
+	@GetMapping("/contratos/archive")
+	public ModelAndView historico() {
+		ModelAndView mv = new ModelAndView("contratos/archive");
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		if (cliente != null) {
+			List<Contrato> contratos = this.contratoRepository.findByClienteAndStatus(cliente, "Arquivado");
+			List<Motorista> motoristas = this.motoristaRepository.findAll();
+			
+			mv.addObject("cliente", cliente);
+			mv.addObject("contratos", contratos);
+			mv.addObject("motoristas", motoristas);
+			return mv;
+			} 
+			else {
+				Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+				if (funcionario != null) {
+					List<Contrato> contratos = this.contratoRepository.findByStatus("Arquivado");
+					List<Motorista> motoristas = this.motoristaRepository.findAll();
+					mv.addObject("cliente", cliente);
+					mv.addObject("contratos", contratos);
+					mv.addObject("motoristas", motoristas);
+					return mv;
+			}
+			System.out.println("Não há contratos acossiados!");
+			return new ModelAndView("redirect:/sessoes");
+		}
+		
+			
+
+		
+	}
+	
 
 	@GetMapping("/contratos/new")
 	public ModelAndView novo(@RequestParam(name = "idReserva") int idReserva) {
