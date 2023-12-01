@@ -174,4 +174,8 @@ public class NF {
 	        return TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
 	    }
 	
+	  private float arredondarAliquota(float valor) {
+	        return Math.round(valor * 100.0) / 100.0;
+	    }
+	  
 }

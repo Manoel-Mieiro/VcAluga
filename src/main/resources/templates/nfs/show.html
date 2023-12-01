@@ -50,7 +50,27 @@
 												<b>Município:</b> <span
 													th:text="${nf.contrato.cliente?.cidade}"></span><br>
 												<div class="col-24">
-													<b>Fone:</b> <span th:text="${nf.contrato.cliente?.telefone}"></span><br>
+													<b>Fone:</b> <span
+														th:text="${nf.contrato.cliente?.telefone}"></span><br>
+
+													<div class="col-24">
+														<b>Código do Produto:</b> <span
+															th:text="${nf.contrato.veiculo?.id}"></span><br>
+
+														<div class="col-24">
+															<b>Valor Unitário:</b> <span
+																th:text="'R$ ' + ${nf.valorSemImposto}"></span><br>
+
+															<div class="col-24">
+																<b>ValorTotal:</b> <span
+																	th:text="'R$ ' + ${nf.valorTotal}"></span><br>
+																<div class="col-24">
+																	<b>Alíquota:</b> <span
+																		th:text="${(nf.aliquota) * 100} + '%'"></span><br>
+																</div>
+															</div>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
