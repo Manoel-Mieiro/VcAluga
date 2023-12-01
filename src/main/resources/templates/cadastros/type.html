@@ -1,0 +1,36 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<!-- Necesário para o thymeleaf -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+	href="/home/professor/Área de Trabalho/VcAluga/src/main/resources/templates/usuarios/type.html">
+
+
+
+    <!-- Font Awesome icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <link rel="stylesheet" href="../satic/css/style.css"
+	th:href="@{/css/style.css}">
+
+
+    <title>Seleção Tipo Usuário</title>
+</head>
+<body>
+    <h1>Selecione o tipo de conta</h1>
+    <div>
+    <span id="customer">
+        <a href="../clientes/new"><i class="fa-solid fa-user">Cliente</i></a>
+    </span>
+    <span id="employee">
+        <a href="../funcionarios/new"><i class="fa-solid fa-user">Funcionário</i></a>
+    </span>
+    </div>
+
+</body>
+</html>
