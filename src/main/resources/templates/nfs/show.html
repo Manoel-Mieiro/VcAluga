@@ -32,11 +32,13 @@
 						<div class="col-24">
 							<b>UF:</b> <span th:text="${nf.contrato.filial?.uf}"></span><br>
 							<div class="col-24">
-								<b>CPF:</b> <span th:text="${nf.contrato.filial?.uf}"></span><br>
+								<b>CPF:</b> <span th:text="${nf.contrato.cliente?.cpf}"></span><br>
 
 								<div class="col-24">
 									<b>Data de Emissão:</b> <span
-										th:text="${nf.contrato.filial?.uf}"></span><br>
+										th:utext="${#dates.format(nf.dataEmissao, 'dd/MM/yyyy')}"></span><br>
+
+
 
 									<div class="col-24">
 										<b>Endereço:</b> <span
@@ -58,15 +60,19 @@
 															th:text="${nf.contrato.veiculo?.id}"></span><br>
 
 														<div class="col-24">
-															<b>Valor Unitário:</b> <span
+															<b>Valor Base:</b> <span
 																th:text="'R$ ' + ${nf.valorSemImposto}"></span><br>
 
 															<div class="col-24">
-																<b>ValorTotal:</b> <span
+																<b>Valor Total:</b> <span
 																	th:text="'R$ ' + ${nf.valorTotal}"></span><br>
 																<div class="col-24">
 																	<b>Alíquota:</b> <span
 																		th:text="${(nf.aliquota) * 100} + '%'"></span><br>
+																	<div class="col-24">
+																		<b>Valor do Impostil:</b> <span
+																			th:text="'R$' + ${nf.valorDoImposto}"></span><br>
+																	</div>
 																</div>
 															</div>
 														</div>
@@ -81,9 +87,10 @@
 					</div>
 				</div>
 			</div>
-			<br> <a th:href="@{/nfs/{idNF}/edit(idNF=${idNF})}"
-				class="btn btn-primary">Editar</a> <a
-				href="javascript:history.back()">Voltar</a>
+			<br>
+			<!-- <a th:href="@{/nfs/{idNF}/edit(idNF=${idNF})}"
+				class="btn btn-primary">Editar</a>  -->
+			<a href="javascript:history.back()">Voltar</a>
 
 		</div>
 	</main>
