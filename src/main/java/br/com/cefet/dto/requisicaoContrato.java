@@ -63,6 +63,7 @@ public class requisicaoContrato {
     private Cliente cliente;
     private Motorista motorista;
     private int motoristaId;
+    private String status;
 
 	public int getIdContrato() {
 		return idContrato;
@@ -256,6 +257,14 @@ public class requisicaoContrato {
 	public void setMotoristaId(int motoristaId) {
 		this.motoristaId = motoristaId;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public Contrato toContrato() {
 		Contrato contrato = new Contrato();
@@ -367,8 +376,9 @@ public class requisicaoContrato {
 				+ ", dataReserva=" + dataReserva + ", dataDevolucao=" + dataDevolucao + ", valorPago=" + valorPago
 				+ ", dataEmissao=" + dataEmissao + ", assinaturaGestor=" + assinaturaGestor + ", assinaturaCliente="
 				+ assinaturaCliente + ", cliente=" + cliente + ", motorista=" + motorista + ", motoristaId="
-				+ motoristaId + "]";
+				+ motoristaId + ", status=" + status + "]";
 	}
 
+	
 
 }

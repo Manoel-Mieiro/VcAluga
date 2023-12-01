@@ -14,4 +14,6 @@ import br.com.cefet.model.Veiculo;
 //O trecho abaixo serve para usar os métodos de CRUD disponibilizados pela biblioteca JpaRepository
 public interface ContratoRepository extends JpaRepository<Contrato, Integer>{
 	List<Contrato> findByCliente(Cliente cliente);
+	List<Contrato> findByStatus(String status);
+	List<Contrato> findByClienteAndStatus(Cliente cliente, String status);
 }

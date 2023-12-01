@@ -259,6 +259,12 @@ public class ReservaController {
 			}
 		}
 	}
+	
+    @Autowired
+    public ReservaController(ReservaRepository reservaRepository, VeiculoRepository veiculoRepository) {
+        this.reservaRepository = reservaRepository;
+        this.veiculoRepository = veiculoRepository;
+    }
 
 	@GetMapping("/reservas/{idReserva}/archive")
 	public String archive(@PathVariable Integer idReserva) {

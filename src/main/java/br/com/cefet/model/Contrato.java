@@ -38,6 +38,7 @@ public class Contrato {
     private Reserva reserva;
 	private String assinaturaGestor;
 	private String assinaturaCliente;
+	private String status;
 
 	
 	@ManyToOne
@@ -50,6 +51,14 @@ public class Contrato {
 	
 	 
 	 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public Motorista getMotorista() {
 		return motorista;
 	}
@@ -115,9 +124,6 @@ public class Contrato {
 		this.assinaturaCliente = assinaturaCliente;
 	}
 
-	
-	 
-
 	public Reserva getReserva() {
 		return reserva;
 	}
@@ -131,7 +137,7 @@ public class Contrato {
 	}
 
 	public Contrato(Filial filial, Date dataEmissao, Veiculo veiculo, Reserva reserva, String assinaturaGestor,
-			String assinaturaCliente, Cliente cliente, Motorista motorista) {
+			String assinaturaCliente, String status, Cliente cliente, Motorista motorista) {
 		super();
 		this.filial = filial;
 		this.dataEmissao = dataEmissao;
@@ -139,9 +145,12 @@ public class Contrato {
 		this.reserva = reserva;
 		this.assinaturaGestor = assinaturaGestor;
 		this.assinaturaCliente = assinaturaCliente;
+		this.status = status;
 		this.cliente = cliente;
 		this.motorista = motorista;
 	}
+
+
 
 	
 	

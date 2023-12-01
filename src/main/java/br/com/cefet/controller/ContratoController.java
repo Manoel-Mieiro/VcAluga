@@ -84,7 +84,7 @@ public class ContratoController {
 		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
 		Cliente cliente = sessaoService.obterClienteDaSessao(session);
 		if (cliente != null) {
-			List<Contrato> contratos = this.contratoRepository.findByCliente(cliente);
+			List<Contrato> contratos = this.contratoRepository.findByClienteAndStatus(cliente, "Corrente");
 			List<Motorista> motoristas = this.motoristaRepository.findAll();
 			
 			mv.addObject("cliente", cliente);
@@ -95,7 +95,7 @@ public class ContratoController {
 			else {
 				Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
 				if (funcionario != null) {
-					List<Contrato> contratos = this.contratoRepository.findAll();
+					List<Contrato> contratos = this.contratoRepository.findByStatus("Corrente");
 					List<Motorista> motoristas = this.motoristaRepository.findAll();
 					mv.addObject("cliente", cliente);
 					mv.addObject("contratos", contratos);
@@ -131,7 +131,7 @@ public class ContratoController {
 
 				ModelAndView mv = new ModelAndView("contratos/new");
 				mv.addObject("cliente", cliente);
-				 mv.addObject("motoristas", motoristaRepository.findByCliente(cliente));
+				mv.addObject("motoristas", motoristaRepository.findByCliente(cliente));
 				mv.addObject("requisicaoContrato", requisicao); // Adicione esta linha
 				mv.addObject("reserva", reserva);
 				mv.addObject("veiculo", reserva.getVeiculo());
@@ -190,6 +190,7 @@ public class ContratoController {
 				mv = new ModelAndView("redirect:/contratos/" + contrato.getIdContrato());
 				contrato.setCliente(cliente);
 				contrato.setReserva(reserva);
+				contrato.setStatus("Corrente");
 				contrato.setMotorista(requisicao.getMotorista());
 				contrato.setVeiculo(reserva.getVeiculo());
 				contrato.setFilial(reserva.getVeiculo().getBranch());
@@ -254,15 +255,29 @@ public class ContratoController {
 		}
 	}
 
-//
-//	@GetMapping("/manutencoes/{idManutencao}/delete")
-//	public String delete(@PathVariable Integer idManutencao) {
-//		try {
-//			this.manutencaoRepository.deleteById(idManutencao);
-//			return "redirect:/manutencoes";
-//		} catch (EmptyResultDataAccessException e) {
-//			System.out.println("Registro não consta no banco ou não foi encontrado, portanto não pode ser deletado.");
-//			return "redirect:/manutencoes";
-//		}
-//	}
+	
+	 private final ReservaController reservaController;
+	 
+	   @Autowired
+	    public ContratoController(ContratoRepository contratoRepository, ReservaController reservaController) {
+	        this.contratoRepository = contratoRepository;
+	        this.reservaController = reservaController;
+	    }
+
+	    @GetMapping("/contratos/{idContrato}/archive")
+	    public String archive(@PathVariable Integer idContrato) {
+	        Optional<Contrato> optional = this.contratoRepository.findById(idContrato);
+	        if (optional.isPresent()) {
+	            Contrato contrato = optional.get();
+	            contrato.setStatus("Arquivado");
+	            Reserva reserva = contrato.getReserva();
+	            int idReserva = reserva.getIdReserva();
+	            this.reservaController.archive(idReserva);
+	            this.contratoRepository.save(contrato);
+	            return "redirect:/veiculos";
+	        } else {
+	            System.out.println("Registro não consta no banco ou não foi encontrado.");
+	            return "redirect:/contratos";
+	        }
+	    }
 }
