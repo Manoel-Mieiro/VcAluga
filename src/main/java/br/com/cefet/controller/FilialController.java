@@ -11,14 +11,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.cefet.dto.requisicaoFilial;
 import br.com.cefet.model.Categoria;
 import br.com.cefet.model.Filial;
+import br.com.cefet.model.Funcionario;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.repository.FilialRepository;
+import br.com.cefet.service.SessaoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -26,6 +31,10 @@ public class FilialController {
 
 	@Autowired
 	private FilialRepository filialRepository;
+	
+	@Autowired
+	private SessaoService sessaoService;
+
 
 	@GetMapping("/filiais")
 	public ModelAndView index() {
@@ -42,7 +51,13 @@ public class FilialController {
 	public ModelAndView novo() {
 
 		ModelAndView mv = new ModelAndView("filiais/new");
-
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		if (funcionario == null) {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/sessoes");
+		}
 		return mv;
 
 	}
@@ -89,7 +104,13 @@ public class FilialController {
 	@GetMapping("/filiais/{id}/edit")
 	public ModelAndView edit(@PathVariable Integer id, requisicaoFilial requisicao) {
 		Optional<Filial> optional = this.filialRepository.findById(id);
-
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		if (funcionario == null) {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/sessoes");
+		}
 		if (optional.isPresent()) {
 			System.out.printf("%d", id);
 			Filial filial = optional.get();
@@ -123,6 +144,13 @@ public class FilialController {
 
 	@GetMapping("/filiais/{id}/delete")
 	public String delete(@PathVariable Integer id) {
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		if (funcionario == null) {
+			System.out.println("Acesso negado!");
+			return "redirect:/filiais";
+		}
 		try {
 			this.filialRepository.deleteById(id);
 			return "redirect:/filiais";
