@@ -12,6 +12,7 @@ public class Funcionario extends Usuario{
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Cargo cargo;	//enum
+	
 	public String getmatricula() {
 		return matricula;
 	}

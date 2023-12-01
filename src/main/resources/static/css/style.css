@@ -4,6 +4,7 @@
     --bar-color: rgba(224, 68, 47, 1);
     --text-color: rgba(0, 0, 0, 0.76);
     --navbar-color: rgba(87, 117, 144, 1);
+    --history-color: rgba(87, 117, 144, 0.3);
 }
 
 body {
@@ -86,3 +87,56 @@ button:hover {
 }
 
 /* end search-bar */
+
+
+/* History btn*/
+.history {
+    position: absolute;
+    top: 0;
+    right: 1em;
+    margin-right: 1em;
+}
+
+.fa-clock-rotate-left, .fa-filter{
+    color: var(--navbar-color);
+}
+
+.fa-clock-rotate-left, .fa-filter:hover {
+    color: var(--history-color);
+}
+
+/* End History btn*/
+
+/*Filter*/
+
+.fa-filter{
+    font-size: 1.3em;    
+}
+
+.filter-container {
+    position: relative;
+    display: inline-block; 
+}
+
+.filter-container i {
+    cursor: pointer;
+    position: absolute;
+    margin-right: 12.6em;
+    right: 0;
+    
+}
+
+#filterOptions {
+    position: absolute;
+    top: 0; 
+    right: 3em;
+    bottom: 6em;
+    z-index: 1;
+    padding: 10px;
+    display: none;
+}
+
+.table-container {
+    position: relative;
+}
+/*End Filter*/

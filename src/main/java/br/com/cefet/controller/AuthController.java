@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.cefet.dto.requisicaoUsuario;
@@ -13,43 +15,84 @@ import br.com.cefet.model.Cliente;
 import br.com.cefet.model.Conta;
 import br.com.cefet.model.Funcionario;
 import br.com.cefet.service.AuthService;
+import br.com.cefet.service.SessaoService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class AuthController {
-    @Autowired
-    private AuthService authService;
+	@Autowired
+	private AuthService authService;
 
-    @GetMapping("/sessoes")
-    public ModelAndView showLoginForm() {
-    	ModelAndView mv = new ModelAndView("sessoes/login");
-    	requisicaoUsuario ru = new requisicaoUsuario();
-    	mv.addObject("tipo", Conta.values());
-        return mv; 
-    }
+	@Autowired
+	private SessaoService sessaoService;
 
-    @PostMapping("/sessoes")
-    public ModelAndView processLogin(@RequestParam String cpf, @RequestParam String senha, @RequestParam String tipo) {
-    	 Conta conta = Conta.valueOf(tipo);
-    	 System.out.println("Tipo da conta - " + conta);
-        ModelAndView mv = new ModelAndView("/sessoes/login");
-        if (conta == Conta.Cliente) {
-            System.out.println("Cai no cliente");
-            Cliente cliente = authService.autenticarCliente(cpf, senha);
-            if (cliente != null) {
-                // Lógica para login bem-sucedido como cliente
-                return new ModelAndView("redirect:/veiculos");
-            }
-        } else if (conta == Conta.Funcionário) {
-            System.out.println("Cai no funça");
-            Funcionario funcionario = authService.autenticarFuncionario(cpf, senha);
-            if (funcionario != null) {
-                // Lógica para login bem-sucedido como funcionário
-                return new ModelAndView("redirect:/usuarios");
-            }
-        }
+	@GetMapping("/sessoes")
+	public ModelAndView showLoginForm() {
+		ModelAndView mv;
 
-        System.out.println("Credenciais inválidas!");
-        return mv;
-    }
+		// Verifica se há um cliente na sessão
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		if (cliente != null) {
+			System.out.println("Cliente - " + cliente);
+			return new ModelAndView("redirect:/clientes/profile/" + session.getId());
+		} else if (cliente == null){
+			Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+			if (funcionario != null) {
+			System.out.println("Funcionário - " + funcionario);
+			return new ModelAndView("redirect:/funcionarios/profile/" + session.getId());
+			}
+		}
+			mv = new ModelAndView("sessoes/login");
+			requisicaoUsuario ru = new requisicaoUsuario();
+			mv.addObject("tipo", Conta.values());
+			
+		return mv;
+	}
+
+
+	@PostMapping("/sessoes")
+	public ModelAndView processLogin(@RequestParam String cpf, @RequestParam String senha, @RequestParam String tipo,
+			HttpSession session) {
+		Conta conta = Conta.valueOf(tipo);
+		System.out.println("Tipo da conta - " + conta);
+		ModelAndView mv = new ModelAndView("/sessoes/login");
+		if (conta == Conta.Cliente) {
+			System.out.println("Cai no cliente");
+			Cliente cliente = authService.autenticarCliente(cpf, senha);
+			if (cliente != null) {
+				sessaoService.armazenarDadosCliente(session, cliente);
+				System.out.println("Sessao - " + session.getId());
+				return new ModelAndView("redirect:/veiculos");
+			}
+		} else if (conta == Conta.Funcionário) {
+			System.out.println("Cai no funça");
+			Funcionario funcionario = authService.autenticarFuncionario(cpf, senha);
+			if (funcionario != null) {
+				sessaoService.armazenarDadosFuncionario(session, funcionario);
+				System.out.println("Sessao - " + session.getId());
+				return new ModelAndView("redirect:/usuarios");
+			}
+		}
+
+		System.out.println("Credenciais inválidas!");
+		return mv;
+	}
+	
+	@PostMapping("/logout") 
+	public ModelAndView logout (HttpSession session, @RequestParam String tipo) {
+		ModelAndView mv = new ModelAndView("redirect:/veiculos");
+		Conta conta = Conta.valueOf(tipo);
+		System.out.println("Tipo da conta - " + conta);
+		sessaoService.limparDadosSessao(session, conta);
+		return mv;
+	}
+
+	/*
+	 * @GetMapping("/sessoes") public String logout(HttpSession session) {
+	 * 
+	 * // Redireciona para a página de login após o logout return
+	 * "redirect:/sessoes"; }
+	 */
 }
-

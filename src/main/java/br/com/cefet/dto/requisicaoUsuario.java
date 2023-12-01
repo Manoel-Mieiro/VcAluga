@@ -94,7 +94,7 @@ public Usuario toUsuario() {
 		usuario.setNome(this.nome);
 		usuario.setSobrenome(this.sobrenome);
 		usuario.setEmail(this.email);
-		usuario.setTipo(Conta.Cliente);
+		usuario.setTipo(this.tipo);
 		usuario.setSenha(this.senha);
 		usuario.setTelefone(this.telefone);
 		usuario.setCpf(this.cpf);

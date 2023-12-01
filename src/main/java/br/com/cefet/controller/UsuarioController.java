@@ -12,13 +12,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.cefet.dto.requisicaoCliente;
 import br.com.cefet.dto.requisicaoUsuario;
+import br.com.cefet.model.Cargo;
 import br.com.cefet.model.Conta;
+import br.com.cefet.model.Funcionario;
 import br.com.cefet.model.Usuario;
 import br.com.cefet.repository.UsuarioRepository;
+import br.com.cefet.service.SessaoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -27,9 +33,19 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	@Autowired
+	private SessaoService sessaoService;
+	
 	@GetMapping("/usuarios")
 	public ModelAndView index() {
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
 
+		if (funcionario == null || funcionario.getCargo() != Cargo.Gerente) {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/veiculos");
+		}
 		List<Usuario> usuarios = this.usuarioRepository.findAll();
 
 		ModelAndView mv = new ModelAndView("usuarios/index");
@@ -50,7 +66,14 @@ public class UsuarioController {
 
 	@GetMapping("/usuarios/new")
 	public ModelAndView novo() {
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
 
+		if (funcionario == null || funcionario.getCargo() != Cargo.Gerente) {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/veiculos");
+		}
 		ModelAndView mv = new ModelAndView("usuarios/new");
 		mv.addObject("tipo", Conta.values());
 
@@ -118,7 +141,14 @@ public class UsuarioController {
 	@GetMapping("/usuarios/{id}/edit")
 	public ModelAndView edit(@PathVariable Integer id, requisicaoUsuario requisicao) {
 		Optional<Usuario> optional = this.usuarioRepository.findById(id);
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
 
+		if (funcionario == null || funcionario.getCargo() != Cargo.Gerente) {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/veiculos");
+		}
 		if (optional.isPresent()) {
 			System.out.printf("%d", id);
 			Usuario usuario = optional.get();
@@ -156,6 +186,14 @@ public class UsuarioController {
 
 	@GetMapping("/usuarios/{id}/delete")
 	public String delete(@PathVariable Integer id) {
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+
+		if (funcionario == null || funcionario.getCargo() != Cargo.Gerente) {
+			System.out.println("Acesso negado!");
+			return "redirect:/veiculos";
+		}
 		try {
 			this.usuarioRepository.deleteById(id);
 			return "redirect:/usuarios";

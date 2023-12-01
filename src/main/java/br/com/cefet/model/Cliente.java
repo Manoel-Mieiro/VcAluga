@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -29,10 +30,27 @@ public class Cliente extends Usuario{
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
-	@ManyToMany(mappedBy = "clientes")
-	private List<Reserva> reservas;
-	
+	@OneToMany(mappedBy = "cliente")
+    private List<Reserva> reservas;
+	@OneToMany(mappedBy = "cliente")  
+    private List<Motorista> motoristas;
+	@OneToMany(mappedBy = "cliente")
+    private List<Contrato> contratos;
 
+	
+	
+	public List<Contrato> getContratos() {
+		return contratos;
+	}
+	public void setContratos(List<Contrato> contratos) {
+		this.contratos = contratos;
+	}
+	public List<Motorista> getMotoristas() {
+		return motoristas;
+	}
+	public void setMotoristas(List<Motorista> motoristas) {
+		this.motoristas = motoristas;
+	}
 	public String getEndereco() {
 		return endereco;
 	}
@@ -79,7 +97,7 @@ public class Cliente extends Usuario{
 		super();
 	}
 	public Cliente(String endereco, String numero, String bairro, String cidade, String estado, Date dataNascimento,
-			List<Reserva> reservas) {
+			List<Reserva> reservas, List<Motorista> motoristas, List<Contrato> contratos) {
 		super();
 		this.endereco = endereco;
 		this.numero = numero;
@@ -88,7 +106,12 @@ public class Cliente extends Usuario{
 		this.estado = estado;
 		this.dataNascimento = dataNascimento;
 		this.reservas = reservas;
+		this.motoristas = motoristas;
+		this.contratos = contratos;
 	}
+
+	
+	
 
 	
 	

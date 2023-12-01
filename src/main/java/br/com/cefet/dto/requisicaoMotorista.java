@@ -1,5 +1,6 @@
 package br.com.cefet.dto;
 
+import br.com.cefet.model.Cliente;
 import br.com.cefet.model.Motorista;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +17,17 @@ public class requisicaoMotorista {
 	@NotBlank
 	@NotNull
 	private String cnh;
+	private Cliente cliente;
 
+
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 
 	public String getNome() {
 		return nome;
@@ -82,8 +93,10 @@ public void fromMotorista(Motorista motorista) {
 
 @Override
 public String toString() {
-	return "requisicaoMotorista [nome=" + nome + ", sobrenome=" + sobrenome + ", cnh=" + cnh + "]";
-} 
-	
+	return "requisicaoMotorista [nome=" + nome + ", sobrenome=" + sobrenome + ", cnh=" + cnh + ", cliente=" + cliente
+			+ "]";
+}
+
+
 	
 }

@@ -8,8 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -23,7 +24,20 @@ public class Motorista {
 	private String sobrenome;
 	@Column(nullable = false)
 	private String cnh;
+	 @ManyToOne
+	 @JoinColumn(name = "id_cliente")
+	 private Cliente cliente;
+
 	
+	 
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
 	public String getNome() {
 		return nome;
 	}

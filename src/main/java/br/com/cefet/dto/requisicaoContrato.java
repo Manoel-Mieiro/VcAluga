@@ -7,10 +7,12 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import br.com.cefet.model.Categoria;
+import br.com.cefet.model.Cliente;
 import br.com.cefet.model.Contrato;
 import br.com.cefet.model.Filial;
 import br.com.cefet.model.Manutencao;
 import br.com.cefet.model.Marca;
+import br.com.cefet.model.Motorista;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Reserva;
 import br.com.cefet.model.Veiculo;
@@ -58,9 +60,10 @@ public class requisicaoContrato {
 	@NotBlank
 	@NotNull
 	private String assinaturaCliente;
-	@NotNull(message = "A lista de CNHs não pode ser nula")
-	@Size(max = 11, message = "Cada CNH deve ter no máximo 11 dígitos")
-	private List<Long> cnhs;
+    private Cliente cliente;
+    private Motorista motorista;
+    private int motoristaId;
+    private String status;
 
 	public int getIdContrato() {
 		return idContrato;
@@ -226,24 +229,43 @@ public class requisicaoContrato {
 		this.assinaturaCliente = assinaturaCliente;
 	}
 
-	public List<Long> getCnhs() {
-		return cnhs;
+
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setCnhs(List<Long> cnhs) {
-		this.cnhs = cnhs;
-	}
-
-	// Função para adicionar mais CNHs
-	public void adicionarCnh(Long cnh) {
-		if (this.cnhs == null) {
-			this.cnhs = new ArrayList<>();
-		}
-		this.cnhs.add(cnh);
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 	
-
 	
+
+	public Motorista getMotorista() {
+		return motorista;
+	}
+
+	public void setMotorista(Motorista motorista) {
+		this.motorista = motorista;
+	}
+	
+	
+
+	public int getMotoristaId() {
+		return motoristaId;
+	}
+
+	public void setMotoristaId(int motoristaId) {
+		this.motoristaId = motoristaId;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public Contrato toContrato() {
 		Contrato contrato = new Contrato();
 //		contrato.setVeiculo(criarVeiculo());
@@ -252,7 +274,6 @@ public class requisicaoContrato {
 		contrato.setDataEmissao(this.dataEmissao);
 		contrato.setAssinaturaCliente(this.assinaturaCliente);
 		contrato.setAssinaturaGestor(this.assinaturaGestor);
-		contrato.setCnhs(this.cnhs);
 		return contrato;
 	}
 
@@ -265,7 +286,6 @@ public class requisicaoContrato {
 		contratoExistente.setDataEmissao(this.dataEmissao);
 		contratoExistente.setAssinaturaCliente(this.assinaturaCliente);
 		contratoExistente.setAssinaturaGestor(this.assinaturaGestor);
-		contratoExistente.setCnhs(this.cnhs);
 		return contratoExistente;
 	}
 
@@ -319,7 +339,6 @@ public class requisicaoContrato {
 		this.assinaturaGestor = contrato.getAssinaturaGestor();
 
 		// Ajuste para CNHs, se necessário
-		this.cnhs = contrato.getCnhs();
 	}
 
 	public void preencherComReserva(Reserva reserva) {
@@ -356,7 +375,8 @@ public class requisicaoContrato {
 				+ quilometragem + ", cor=" + cor + ", ano=" + ano + ", reserva=" + reserva + ", idReserva=" + idReserva
 				+ ", dataReserva=" + dataReserva + ", dataDevolucao=" + dataDevolucao + ", valorPago=" + valorPago
 				+ ", dataEmissao=" + dataEmissao + ", assinaturaGestor=" + assinaturaGestor + ", assinaturaCliente="
-				+ assinaturaCliente + ", cnhs=" + cnhs + "]";
+				+ assinaturaCliente + ", cliente=" + cliente + ", motorista=" + motorista + ", motoristaId="
+				+ motoristaId + ", status=" + status + "]";
 	}
 
 	

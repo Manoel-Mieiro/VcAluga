@@ -1,12 +1,12 @@
 package br.com.cefet.model;
 
-import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.List;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,11 +14,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotNull;
+
 @Entity
 public class Contrato {
 	@Id
@@ -37,12 +36,45 @@ public class Contrato {
 	@OneToOne
     @JoinColumn(name = "reservaId")
     private Reserva reserva;
-//	private String cpfCliente;
-//	private String nomeCompleto;
 	private String assinaturaGestor;
 	private String assinaturaCliente;
-	private List<Long> cnhs;
+	private String status;
+
 	
+	@ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
+	
+	 @ManyToOne
+	    @JoinColumn(name = "id_motorista")
+	    private Motorista motorista;
+	
+	 
+	 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Motorista getMotorista() {
+		return motorista;
+	}
+
+	public void setMotorista(Motorista motorista) {
+		this.motorista = motorista;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
 	public int getIdContrato() {
 		return idContrato;
 	}
@@ -92,21 +124,6 @@ public class Contrato {
 		this.assinaturaCliente = assinaturaCliente;
 	}
 
-	public List<Long> getCnhs() {
-		return cnhs;
-	}
-
-	public void setCnhs(List<Long> cnhs) {
-		this.cnhs = cnhs;
-	}
-
-	//Método para adicionar CNHs
-	 public void adicionarCNH(Long numeroCNH) {
-	        this.cnhs.add(numeroCNH);
-	    }
-	 
-	 
-	
 	public Reserva getReserva() {
 		return reserva;
 	}
@@ -120,7 +137,7 @@ public class Contrato {
 	}
 
 	public Contrato(Filial filial, Date dataEmissao, Veiculo veiculo, Reserva reserva, String assinaturaGestor,
-			String assinaturaCliente, ArrayList<Long> cnhs) {
+			String assinaturaCliente, String status, Cliente cliente, Motorista motorista) {
 		super();
 		this.filial = filial;
 		this.dataEmissao = dataEmissao;
@@ -128,11 +145,17 @@ public class Contrato {
 		this.reserva = reserva;
 		this.assinaturaGestor = assinaturaGestor;
 		this.assinaturaCliente = assinaturaCliente;
-		this.cnhs = cnhs;
+		this.status = status;
+		this.cliente = cliente;
+		this.motorista = motorista;
 	}
 
 
+
 	
+	
+
+
 
 	
 	

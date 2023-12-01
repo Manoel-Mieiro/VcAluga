@@ -72,23 +72,20 @@
     <h2>Perfil</h2>
 
     <div>
-        <p><strong>Nome:</strong> <span th:text="${cliente.nome} + ' ' + ${cliente.sobrenome}"></span></p>
-        <p><strong>CPF:</strong> <span th:text="${cliente.cpf}"></span></p>
-        <p><strong>Endereço:</strong> <span th:text="${cliente.endereco}"></span></p>
-        <p><strong>Número:</strong> <span th:text="${cliente.numero}"></span></p>
-        <p><strong>Bairro:</strong> <span th:text="${cliente.bairro}"></span></p>
-        <p><strong>Cidade:</strong> <span th:text="${cliente.cidade}"></span></p>
-        <p><strong>Estado:</strong> <span th:text="${cliente.estado}"></span></p>
-        <p><strong>Data de Nascimento:</strong> <span th:text="${#dates.format(cliente.dataNascimento, 'dd/MM/yyyy')}"></span></p>
+        <p><strong>Nome:</strong> <span th:text="${funcionario.nome} + ' ' + ${funcionario.sobrenome}"></span></p>
+        <p><strong>CPF:</strong> <span th:text="${funcionario.cpf}"></span></p>
+        <p><strong>Matrícula:</strong> <span th:text="${funcionario.getmatricula()}"></span></p>
+        <p><strong>Cargo:</strong> <span th:text="${funcionario.cargo}"></span></p>
     </div>
     
 <form id="logoutForm" method="post" action="/logout">
-    <input type="hidden" name="tipo" value="Cliente">
+    <input type="hidden" name="tipo" value="Funcionário">
     <button type="submit">Logout</button>
 </form>
 
-
+    
    </div>
+   
    
 </body>
 </html>

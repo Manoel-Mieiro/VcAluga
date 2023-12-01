@@ -1,5 +1,8 @@
 package br.com.cefet.controller;
 
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,11 +14,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.cefet.dto.requisicaoNF;
+import br.com.cefet.model.Cliente;
+import br.com.cefet.model.Contrato;
+import br.com.cefet.model.Funcionario;
+import br.com.cefet.model.Motorista;
 import br.com.cefet.model.NF;
+import br.com.cefet.repository.ContratoRepository;
 import br.com.cefet.repository.NFRepository;
+import br.com.cefet.service.SessaoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -24,23 +37,80 @@ public class NFController {
 	@Autowired
 	private NFRepository nfRepository;
 
+	@Autowired
+	private ContratoRepository contratoRepository;
+	
+	@Autowired
+	private SessaoService sessaoService;
+
 	@GetMapping("/nfs")
 	public ModelAndView index() {
 
-		List<NF> nfs = this.nfRepository.findAll();
-		System.out.println("LIsta de NFS: " + nfs);
+//		List<NF> nfs = this.nfRepository.findAll();
+//		System.out.println("LIsta de NFS: " + nfs);
 		ModelAndView mv = new ModelAndView("nfs/index");
-		mv.addObject("nfs", nfs);
+		
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		if (cliente != null) {
+			List<Contrato> contratos = contratoRepository.findByCliente(cliente);
+			List<NF> nfs = new ArrayList<>();
 
-		return mv;
+			  for (Contrato contrato : contratos) {
+		            List<NF> notasFiscaisDoContrato = nfRepository.findByContrato(contrato);
+		            nfs.addAll(notasFiscaisDoContrato);
+		        }
+			  
+			  mv.addObject("cliente", cliente);
+		      mv.addObject("nfs", nfs);
+			
+			return mv;
+			} 
+			else {
+				Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+				if (funcionario != null) {
+					List<NF> nfs = this.nfRepository.findAll();
+					mv.addObject("nfs", nfs);
+					return mv;
+			}
+			System.out.println("Não há contratos acossiados!");
+			return new ModelAndView("redirect:/sessoes");
+		}
+//		mv.addObject("nfs", nfs);
 	}
 
-	@GetMapping("/nfs/new")
-	public ModelAndView novo() {
-
+	@GetMapping("/nfs/{contratoId}/new")
+	public ModelAndView novo(@PathVariable ("contratoId") int contratoId) {
 		ModelAndView mv = new ModelAndView("nfs/new");
 
-		return mv;
+		// Carregue o Contrato com base no ID
+		 Optional<Contrato> contratoOptional = contratoRepository.findById(contratoId);
+		 
+		    if (contratoOptional.isPresent()) {
+		        Contrato contrato = contratoOptional.get();
+		        NF nf = new NF();
+		        nf.setContrato(contrato);
+		        
+		        Date inicio = contrato.getReserva().getDataReserva();
+		        Date fim = contrato.getReserva().getDataDevolucao();
+		        System.out.println("Data Incio - " + inicio);
+		        System.out.println("Data Fim - " + fim);
+		        Date today = new Date();
+		        System.out.println("Today's - " + today);
+		        nf.setValorSemImposto(nf.calcularValorSemImposto(inicio, fim));
+		        nf.setValorDoImposto(nf.calcularValorImposto(inicio, fim));
+		        nf.setValorTotal(nf.calcularTotal(inicio, fim));
+		        nf.setDataEmissao(today);
+		        nf.setNumeroNF(nf.gerarNumeroNF());
+		        this.nfRepository.save(nf);
+		        
+		        System.out.println("Número da NF gerado: " + nf.getNumeroNF());
+		        mv.addObject("nf", nf);
+			return mv;
+		} else {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/veiculos");
+		}
 
 	}
 
@@ -49,22 +119,7 @@ public class NFController {
 		return new requisicaoNF();
 	}
 
-	@PostMapping("/nfs")
-	public ModelAndView create(@Valid requisicaoNF requisicao, BindingResult result) {
-		if (result.hasErrors()) {
-			System.out.println("\n**********************Invalid Input Found**************************\n");
-			ModelAndView mv = new ModelAndView("/nfs/new");
-			return mv;
-		} else {
-			NF nf = new NF();
-			nf = requisicao.toNF();
 
-			// Create do CRUD
-			this.nfRepository.save(nf);
-			System.out.println("ID da nova Nota Fiscal: " + nf.getIdNF());
-			return new ModelAndView("redirect:/nfs/" + nf.getIdNF());
-		}
-	}
 
 	@GetMapping("/nfs/{idNF}")
 	public ModelAndView show(@PathVariable Integer idNF) {
@@ -82,7 +137,6 @@ public class NFController {
 			return new ModelAndView("redirect:/nf");
 		}
 	}
-
 
 	@GetMapping("/nfs/{idNF}/delete")
 	public String delete(@PathVariable Integer idNF) {

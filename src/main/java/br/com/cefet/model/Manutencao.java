@@ -38,6 +38,10 @@ public class Manutencao {
 	@ManyToOne
 	@JoinColumn(name = "veiculoId")
 	private Veiculo veiculo;
+	private String status;
+	@ManyToOne
+    @JoinColumn(name = "usuarioId")  // Adiciona a relação com Usuario
+    private Usuario usuario;
 	
 
 	public int getIdManutencao() {
@@ -79,18 +83,41 @@ public class Manutencao {
 	public void setVeiculo(Veiculo veiculo) {
 		this.veiculo = veiculo;
 	}
+	
+	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	public Manutencao() {
 		super();
 	}
-	
-	public Manutencao(Date dataEntrada, Date dataSaida, Estacao estacao, Veiculo veiculo) {
+
+	public Manutencao(Date dataEntrada, Date dataSaida, Estacao estacao, Veiculo veiculo, String status,
+			Usuario usuario) {
 		super();
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
 		this.estacao = estacao;
 		this.veiculo = veiculo;
+		this.status = status;
+		this.usuario = usuario;
 	}
+
 
 }
 	
