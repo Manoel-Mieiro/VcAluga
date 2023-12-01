@@ -86,3 +86,13 @@ button:hover {
 }
 
 /* end search-bar */
+
+
+/* History btn*/
+.history{
+    position: absolute;
+    top: 0;
+    right: 1em;
+    margin-right: 1em;
+}
+/* End History btn*/
