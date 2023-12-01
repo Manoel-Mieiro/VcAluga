@@ -37,6 +37,7 @@ import br.com.cefet.model.Filial;
 import br.com.cefet.model.Funcionario;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Motorista;
+import br.com.cefet.model.NF;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Reserva;
 import br.com.cefet.model.Manutencao;
@@ -47,6 +48,7 @@ import br.com.cefet.repository.EstacaoRepository;
 import br.com.cefet.repository.FilialRepository;
 import br.com.cefet.repository.ManutencaoRepository;
 import br.com.cefet.repository.MotoristaRepository;
+import br.com.cefet.repository.NFRepository;
 import br.com.cefet.repository.ReservaRepository;
 import br.com.cefet.repository.VeiculoRepository;
 import br.com.cefet.service.SessaoService;
@@ -70,6 +72,10 @@ public class ContratoController {
 	
 	@Autowired
 	private ReservaRepository reservaRepository;
+	
+
+	@Autowired
+	private NFRepository nfRepository;
 	
 	@Autowired
 	private MotoristaRepository motoristaRepository;
@@ -257,13 +263,17 @@ public class ContratoController {
 
 	
 	 private final ReservaController reservaController;
-	 
+	  private final NFController nfController;
+	   
+
 	   @Autowired
-	    public ContratoController(ContratoRepository contratoRepository, ReservaController reservaController) {
+	    public ContratoController(ContratoRepository contratoRepository, ReservaController reservaController, NFController nfController) {
 	        this.contratoRepository = contratoRepository;
 	        this.reservaController = reservaController;
+	        this.nfController = nfController;
 	    }
-
+	   
+	 
 	    @GetMapping("/contratos/{idContrato}/archive")
 	    public String archive(@PathVariable Integer idContrato) {
 	        Optional<Contrato> optional = this.contratoRepository.findById(idContrato);
@@ -273,11 +283,18 @@ public class ContratoController {
 	            Reserva reserva = contrato.getReserva();
 	            int idReserva = reserva.getIdReserva();
 	            this.reservaController.archive(idReserva);
+	            this.nfController.novo(idContrato);
+	            List<NF> nf = nfRepository.findByContrato(contrato);
+	            int idNF = nf.get(0).getIdNF();
 	            this.contratoRepository.save(contrato);
-	            return "redirect:/veiculos";
+	            
+	            return "redirect:/nfs/" + idNF;
 	        } else {
 	            System.out.println("Registro não consta no banco ou não foi encontrado.");
 	            return "redirect:/contratos";
 	        }
 	    }
+	    
+	    
+	  
 }
