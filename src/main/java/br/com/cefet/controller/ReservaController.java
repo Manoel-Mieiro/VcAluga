@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.cefet.dto.requisicaoReserva;
 import br.com.cefet.model.Cliente;
+import br.com.cefet.model.Contrato;
 import br.com.cefet.model.Funcionario;
 import br.com.cefet.model.Motorista;
 import br.com.cefet.model.Reserva;
@@ -119,6 +120,35 @@ public class ReservaController {
 				return new ModelAndView("redirect:/veiculos");
 			}
 		}
+	}
+	
+	
+	@GetMapping("/reservas/archive")
+	public ModelAndView historico() {
+		ModelAndView mv = new ModelAndView("reservas/archive");
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+		Cliente cliente = sessaoService.obterClienteDaSessao(session);
+		if (cliente != null) {
+			List<Reserva> reservas = this.reservaRepository.findByStatusAndCliente("Arquivado", cliente);
+			
+			
+			mv.addObject("cliente", cliente);
+			mv.addObject("reservas", reservas);
+			return mv;
+			} 
+			else {
+				Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+				if (funcionario != null) {
+					List<Reserva> reservas = this.reservaRepository.findByStatus("Arquivado");
+					
+					mv.addObject("funcionario", funcionario);
+					mv.addObject("reservas", reservas);
+					return mv;
+			}
+			System.out.println("Não há contratos acossiados!");
+			return new ModelAndView("redirect:/sessoes");
+		}
+
 	}
 
 //	 O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
