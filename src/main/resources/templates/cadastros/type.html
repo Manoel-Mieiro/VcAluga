@@ -1,61 +1,42 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <!-- Necessário para o thymeleaf -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+
     <!-- Font Awesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- Link para o seu arquivo style.css -->
     <link rel="stylesheet" href="../satic/css/style.css" th:href="@{/css/style.css}">
 
-    <title>Seleção Tipo Usuário</title>
-
-    <style>
-        /* Estilo para os botões */
-        h1 {
-            text-align: center; /* Centralizar o texto */
-            color: blue; /* Definir a cor azul */
-            font-size: 28px; /* Aumentar o tamanho da fonte */
-        }
-
-        /* Estilo para os ícones e links */
-        span {
-            display: flex; /* Usar flexbox para alinhar verticalmente */
-            align-items: center; /* Alinhar verticalmente */
-            justify-content: center; /* Alinhar horizontalmente */
-            margin-top: 20px; /* Espaço superior */
-            font-size: 24px; /* Aumentar o tamanho da fonte */
-        }
-
-        span a {
-            color: blue; /* Definir a cor azul */
-            text-decoration: none; /* Remover sublinhado */
-            margin-left: 10px; /* Espaçamento entre o ícone e o texto */
-        }
-
-        /* Estilo para os ícones */
-        .fa-solid {
-            color: blue; /* Definir a cor azul */
-            font-size: 28px; /* Aumentar o tamanho do ícone */
-        }
-    </style>
+    <title>Seleção de Contas</title>
 </head>
+
 <body>
-    <h1>Selecione o tipo de conta</h1>
-    <div>
-        <span>
-            <i class="fa-solid fa-user"></i>
-            <a href="../clientes/new">Cliente</a>
-        </span>
-        <span>
-            <i class="fa-solid fa-user"></i>
-            <a href="../funcionarios/new">Funcionário</a>
-        </span>
+    <h1 class="selec-acc">SELECIONE O TIPO DE CONTA</h1>
+    <div class="main-container-acc">
+        <div class="card-account">
+            <div class="option-container-acc">
+                <div class="option-account">
+                    <div class="icon-acc"><a href="../clientes/new">
+                            <i class="fas fa-user"></i></a>
+                    </div>
+                    <div class="acc-type">Cliente</div>
+                </div>
+
+                <div class="option-account-op2">
+                    <div class="icon-acc"> <a href="../funcionarios/new"><i class="fas fa-user"></i></a>
+                    </div>
+                    <div class="acc-type">Funcionário</div>
+
+                </div>
+            </div>
+            <a href="../veiculos"><button class="back-button-account">Voltar</button></a>
+        </div>
     </div>
 </body>
-</html>
 
+</html>

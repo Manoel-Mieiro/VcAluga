@@ -88,6 +88,7 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Número</th>
+                    <th scope="col">Detalhes</th>
                 </tr>
                 </thead>
 <tbody>
@@ -95,7 +96,6 @@
     	<td class="col-1" th:text="${nf.getIdNF()}">ID</td>
         <td class="col-2" th:text="${nf.numeroNF}">Número</td>
         <td class="col-1"><a th:href="@{/nfs/{nfId}(nfId = ${nf.idNF})}">Detalhes</a></td>
-        <td class="col-1"><a th:href="@{/nfs/{nfId}/delete(nfId = ${nf.idNF})}">Deletar</a></td> 
     </tr>
 </tbody>
             </table>

@@ -4,6 +4,8 @@
     --bar-color: rgba(224, 68, 47, 1);
     --text-color: rgba(0, 0, 0, 0.76);
     --navbar-color: rgba(87, 117, 144, 1);
+    --profile-border-color: rgba(29, 129, 216, 0.6);
+    --logout-hover: rgba(24, 41, 55);
     --history-color: rgba(87, 117, 144, 0.3);
 }
 
@@ -140,3 +142,203 @@ button:hover {
     position: relative;
 }
 /*End Filter*/
+
+
+
+.p-3.mb-2.bg-body-tertiary.profile-card {
+    width: 400px;
+    margin: 120px auto 120px;
+    background-color: #fff;
+    border-color: var(--navbar-color);
+    padding: 0 20px 20px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.075);
+    -webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.075);
+    -moz-box-shadow: 0 2px 5px rgba(0,0,0,0.075);
+    text-align: justify;
+  }
+  .avatar-flip {
+    border-radius: 100px;
+    overflow: hidden;
+    height: 150px;
+    width: 150px;
+    position: relative;
+    margin: auto;
+    top: -60px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 0 13px var(--profile-border-color);
+    -webkit-box-shadow: 0 0 0 13px var(--profile-border-color);
+    -moz-box-shadow: 0 0 0 13px var(--profile-border-color);
+  }
+  .avatar-flip img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 100px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+  }
+  .avatar-flip img:first-child {
+    z-index: 1;
+  }
+  .avatar-flip img:last-child {
+    z-index: 0;
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    opacity: 0;
+  }
+  .profile-card h2 {
+    font-size: 32px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  .profile-card h4{
+    font-size: 1.4em;
+    color: var(--navbar-color);
+    text-align: center;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+  }
+  .profile-card p {
+    font-size: 16px;
+    line-height: 26px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+
+#logoutForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; 
+}
+
+#logoutForm button {
+    /* Estilo base do botão */
+    display: inline-block;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out; /* Adiciona transição de cor ao hover */
+
+    /* Estilo padrão do botão */
+    background-color: var(--navbar-color); /* Cor de fundo padrão */
+    color: #ffffff; /* Cor do texto padrão */
+}
+
+#logoutForm button:hover {
+    /* Estilo do botão ao passar o mouse (hover) */
+    background-color:var(--logout-hover); /* Cor de fundo ao passar o mouse */
+}
+
+
+.card-account {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    height: 60%;
+    width: 40%;
+    max-height: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* overflow: hidden; */
+}
+
+.option-container-acc {
+    display: flex;
+    justify-content: center; /* Centralize os elementos no eixo horizontal */
+    align-items: center; /* Centralize os elementos no eixo vertical */
+    margin: 7vh, 20vw, 10vh, 20vh;
+    height: 50%;
+    border: none;
+    border-radius: 5px;
+    /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.option-account,
+.option-account-op2 {
+    flex: 1;
+    margin: 0 3vw; /* Ajuste os valores de margem conforme necessário */
+    height: 80%;
+    width: 40%; 
+    color: tomato;
+    background-color: white;
+    border-radius: 8px; /* Adicione borda arredondada */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adicione box-shadow */
+    padding: 40%, 0, 40%, 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centralize o conteúdo verticalmente */
+    align-items: center; /* Centralize o conteúdo horizontalmente */
+}
+
+
+.option-account {
+    color: yellowgreen;
+}
+
+.icon-acc {
+    height: 10vh;
+    width: 10vw;
+    padding: 5%;
+}
+
+.icon-acc i {
+    padding: 20px;
+    font-size: 13vh;
+}
+
+
+.icon-acc a{
+    display: block;
+    font-size: 24px;
+    /* padding-bottom: 20%;
+    padding-top: 30%; */
+    margin-bottom: 10px;
+    height: 50px;
+}
+
+.back-button-account {
+    margin-top: 30%;    
+    margin-bottom: 20vh;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.main-container-acc {
+    background-color: var(--navbar-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.acc-type{
+    padding-top: 30%;
+    padding-bottom: 4%;
+}
+
+.select-acc {
+    font-size: 10%;
+    margin: 0, 10%, 0, 10%;
+}

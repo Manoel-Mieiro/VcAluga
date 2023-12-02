@@ -13,7 +13,7 @@
 
 	<title>Veículo</title>
 <body>
-	<h1>Veiculo</h1>
+	<h1><span th:text="${veiculo.marcaVeiculo + ' ' + veiculo.modeloVeiculo}"></h1>
 	
 <main>
         <div class="container mt-4">
@@ -23,7 +23,7 @@
                     <b>Marca:</b> <span th:text="${veiculo.marcaVeiculo}"></span><br/>
                     <b>Modelo:</b> <span th:text="${veiculo.modeloVeiculo}"></span><br/>
                     <b>Categoria:</b> <span th:text="${veiculo.categoriaVeiculo}"></span><br/>
-                    <b>Quilometragem:</b> <span th:text="${veiculo.quilometragem}"></span><br/>
+                    <b>Quilometragem:</b> <span th:text="${veiculo.quilometragem} + ' ' + Km"></span><br/>
                     <b>Cor:</b> <span th:text="${veiculo.cor}"></span><br/>
                     <b>Ano:</b> <span th:text="${veiculo.ano}"></span><br/>
                     <b>Filial:</b> <span th:text="${veiculo.branch.uf}"></span>
