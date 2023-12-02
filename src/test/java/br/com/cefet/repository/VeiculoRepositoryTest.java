@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -31,20 +32,21 @@ class VeiculoRepositoryTest {
 	VeiculoRepository veiculoRepository; 
 	
 	@Test
+	@DisplayName("Deve cadastrar um veículo no banco de dados")
 	void testCreateVeiculo() {
-		// Criar uma instância de requisicaoVeiculo com dados de teste
-		requisicaoVeiculo testData = new requisicaoVeiculo(/*...dados de teste...*/);
+
+		requisicaoVeiculo testData = new requisicaoVeiculo();
 
 		  Filial filial = createFilial();
 		
-		// Chamar o método createVeiculo para criar um veículo
+
 		   Veiculo veiculo = createVeiculo(testData, filial);
 
-		// Verificar se o veículo foi criado corretamente
+
 		assertNotNull(veiculo);
 		assertNotNull(veiculo.getBranch());
 		
-		// Adicione mais verificações conforme necessário para garantir que o veículo foi criado corretamente
+
 		assertEquals(2013, veiculo.getAno());
 		assertEquals(Categoria.Popular, veiculo.getCategoriaVeiculo());
 		assertEquals(Paletas.Azul, veiculo.getCor());
@@ -53,20 +55,16 @@ class VeiculoRepositoryTest {
 		assertEquals("JLB-2580", veiculo.getPlaca());
 		assertEquals(0F, veiculo.getQuilometragem());
 		
-		// Salvar o veículo no banco de dados (se seu repositório estiver configurado para salvar automaticamente, você pode pular esta parte)
+		
 		veiculoRepository.save(veiculo);
 		
-		// Recuperar o veículo do banco de dados para garantir que foi salvo corretamente
+		
 		Optional<Veiculo> veiculoSalvoOptional = veiculoRepository.findById(veiculo.getId());
 		assertTrue(veiculoSalvoOptional.isPresent());
 		Veiculo veiculoSalvo = veiculoSalvoOptional.get();
 		
-		// Adicionar mais verificações se necessário
 		assertEquals(veiculo.getAno(), veiculoSalvo.getAno());
-		// Adicione verificações para outros atributos
-		
-		// Lembre-se de lidar com o cleanup, se necessário, para evitar efeitos colaterais nos outros testes
-	}
+			}
 	
 	private Filial createFilial() {
         Filial filial = new Filial();
@@ -79,7 +77,7 @@ class VeiculoRepositoryTest {
         filial.setUf("AP");
         filial.setCota(21F);
         filial.setQuantidadeVeiculos(65);
-        filialRepository.save(filial); // Salvar no banco de dados
+        filialRepository.save(filial); 
         return filial;
     }
 	
