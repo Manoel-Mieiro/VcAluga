@@ -38,7 +38,7 @@ public class EstacaoController {
 	@GetMapping("/estacoes")
 	public ModelAndView index() {
 
-		List<Estacao> estacoes = this.estacaoRepository.findByStatus(Status.Livre);
+		List<Estacao> estacoes = this.estacaoRepository.findAll();
 		
 		ModelAndView mv = new ModelAndView("estacoes/index");
 		mv.addObject("estacoes", estacoes);

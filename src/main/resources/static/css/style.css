@@ -159,7 +159,7 @@ button:hover {
     -moz-box-shadow: 0 2px 5px rgba(0,0,0,0.075);
     text-align: justify;
   }
-  .avatar-flip {
+  .avatar-flip, .car-flip {
     border-radius: 100px;
     overflow: hidden;
     height: 150px;
@@ -240,7 +240,7 @@ button:hover {
     color: #ffffff; /* Cor do texto padrão */
 }
 
-#logoutForm button:hover {
+#logoutForm button:hover, .back-button-account :hover {
     /* Estilo do botão ao passar o mouse (hover) */
     background-color:var(--logout-hover); /* Cor de fundo ao passar o mouse */
 }
@@ -249,7 +249,7 @@ button:hover {
 .card-account {
     background-color: #f0f0f0;
     border-radius: 10px;
-    padding: 20px;
+    /* padding: 20px; */
     text-align: center;
     height: 60%;
     width: 40%;
@@ -259,10 +259,11 @@ button:hover {
 }
 
 .option-container-acc {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     justify-content: center; /* Centralize os elementos no eixo horizontal */
     align-items: center; /* Centralize os elementos no eixo vertical */
-    margin: 7vh, 20vw, 10vh, 20vh;
+    text-align: center;
     height: 50%;
     border: none;
     border-radius: 5px;
@@ -272,34 +273,58 @@ button:hover {
 .option-account,
 .option-account-op2 {
     flex: 1;
-    margin: 0 3vw; /* Ajuste os valores de margem conforme necessário */
-    height: 80%;
-    width: 40%; 
+     flex-direction: column;
+    /* margin: 0 3vw; */
+    margin: auto;
+    /* height: 80%; */
+    width: 40%;
+    max-height: 90vh;
+    min-height: 20vh;
+    min-width: 8vw;
+    max-width: 400px;
     color: tomato;
     background-color: white;
-    border-radius: 8px; /* Adicione borda arredondada */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adicione box-shadow */
-    padding: 40%, 0, 40%, 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 50%, 0, 50%, 0;
     display: flex;
-    flex-direction: column;
-    justify-content: center; /* Centralize o conteúdo verticalmente */
-    align-items: center; /* Centralize o conteúdo horizontalmente */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+
+.option-account:hover,.option-account-op2:hover, .icon-acc a:hover  {
+    background-color: var(--navbar-color); 
+    color: white;
 }
 
 
 .option-account {
     color: yellowgreen;
-}
+}   
 
 .icon-acc {
     height: 10vh;
     width: 10vw;
     padding: 5%;
+    max-height: 100px; /* Ou ajuste conforme necessário */
+    max-width: 100px; /* Ou ajuste conforme necessário */
 }
 
+
+.option-account :link{
+    color: green;
+} 
+
+.option-account :link{
+    color: red;
+} 
+
 .icon-acc i {
-    padding: 20px;
-    font-size: 13vh;
+/* padding: 20px; */
+   /* font-size: 10vh; */
+   font-size:calc(1% + 4.3vw);
 }
 
 
@@ -312,16 +337,41 @@ button:hover {
     height: 50px;
 }
 
+
+.icon-acc a:visited{
+    color: greenyellow;
+}
+
+.option-account-op2 a:visited{
+    color: tomato;
+}
+
+
 .back-button-account {
-    margin-top: 30%;    
-    margin-bottom: 20vh;
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: #fff;
+    margin: auto;
+    /* margin: auto; */
+    /* padding: 10px 20px; */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out; /* Adiciona transição de cor ao hover */
+
+    /* Estilo padrão do botão */
+    background-color: var(--navbar-color); /* Cor de fundo padrão */
+    color: #ffffff; /* Cor do texto padrão */
+    /* background-color: #3498db;
+    color: #fff; */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size:calc(1% + 1.5vw);
+    width: 10%;
+    height: 20%;
+    max-width: 90%;
+    min-width: 14%;
+    max-height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
 }
 
 .main-container-acc {
@@ -333,12 +383,311 @@ button:hover {
     margin: 0;
 }
 
-.acc-type{
-    padding-top: 30%;
-    padding-bottom: 4%;
+
+.acc-type {
+    max-width: 100%; /* Ou ajuste para um valor específico que funcione para você */
+    overflow: hidden; /* Impede que o texto ultrapasse as bordas */
+    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+    text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto ultrapassa o tamanho máximo */
+    padding: 22%;
+    font-size:calc(1% + 0.7vw);
 }
 
-.select-acc {
-    font-size: 10%;
-    margin: 0, 10%, 0, 10%;
+.selec-acc {
+    color: var(--navbar-color);
+    font-size: 2vh; /* Ajuste o tamanho da fonte conforme necessário */
+    /* margin: 10% 0; Ajuste as margens conforme necessário */
+    display: flex; /* Para ocupar toda a largura do contêiner */
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Distribui os elementos para as extremidades verticalmente */
+}
+
+.car-flip{
+    box-shadow: 0 0 0 13px var(--history-color);
+    -webkit-box-shadow: 0 0 0 13px var(--history-color);
+    -moz-box-shadow: 0 0 0 13px var(--history-color);
+}
+
+/*Assinatura*/
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100;300&family=Monsieur+La+Doulaise&family=Montserrat:wght@200&family=Playpen+Sans&display=swap');
+
+.assinatura{
+    font-family: 'Antonio', sans-serif;
+    font-family: 'Monsieur La Doulaise', cursive;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Playpen Sans', cursive;
+    font-style: oblique;
+    text-decoration: underline;
+    color:var(--navbar-color);
+
+}
+
+/*NF*/
+.nf-body{
+    margin-top:20px;
+}
+
+
+.card {
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: 1rem;
+}
+
+.m-0.fw-semibold{
+    font-size: 1.3em;
+    color: green;
+}
+
+.border-0.text-end.impostil{
+    color: red;
+}
+
+
+/*Login Form*/
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+* {
+	box-sizing: border-box;
+}
+
+
+.login-body{
+    background: var(--history-color);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-family: 'Montserrat', sans-serif;
+	height: 100vh;
+	margin: -20px 0 50px;
+}
+
+.form-container.log-in-container h1{
+    font-weight: bold;
+	margin: 0;  
+}
+
+.overlay-panel.overlay-right p{
+    font-size: 14px;
+	font-weight: 100;
+	line-height: 20px;
+	letter-spacing: 0.5px;
+	margin: 20px 0 30px;
+}
+
+.use-y-acc{
+    font-size: 12px;
+}
+
+.form-container.log-in-container a{
+    color: #333;
+	font-size: 14px;
+	text-decoration: none;
+	margin: 15px 0;
+}
+
+.form-container.log-in-container button{
+    border-radius: 20px;
+	border: 1px solid var(--navbar-color);
+	background-color: var(--navbar-color);
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.form-container.log-in-container{
+    background-color: #FFFFFF;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 50px;
+	height: 100%;
+	text-align: center;
+}
+
+.input-login{
+    background-color: #eee;
+	border: none;
+    border-radius: 14px;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+}
+
+.container-login {
+	background-color: #fff;
+	border-radius: 10px;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+	position: relative;
+	overflow: hidden;
+	width: 768px;
+	max-width: 100%;
+	min-height: 480px;
+}
+
+.log-in-container {
+	left: 0;
+	width: 50%;
+	z-index: 2;
+}
+
+.overlay-container-login {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 50%;
+	height: 100%;
+}
+
+.overlay-login {
+	background: var(--navbar-color);
+	background: -webkit-linear-gradient(to right, white, var(--navbar-color));
+	background: linear-gradient(to right, white, var(--navbar-color));
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 0 0;
+	color: white;
+	position: relative;
+	left: -100%;
+	height: 100%;
+	width: 200%;
+}
+.overlay-panel {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 40px;
+	text-align: center;
+	top: 0;
+	height: 100%;
+	width: 50%;
+}
+
+.overlay-right {
+	right: 0;
+}
+
+.social-container {
+	margin: 50px 0;
+}
+
+.social-container a {
+	border: 1px solid #DDDDDD;
+	border-radius: 50%;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 5px;
+	height: 40px;
+	width: 40px;
+}
+
+.container-login {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+}
+
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+}
+
+.overlay-container-login {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+}
+
+
+.overlay-panel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+}
+
+.overlay-right {
+    right: 0;
+}
+
+.social-container {
+    margin: 50px 0;
+}
+
+.social-container a {
+    border: 1px solid #DDDDDD;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    height: 40px;
+    width: 40px;
+}
+
+.actions-login{
+    display: block;
+    text-align: center; 
+}
+
+.redirec-sessoes {	
+	font-size: 14px;
+	text-decoration: none;
+	margin: 15px 0;
+}
+.redirec-sessoes link {
+	color: var(--navbar-color);
+}
+
+.redirec-sessoes :visited{
+    color: red;
+    text-decoration: underline;
+}
+
+
+.login-btn{
+    border-radius: 20px;
+	border: 1px solid #FF4B2B;
+	background-color: #FF4B2B;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
 }
