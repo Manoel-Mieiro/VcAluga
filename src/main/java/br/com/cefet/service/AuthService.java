@@ -41,10 +41,8 @@ public class AuthService {
     }
     
     public boolean verificarCredenciais(String cpf, String senha) {
-        // Busca o usuário pelo email no banco de dados
         Optional<Usuario> userOptional = usuarioRepository.findByCpf(cpf);
 
-        // Verifica se o usuário existe e se a senha está correta
         return userOptional.isPresent() && userOptional.get().getSenha().equals(senha);
     }
     
