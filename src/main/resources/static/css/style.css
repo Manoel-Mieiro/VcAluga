@@ -240,7 +240,7 @@ button:hover {
     color: #ffffff; /* Cor do texto padrão */
 }
 
-#logoutForm button:hover {
+#logoutForm button:hover, .back-button-account :hover {
     /* Estilo do botão ao passar o mouse (hover) */
     background-color:var(--logout-hover); /* Cor de fundo ao passar o mouse */
 }
@@ -249,7 +249,7 @@ button:hover {
 .card-account {
     background-color: #f0f0f0;
     border-radius: 10px;
-    padding: 20px;
+    /* padding: 20px; */
     text-align: center;
     height: 60%;
     width: 40%;
@@ -279,12 +279,14 @@ button:hover {
     /* height: 80%; */
     width: 40%;
     max-height: 90vh;
+    min-height: 20vh;
+    min-width: 8vw;
     max-width: 400px;
     color: tomato;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 40%, 0, 40%, 0;
+    padding: 50%, 0, 50%, 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -292,7 +294,7 @@ button:hover {
 }
 
 
-.option-account:hover,.option-account-op2:hover  {
+.option-account:hover,.option-account-op2:hover, .icon-acc a:hover  {
     background-color: var(--navbar-color); 
     color: white;
 }
@@ -311,9 +313,18 @@ button:hover {
 }
 
 
+.option-account :link{
+    color: green;
+} 
+
+.option-account :link{
+    color: red;
+} 
+
 .icon-acc i {
 /* padding: 20px; */
-   font-size: 10vh;
+   /* font-size: 10vh; */
+   font-size:calc(1% + 6vw);
 }
 
 
@@ -326,17 +337,41 @@ button:hover {
     height: 50px;
 }
 
+
+.icon-acc a:visited{
+    color: greenyellow;
+}
+
+.option-account-op2 a:visited{
+    color: tomato;
+}
+
+
 .back-button-account {
-    /* margin-top: 30%;    
-    margin-bottom: 20vh; */
     margin: auto;
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: #fff;
+    /* margin: auto; */
+    /* padding: 10px 20px; */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out; /* Adiciona transição de cor ao hover */
+
+    /* Estilo padrão do botão */
+    background-color: var(--navbar-color); /* Cor de fundo padrão */
+    color: #ffffff; /* Cor do texto padrão */
+    /* background-color: #3498db;
+    color: #fff; */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size:calc(1% + 1.5vw);
+    width: 10%;
+    height: 20%;
+    max-width: 90%;
+    min-width: 14%;
+    max-height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
 }
 
 .main-container-acc {
@@ -354,6 +389,8 @@ button:hover {
     overflow: hidden; /* Impede que o texto ultrapasse as bordas */
     white-space: nowrap; /* Impede que o texto quebre em várias linhas */
     text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto ultrapassa o tamanho máximo */
+    padding: 10%;
+    font-size:calc(1% + 0.9vw);
 }
 
 .selec-acc {
