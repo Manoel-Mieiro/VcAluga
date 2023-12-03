@@ -159,7 +159,7 @@ button:hover {
     -moz-box-shadow: 0 2px 5px rgba(0,0,0,0.075);
     text-align: justify;
   }
-  .avatar-flip {
+  .avatar-flip, .car-flip {
     border-radius: 100px;
     overflow: hidden;
     height: 150px;
@@ -401,4 +401,54 @@ button:hover {
     flex-direction: column;
     align-items: center;
     justify-content: space-between; /* Distribui os elementos para as extremidades verticalmente */
+}
+
+.car-flip{
+    box-shadow: 0 0 0 13px var(--history-color);
+    -webkit-box-shadow: 0 0 0 13px var(--history-color);
+    -moz-box-shadow: 0 0 0 13px var(--history-color);
+}
+
+/*Assinatura*/
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100;300&family=Monsieur+La+Doulaise&family=Montserrat:wght@200&family=Playpen+Sans&display=swap');
+
+.assinatura{
+    font-family: 'Antonio', sans-serif;
+    font-family: 'Monsieur La Doulaise', cursive;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Playpen Sans', cursive;
+    font-style: oblique;
+    text-decoration: underline;
+    color:var(--navbar-color);
+
+}
+
+/*NF*/
+.nf-body{
+    margin-top:20px;
+}
+
+
+.card {
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: 1rem;
+}
+
+.m-0.fw-semibold{
+    font-size: 1.3em;
+    color: green;
+}
+
+.border-0.text-end.impostil{
+    color: red;
 }

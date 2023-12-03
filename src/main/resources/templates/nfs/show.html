@@ -14,86 +14,143 @@
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 	crossorigin="anonymous">
 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
+	<link rel="stylesheet" href="../satic/css/style.css" th:href="@{/css/style.css}">
+
 <title>Nota Fiscal</title>
 <body>
-	<h1>
-		NF #<span th:text="${nf.numeroNF}"></span>
-	</h1>
-
-	<main>
-		<div class="container mt-4">
-			<div class="row">
-				<div class="col-24">
-					<b>Número:</b> <span th:text="${nf.numeroNF}"></span><br>
-
-					<div class="col-24">
-						<b>Nome/Razão Social:</b> <span
-							th:text="${nf.contrato.cliente?.nome + ' ' + nf.contrato.cliente?.sobrenome}"></span><br>
-						<div class="col-24">
-							<b>UF:</b> <span th:text="${nf.contrato.filial?.uf}"></span><br>
-							<div class="col-24">
-								<b>CPF:</b> <span th:text="${nf.contrato.cliente?.cpf}"></span><br>
-
-								<div class="col-24">
-									<b>Data de Emissão:</b> <span
-										th:utext="${#dates.format(nf.dataEmissao, 'dd/MM/yyyy')}"></span><br>
-
-
-
-									<div class="col-24">
-										<b>Endereço:</b> <span
-											th:text="${nf.contrato.cliente?.endereco + ', nº ' + nf.contrato.cliente?.numero}"></span><br>
-
-										<div class="col-24">
-											<b>Bairro/Distrito:</b> <span
-												th:text="${nf.contrato.cliente?.bairro}"></span><br>
-											<div class="col-24">
-
-												<b>Município:</b> <span
-													th:text="${nf.contrato.cliente?.cidade}"></span><br>
-												<div class="col-24">
-													<b>Fone:</b> <span
-														th:text="${nf.contrato.cliente?.telefone}"></span><br>
-
-													<div class="col-24">
-														<b>Código do Produto:</b> <span
-															th:text="${nf.contrato.veiculo?.id}"></span><br>
-
-														<div class="col-24">
-															<b>Valor Base:</b> <span
-																th:text="'R$ ' + ${nf.valorSemImposto}"></span><br>
-
-															<div class="col-24">
-																<b>Valor Total:</b> <span
-																	th:text="'R$ ' + ${nf.valorTotal}"></span><br>
-																<div class="col-24">
-																	<b>Alíquota:</b> <span
-																		th:text="${(nf.aliquota) * 100} + '%'"></span><br>
-																	<div class="col-24">
-																		<b>Valor do Impostil:</b> <span
-																			th:text="'R$' + ${nf.valorDoImposto}"></span><br>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+	<div class="nf-body">
+	<div class="container">
+		<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="invoice-title">
+								<h4 class="float-end font-size-15">NF #<span th:text="${nf.numeroNF}"></span></h4>
+									<div class="badge bg-success font-size-12 ms-2">Validado</div>
+								<div class="mb-4">
+								   <h2 class="mb-1 text-muted">VcAluga</h2>
+								</div>
+								<div class="text-muted">
+									<p class="mb-1"> <span
+										th:text="${nf.contrato.filial?.endereco + ', nº ' + nf.contrato.filial?.numero}"></p>
+									<p class="mb-1"><i class="uil uil-envelope-alt me-1"></i> vcaluga@gmail.com</p>
+									<p><i class="uil uil-phone me-1"></i>(11) 4002-8922</p>
+								</div>
+							</div>
+		
+							<hr class="my-4">
+		
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="text-muted">
+										<h5 class="font-size-16 mb-3">Emitido Para:</h5>
+										<h5 class="font-size-15 mb-2" th:text="${nf.contrato.cliente?.nome + ' ' + nf.contrato.cliente?.sobrenome}"></h5>
+										<p class="mb-1"><span
+											th:text="${nf.contrato.cliente?.endereco + ', nº ' + nf.contrato.cliente?.numero + ', ' + nf.contrato.cliente?.cidade + ' - ' + nf.contrato.cliente?.estado}"></span></p>
+										<p class="mb-1"><span
+											th:text="${nf.contrato.cliente?.email}"></span></p>
+										<p><span
+											th:text="${nf.contrato.cliente?.telefone}"></span></p>
+									</div>
+								</div>
+								<!-- end col -->
+								<div class="col-sm-6">
+									<div class="text-muted text-sm-end">
+										<div>
+											<h5 class="font-size-15 mb-1">CPF:</h5>
+											<p><span th:text="${nf.contrato.cliente?.cpf}"></span></p>
+										</div>
+										<div class="mt-4">
+											<h5 class="font-size-15 mb-1">Data de Emissão:</h5>
+											<p><span
+												th:utext="${#dates.format(nf.dataEmissao, 'dd/MM/yyyy')}"></span></p>
+										</div>
+										<div class="mt-4">
+											<h5 class="font-size-15 mb-1">Contrato Nº:</h5>
+											<p>#<span th:text="${nf.contrato.reserva?.idReserva}"></span></p>
 										</div>
 									</div>
+								</div>
+								<!-- end col -->
+							</div>
+							<!-- end row -->
+							
+							<div class="py-2">
+								<h5 class="font-size-15">Conteúdo</h5>
+		
+								<div class="table-responsive">
+									<table class="table align-middle table-nowrap table-centered mb-0">
+										<thead>
+											<tr>
+												<th style="width: 70px;">Placa</th>
+												<th>Veículo</th>
+												<th>Categoria</th>
+												<th>Diária</th>
+												<th class="text-end" style="width: 120px;">Total</th>
+											</tr>
+										</thead><!-- end thead -->
+										<tbody>
+											<tr>
+												<th scope="row"><span
+													th:text="${nf.contrato.veiculo?.placa}"></th>
+												<td>
+													<div>
+														<h5 class="text-truncate font-size-14 mb-1"><span
+															th:text="${nf.contrato.veiculo?.modeloVeiculo + ' ' + nf.contrato.veiculo?.marcaVeiculo}"></span></h5>
+														<p class="text-muted mb-0"><span
+															th:text="${nf.contrato.veiculo?.cor}"></span></p>
+													</div>
+												</td>
+												<td><span
+													th:text="${nf.contrato.veiculo?.categoriaVeiculo}"></span></td>
+												<td><span
+													th:text="'R$ ' + ${nf.contrato.reserva?.valorPago}"></span></td>
+												<td class="text-end"><span
+													th:text="'R$ ' + ${nf.valorSemImposto}"></span></td>
+											</tr>
+											<!-- end tr -->
+											<tr>
+												<th scope="row" colspan="4" class="text-end">Sub Total</th>
+												<td class="text-end"><span
+													th:text="'R$ ' + ${nf.valorSemImposto}"></span></td>
+											</tr>
+											<!-- end tr -->
+											<tr>
+												<th scope="row" colspan="4" class="border-0 text-end">
+													Alíquota :</th>
+												<td class="border-0 text-end"><span
+													th:text="${(nf.aliquota) * 100} + '%'"></span></td>
+											</tr>
+												<!-- end tr -->
+											<tr>
+												<th scope="row" colspan="4" class="border-0 text-end">
+													Tributação :</th>
+												<td class="border-0 text-end impostil">+ <span
+													th:text="'R$' + ${nf.valorDoImposto}"></td>
+											</tr>
+											<!-- end tr -->		
+											<tr>
+												<th scope="row" colspan="4" class="border-0 text-end">Total</th>
+												<td class="border-0 text-end"><h4 class="m-0 fw-semibold"><span
+													th:text="'R$ ' + ${nf.valorTotal}"></h4></td>
+											</tr>
+											<!-- end tr -->
+										</tbody><!-- end tbody -->
+									</table><!-- end table -->
+								</div><!-- end table responsive -->
+								<div class="d-print-none mt-4">
+									
+										<a href="../nfs">Voltar</a>
+								
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div><!-- end col -->
 			</div>
-			<br>
-			<!-- <a th:href="@{/nfs/{idNF}/edit(idNF=${idNF})}"
-				class="btn btn-primary">Editar</a>  -->
-			<a href="javascript:history.back()">Voltar</a>
-
 		</div>
-	</main>
-
+	</div>
 </body>
 </html>
