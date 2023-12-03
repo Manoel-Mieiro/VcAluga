@@ -1,55 +1,50 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<!-- Necesário para o thymeleaf -->
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<!-- Necessário para o Thymeleaf -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
 
-<link rel="stylesheet" href="../satic/css/style.css"
-	th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 
-<title>Lista de Usuários</title>
+    <title>Login</title>
 </head>
 <body>
-	<h1>Login</h1>
-	<br>
-	<br>
-	<form method="post" action="/sessoes">
-		<div class="form-group row">
-			<label for="inputEmail3" class="col-sm-2 col-form-label">CPF</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control" id="inputCPF" name="cpf"
-					placeholder="111.111.111-11" required>
-			</div>
-		</div>
-		<div class="form-group row">
-			<label for="inputPassword3" class="col-sm-2 col-form-label">Senha</label>
-			<div class="col-sm-10">
-				<input type="password" class="form-control" id="inputPassword"
-					name="senha" placeholder="Senha" required>
-			</div>
-		</div>
-		<div class="mb-3">
-			<label class="form-lable">Tipo</label> <select class="form-select"
-				name="tipo">
-				<option value="Cliente">Cliente</option>
-				<option value="Funcionário">Funcionário</option>
-			</select>
-		</div>
-		<div class="form-group row">
-			<div class="col-sm-10">
-				<button type="submit" class="btn btn-primary">Entrar</button>
-			</div>
-		</div>
-	</form>
+    <div class="login-body">
+        <div class="container-login" id="container-login">
+            <div class="form-container log-in-container">
+                <form action="/sessoes" method="post">
+                    <h1>Bem Vindo!</h1>
+                    <input class="input-login"type="text" name="cpf" placeholder="111.111.111-11" required>
+                    
+                        <input class="input-login"type="password" name="senha" placeholder="Senha" required>
+                    
+					<div class="mb-3">
+						<label class="form-lable">Tipo</label> <select class="form-select"
+							name="tipo">
+							<option value="Cliente">Cliente</option>
+							<option value="Funcionário">Funcionário</option>
+						</select>
+					</div>
+                    <a class="redirec-sessoes" href="../cadastros">Não tem uma conta?</a>
+				<button class="login-btn">Entrar</button>
+                </form>
+            </div>
+            <div class="overlay-container-login">
+                <div class="overlay-login">
+                    <div class="overlay-panel overlay-right">
+                        <h1>Você Aluga</h1>
+                        <p>Aluguéis Automotivos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

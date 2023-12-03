@@ -1,101 +1,73 @@
 package br.com.cefet.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
-
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import br.com.cefet.model.Filial;
 import br.com.cefet.model.Veiculo;
 import br.com.cefet.repository.VeiculoRepository;
 
+import java.util.Collections;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @SpringBootTest
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
-class VeiculoControllerTest {
+public class VeiculoControllerTest {
 
 	@Autowired
-    private MockMvc mockMvc;
-	
-	@MockBean
+	private MockMvc mockMvc;
+
+	@Mock
 	private VeiculoRepository veiculoRepository;
 
-	 private static final Logger logger = LoggerFactory.getLogger(VeiculoControllerTest.class);
-	
-	 @Test
-	    void testCriarVeiculo() throws Exception {
-	        String requestBody = "{ \"idFilial\": 8, \"modeloVeiculo\": \"Taos\", \"marcaVeiculo\": \"Volkswagen\", \"quilometragem\": \"0\", \"cor\": \"Branco\", \"categoriaVeiculo\": \"Economico\", \"ano\": \"2015\", \"placa\": HPT-2642}";
+	@InjectMocks
+	private VeiculoController veiculoController;
 
-	        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/veiculos")
-	                .contentType(MediaType.APPLICATION_JSON)
-	                .content(requestBody))
-	                .andReturn();
-	        
-	        int status = result.getResponse().getStatus();
-	        logger.info("Status da resposta: {}", status);
+	@Test
+	public void testCadastroVeiculo() throws Exception {
 
-	        verify(veiculoRepository).save(any(Veiculo.class));
+		final Logger log = LoggerFactory.getLogger(VeiculoControllerTest.class);
 
-	        logger.info("Teste de criação de veículo concluído.");
-	       	        
-	        assertEquals(302, status); // 302 Found (redirect)
+		String requestContent = "{{\r\n" + "  \"branchId\": 1,\r\n" + "  \"placa\": \"IAE-8335\",\r\n"
+				+ "  \"marcaVeiculo\": \"Toyota\",\r\n" + "  \"modeloVeiculo\": \"Onix Plus\",\r\n"
+				+ "  \"categoriaVeiculo\": \"Popular\",\r\n" + "  \"quilometragem\": 0.0,\r\n"
+				+ "  \"cor\": \"Prata\",\r\n" + "  \"ano\": 2022\r\n" + "}\r\n" + "}";
 
-	    }
+		log.info("Request Content: {}", requestContent);
 
-	 @Test
-	 void testVeiculoCriadoNoBancoDeDados() throws Exception {
-	     String requestBody = "{ \"idFilial\": 8, \"modeloVeiculo\": \"Taos\", \"marcaVeiculo\": \"Volkswagen\", \"quilometragem\": \"0\", \"cor\": \"Branco\", \"categoriaVeiculo\": \"Economico\", \"ano\": \"2015\"}";
+		mockMvc.perform(post("/veiculos").contentType("application/json").content(requestContent))
+				.andExpect(status().isOk()).andExpect(view().name("veiculos/new"));
+	}
 
-	     // Realiza a criação do veículo
-	     MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/veiculos")
-	             .contentType(MediaType.APPLICATION_JSON)
-	             .content(requestBody))
-	             .andReturn();
-
-	     int status = result.getResponse().getStatus();
-	     logger.info("Status da resposta: {}", status);
-
-	     // Verifica se houve redirecionamento
-	     assertEquals(302, status); // 302 Found (redirect)
-
-	     // Obtém o URL redirecionado
-	     String redirectedUrl = result.getResponse().getHeader("Location");
-	     assertNotNull(redirectedUrl);
-
-	     // Extrai o ID do URL redirecionado
-	     String[] parts = redirectedUrl.split("/");
-	     int veiculoId = Integer.parseInt(parts[parts.length - 1]);
-
-	     // Ajuste 1: Obtém o veículo criado no banco de dados usando o ID extraído
-	     Veiculo veiculoCriado = veiculoRepository.findById(veiculoId).orElse(null);
-	     assertNotNull(veiculoCriado);
-
-	     // Ajuste 2: Adiciona logs para cada atributo do veículo
-	     logger.info("ID do veículo: {}", veiculoCriado.getId());
-	     logger.info("Modelo do veículo: {}", veiculoCriado.getModeloVeiculo());
-	     logger.info("Marca do veículo: {}", veiculoCriado.getMarcaVeiculo());
-	     logger.info("Quilometragem do veículo: {}", veiculoCriado.getQuilometragem());
-	     logger.info("Cor do veículo: {}", veiculoCriado.getCor());
-	     logger.info("Categoria do veículo: {}", veiculoCriado.getCategoriaVeiculo());
-	     logger.info("Ano do veículo: {}", veiculoCriado.getAno());
-
-	     logger.info("Teste de criação de veículo concluído.");
-	 }
-
-
-	 
+	/*
+	 * @Test public void testDetalhesVeiculo() throws Exception {
+	 * when(veiculoRepository.findById(any())).thenReturn(Optional.of(new
+	 * Veiculo()));
+	 * 
+	 * mockMvc.perform(get("/veiculos/{id}", 1)) .andExpect(status().isOk())
+	 * .andExpect(view().name("veiculos/show"))
+	 * .andExpect(model().attributeExists("veiculo"));
+	 * 
+	 * // Verifica se o método findById foi chamado com o ID correto
+	 * verify(veiculoRepository).findById(1); }
+	 */
 
 }

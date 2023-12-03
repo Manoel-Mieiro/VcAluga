@@ -27,7 +27,7 @@ public class Veiculo {
 	@Enumerated(EnumType.STRING)
 	private Paletas cor; // enum
 	@Column(nullable = false)
-	private int ano; // byte foi escolhido porque dificilmente carros duram mais de 127 anos
+	private int ano; 
 //	@JsonIgnoreProperties({"marca", "modelo", "filial", "categoria"})
 //    @OneToMany(mappedBy = "veiculo")
 //    private Reserva reserva;

@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.cefet.dto.requisicaoEstacao;
 import br.com.cefet.model.Estacao;
+import br.com.cefet.model.Funcionario;
 import br.com.cefet.model.Status;
 import br.com.cefet.repository.EstacaoRepository;
+import br.com.cefet.service.SessaoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -26,11 +31,15 @@ public class EstacaoController {
 	@Autowired
 	private EstacaoRepository estacaoRepository;
 
+	
+	@Autowired
+	private SessaoService sessaoService;
+	
 	@GetMapping("/estacoes")
 	public ModelAndView index() {
 
-		List<Estacao> estacoes = this.estacaoRepository.findByStatus(Status.Livre);
-
+		List<Estacao> estacoes = this.estacaoRepository.findAll();
+		
 		ModelAndView mv = new ModelAndView("estacoes/index");
 		mv.addObject("estacoes", estacoes);
 
@@ -39,7 +48,13 @@ public class EstacaoController {
 
 	@GetMapping("/estacoes/new")
 	public ModelAndView novo() {
-
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		if (funcionario == null) {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/estacoes");
+		}
 		ModelAndView mv = new ModelAndView("estacoes/new");
 		mv.addObject("status", Status.values());
 
@@ -92,6 +107,14 @@ public class EstacaoController {
 	public ModelAndView edit(@PathVariable Integer id, requisicaoEstacao requisicao) {
 		Optional<Estacao> optional = this.estacaoRepository.findById(id);
 
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		if (funcionario == null) {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/estacoes");
+		}
+		
 		if (optional.isPresent()) {
 			System.out.printf("%d", id);
 			Estacao estacao = optional.get();
@@ -129,6 +152,13 @@ public class EstacaoController {
 
 	@GetMapping("/estacoes/{id}/delete")
 	public String delete(@PathVariable Integer id) {
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		if (funcionario == null) {
+			System.out.println("Acesso negado!");
+			return "redirect:/estacoes";
+		}
 		try {
 			this.estacaoRepository.deleteById(id);
 			return "redirect:/estacoes";

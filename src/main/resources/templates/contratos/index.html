@@ -33,22 +33,35 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-		<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-				<li class="nav-item active"><a class="nav-link"
-					href="/veiculos">Veiculos</a></li>
-				<li class="nav-item"><a class="nav-link disabled"
-					href="/manutencoes">Manutenção</a></li>
-				<li class="nav-item"><a class="nav-link disabled"
-					href="/estacoes">Estações</a></li>
-				<li class="nav-item"><a class="nav-link disabled"
-					href="/filiais">Filiais</a></li>
-				<li class="nav-item"><a class="nav-link disabled"
-					href="/contratos">Contratos<span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item"><a class="nav-link disabled"
-					href="/motoristas">Motoristas</a></li>
-			</ul>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="/veiculos">Veiculos <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="/manutencoes">Manutenção</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="/estacoes">Estações</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="/filiais">Filiais</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="/contratos">Contratos</a>
+          </li>
+           <li class="nav-item">
+            <a class="nav-link disabled" href="/motoristas">Motoristas</a>
+          </li>
+           <li class="nav-item">
+            <a class="nav-link disabled" href="/usuarios">Usuários</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="/nfs">Notas Fiscais</a>
+          </li>
+          <li class="nav-item user">
+        </li>
+         </ul>
 			</a> <a class="nav-link disabled" href="/sessoes">
 				<div class="account-type">
 					<div id="customer">
@@ -77,71 +90,68 @@
 		<div class="container mt-4">
 			<div class="row">
 				<div class="col-12 text-right mb-2">
-					<span class="history">
-						<a href="manutencoes/archive">
-							<i class="fa-solid fa-clock-rotate-left"></i>
-						</a>
+					<span class="history"> <a href="contratos/archive"> <i
+							class="fa-solid fa-clock-rotate-left"></i>
+					</a>
 					</span>
 				</div>
 			</div>
-	  
 
-		<div class="container mt-4">
-			<div class="row">
-				<div class="col-12">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">CNPJ</th>
-								<th scope="col">Cliente</th>
-								<th scope="col">Data de Emissão</th>
-								<th scope="col">Motorista</th>
-								<th scope="col">CNH</th>
-								<th scope="col">Placa</th>
-								<th scope="col">Diária</th>
-								<th scope="col">Detalhes</th>
-								<th scope="col">Cancelamento</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="contrato : ${contratos}">
-								<td class="col-1" th:text="${contrato.getIdContrato()}">ID</td>
-								<td class="col-2" th:text="${contrato.reserva?.branch.cnpj}">CNPJ</td>
-								<td class="col-2"
-									th:text="${contrato.cliente?.nome + ' ' + contrato.cliente?.sobrenome}">Cliente</td>
-								<td class="col-3" th:text="${contrato.dataEmissao}">Data de
-									Emissão</td>
-								<td class="col-2"
-									th:text="${contrato.motorista?.nome + ' ' + contrato.motorista.sobrenome}">Nome
-									do Motorista</td>
-								<td class="col-2"
-									th:text="${contrato.motorista != null ? contrato.motorista.cnh : ''}">CNH</td>
-								<td class="col-2" th:text="${contrato.reserva?.veiculo?.placa}">Placa</td>
-								<td class="col-3"
-									th:text="'R$ ' + ${contrato.reserva?.valorPago}">Diária</td>
-								<td class="col-1"><a
-									th:href="@{/contratos/{idContrato}(idContrato = ${contrato.idContrato})}">Detalhes</a></td>
-								<td class="col-1"><a
-									th:href="@{/contratos/{idContrato}/edit(idContrato = ${contrato.idContrato})}">Editar</a></td>
+
+			<div class="container mt-4">
+				<div class="row">
+					<div class="col-12">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">CNPJ</th>
+									<th scope="col">Cliente</th>
+									<th scope="col">Data de Emissão</th>
+									<th scope="col">Motorista</th>
+									<th scope="col">CNH</th>
+									<th scope="col">Placa</th>
+									<th scope="col">Diária</th>
+									<th scope="col">Detalhes</th>
+									<th scope="col">Finalizar</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="contrato : ${contratos}">
+									<td class="col-1" th:text="${contrato.getIdContrato()}">ID</td>
+									<td class="col-2" th:text="${contrato.reserva?.branch.cnpj}">CNPJ</td>
+									<td class="col-2"
+										th:text="${contrato.cliente?.nome + ' ' + contrato.cliente?.sobrenome}">Cliente</td>
+									<td class="col-3" th:text="${contrato.dataEmissao}">Data
+										de Emissão</td>
+									<td class="col-2"
+										th:text="${contrato.motorista?.nome + ' ' + contrato.motorista.sobrenome}">Nome
+										do Motorista</td>
+									<td class="col-2"
+										th:text="${contrato.motorista != null ? contrato.motorista.cnh : ''}">CNH</td>
+									<td class="col-2" th:text="${contrato.reserva?.veiculo?.placa}">Placa</td>
+									<td class="col-3"
+										th:text="'R$ ' + ${contrato.reserva?.valorPago}">Diária</td>
 									<td class="col-1"><a
-									th:href="@{/contratos/{idContrato}/archive(idContrato = ${contrato.idContrato})}">Encerrar</a></td>
-								<!-- <td class="col-1"><a
+										th:href="@{/contratos/{idContrato}(idContrato = ${contrato.idContrato})}">Detalhes</a></td>
+									<td class="col-1"><a
+										th:href="@{/contratos/{idContrato}/archive(idContrato = ${contrato.idContrato})}">Encerrar</a></td>
+									<!-- <td class="col-1"><a
 									th:href="@{/nfs/{contratoId}/new(contratoId = ${contrato.idContrato})}">
 										<button type="button" class="btn btn-primary">Gerar
 											NF</button>
 								</a></td> -->
 
-							</tr>
-						</tbody>
-					</table>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
+				<script
+					src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+					integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+					crossorigin="anonymous"></script>
 			</div>
-			<script
-				src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-				integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-				crossorigin="anonymous"></script>
 		</div>
-	</div>
 </body>
 </html>

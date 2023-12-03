@@ -173,5 +173,4 @@ public class NF {
 
 	        return TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
 	    }
-	
 }

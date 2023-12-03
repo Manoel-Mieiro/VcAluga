@@ -1,36 +1,45 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<!-- Necesário para o thymeleaf -->
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<!-- Necessário para o thymeleaf -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet"
-	href="/home/professor/Área de Trabalho/VcAluga/src/main/resources/templates/usuarios/type.html">
-
-
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
 
     <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-   <link rel="stylesheet" href="../satic/css/style.css"
-	th:href="@{/css/style.css}">
+    <!-- Link para o seu arquivo style.css -->
+    <link rel="stylesheet" href="../satic/css/style.css" th:href="@{/css/style.css}">
 
-
-    <title>Seleção Tipo Usuário</title>
+    <title>Seleção de Contas</title>
 </head>
-<body>
-    <h1>Selecione o tipo de conta</h1>
-    <div>
-    <span id="customer">
-        <a href="../clientes/new"><i class="fa-solid fa-user">Cliente</i></a>
-    </span>
-    <span id="employee">
-        <a href="../funcionarios/new"><i class="fa-solid fa-user">Funcionário</i></a>
-    </span>
-    </div>
 
+<body>
+   
+    <div class="main-container-acc">
+        <div class="card-account">
+            <!-- <div class="option-container-acc selec-acc"> -->
+                <span class="selec-acc"><h1>SELECIONE O TIPO DE CONTA</h1></span>
+                <!-- </div> -->
+            <div class="option-container-acc">
+                <div class="option-account">
+                    <div class="icon-acc"><a href="../clientes/new">
+                            <i class="fas fa-user"></i></a>
+                    </div>
+                    <div class="acc-type">Cliente</div>
+                </div>
+
+                <div class="option-account-op2">
+                    <div class="icon-acc"> <a href="../funcionarios/new"><i class="fas fa-user"></i></a>
+                    </div>
+                    <div class="acc-type">Funcionário</div>
+
+                </div>
+            </div>
+            <a href="../veiculos" style="text-decoration: none; color: inherit;"><button class="back-button-account">Voltar</button></a>
+        </div>
+    </div>
 </body>
+
 </html>

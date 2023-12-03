@@ -23,10 +23,10 @@
         <span class="navbar-toggler-icon"></span>
       </button>
     
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item active">
-            <a class="nav-link" href="/veiculos">Veiculos</a>
+            <a class="nav-link" href="/veiculos">Veiculos <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="/manutencoes">Manutenção</a>
@@ -40,15 +40,18 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="/contratos">Contratos</a>
           </li>
-          <li class="nav-item">
+           <li class="nav-item">
             <a class="nav-link disabled" href="/motoristas">Motoristas</a>
           </li>
            <li class="nav-item">
             <a class="nav-link disabled" href="/usuarios">Usuários</a>
           </li>
-          <li class="nav-item"><a class="nav-link disabled"
-					href="/sessoes">Login <span class="sr-only"></span></a></li>
-        </ul>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="/nfs">Notas Fiscais</a>
+          </li>
+          <li class="nav-item user">
+        </li>
+         </ul>
         <a class="nav-link disabled" href="/sessoes">
           <div class="account-type">
               <div id="customer">
@@ -79,7 +82,7 @@
     <div class="row">
         <div class="col-12 text-right mb-2">
             <span class="history">
-                <a href="manutencoes/archive">
+                <a href="reservas/archive">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                 </a>
             </span>
@@ -102,6 +105,8 @@
                     <th scope="col">Total(R$)</th>
                     <th scope="col">Detalhes</th>
                     <th scope="col">Editar</th>
+                    <th scope="col">Arquivar</th>
+                    <th scope="col">Agendar Manutenção</th>
                     <th scope="col">Deletar</th>
                 </tr>
                 </thead>

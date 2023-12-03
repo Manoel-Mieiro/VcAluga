@@ -236,7 +236,8 @@ public class ReservaController {
 
 		Optional<Reserva> optional = this.reservaRepository.findById(idReserva);
 		Cliente cliente = sessaoService.obterClienteDaSessao(session);
-		if (optional.isPresent() && cliente != null) {
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		if (optional.isPresent() && (cliente != null || funcionario != null)) {
 			Reserva reserva = optional.get();
 			System.out.println("Reserva: " + reserva);
 			System.out.println("Veiculo: " + reserva.getVeiculo());
