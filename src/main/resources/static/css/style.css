@@ -259,10 +259,11 @@ button:hover {
 }
 
 .option-container-acc {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     justify-content: center; /* Centralize os elementos no eixo horizontal */
     align-items: center; /* Centralize os elementos no eixo vertical */
-    margin: 7vh, 20vw, 10vh, 20vh;
+    text-align: center;
     height: 50%;
     border: none;
     border-radius: 5px;
@@ -272,18 +273,26 @@ button:hover {
 .option-account,
 .option-account-op2 {
     flex: 1;
-    margin: 0 3vw; /* Ajuste os valores de margem conforme necessário */
-    height: 80%;
-    width: 40%; 
+     flex-direction: column;
+    /* margin: 0 3vw; */
+    margin: auto;
+    /* height: 80%; */
+    width: 40%;
+    max-height: 90vh;
     color: tomato;
     background-color: white;
-    border-radius: 8px; /* Adicione borda arredondada */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adicione box-shadow */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 40%, 0, 40%, 0;
     display: flex;
-    flex-direction: column;
-    justify-content: center; /* Centralize o conteúdo verticalmente */
-    align-items: center; /* Centralize o conteúdo horizontalmente */
+    justify-content: center;
+    align-items: center;
+}
+
+
+.option-account:hover,.option-account-op2:hover  {
+    background-color: var(--navbar-color); 
+    color: white;
 }
 
 
@@ -300,6 +309,8 @@ button:hover {
 .icon-acc i {
     padding: 20px;
     font-size: 13vh;
+    max-height: fit-content;
+    max-width: fit-content;
 }
 
 
@@ -313,8 +324,9 @@ button:hover {
 }
 
 .back-button-account {
-    margin-top: 30%;    
-    margin-bottom: 20vh;
+    /* margin-top: 30%;    
+    margin-bottom: 20vh; */
+    margin: auto;
     padding: 10px 20px;
     background-color: #3498db;
     color: #fff;
@@ -338,7 +350,12 @@ button:hover {
     padding-bottom: 4%;
 }
 
-.select-acc {
-    font-size: 10%;
-    margin: 0, 10%, 0, 10%;
+.selec-acc {
+    color: var(--navbar-color);
+    font-size: 2vh; /* Ajuste o tamanho da fonte conforme necessário */
+    /* margin: 10% 0; Ajuste as margens conforme necessário */
+    display: flex; /* Para ocupar toda a largura do contêiner */
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Distribui os elementos para as extremidades verticalmente */
 }
