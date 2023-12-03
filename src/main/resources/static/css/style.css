@@ -279,6 +279,7 @@ button:hover {
     /* height: 80%; */
     width: 40%;
     max-height: 90vh;
+    max-width: 400px;
     color: tomato;
     background-color: white;
     border-radius: 8px;
@@ -287,6 +288,7 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 
@@ -298,19 +300,20 @@ button:hover {
 
 .option-account {
     color: yellowgreen;
-}
+}   
 
 .icon-acc {
     height: 10vh;
     width: 10vw;
     padding: 5%;
+    max-height: 100px; /* Ou ajuste conforme necessário */
+    max-width: 100px; /* Ou ajuste conforme necessário */
 }
 
+
 .icon-acc i {
-    padding: 20px;
-    font-size: 13vh;
-    max-height: fit-content;
-    max-width: fit-content;
+/* padding: 20px; */
+   font-size: 10vh;
 }
 
 
@@ -345,9 +348,12 @@ button:hover {
     margin: 0;
 }
 
-.acc-type{
-    padding-top: 30%;
-    padding-bottom: 4%;
+
+.acc-type {
+    max-width: 100%; /* Ou ajuste para um valor específico que funcione para você */
+    overflow: hidden; /* Impede que o texto ultrapasse as bordas */
+    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+    text-overflow: ellipsis; /* Adiciona reticências (...) quando o texto ultrapassa o tamanho máximo */
 }
 
 .selec-acc {
