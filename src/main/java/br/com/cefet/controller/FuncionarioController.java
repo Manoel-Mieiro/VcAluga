@@ -152,6 +152,14 @@ public class FuncionarioController {
 
 			this.funcionarioRepository.save(funcionario);
 
+			Optional<Funcionario> valida = funcionarioRepository.findByCpf(funcionario.getCpf());
+		    
+		    if(valida.isPresent()) {
+		    	System.out.println("Usuário já cadastrado! Reescrevendo formulário.");
+		    	mv.addObject("funcionario", funcionario);
+		    	return mv;
+		    }
+			
 //			Integer idUsuario = usuario.getId() - 1;
 //			UsuarioController uc = new UsuarioController();
 //			uc.delete(idUsuario);
