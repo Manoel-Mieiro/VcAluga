@@ -77,13 +77,13 @@ public class FilialController {
 			Filial filial = new Filial();
 			filial = requisicao.toFilial();
 
-			List<Filial> valida = filialRepository.findByCnpjAndUf(filial.getCnpj(), filial.getUf()	);
-		    
-		    if(valida != null) {
-		    	System.out.println("Já existe uma filial com essas credenciais.");
-		    	mv.addObject("filial", filial);
-		    	return mv;
-		    }
+			List<Filial> validaFilial = filialRepository.findByCnpj(filial.getCnpj());
+			List<Filial> validaUf = filialRepository.findByUf(filial.getUf());
+			  if(!validaFilial.isEmpty() || !validaUf.isEmpty()) {
+			    	System.out.println("Já existe uma filial com essas credenciais.");
+			    	mv.addObject("filial", filial);
+			    	return mv;
+			    }
 
 			this.filialRepository.save(filial);
 			System.out.println("ID da nova filial: " + filial.getIdFilial());
@@ -140,12 +140,7 @@ public class FilialController {
 			Optional<Filial> optional = this.filialRepository.findById(id);
 			if (optional.isPresent()) {
 				Filial filial = requisicao.toFilial(optional.get());
-				List<Filial> valida = filialRepository.findByCnpjAndUf(filial.getCnpj(), filial.getUf()	);
-			    if(valida != null) {
-			    	System.out.println("Já existe uma filial com essas credenciais");
-			    	mv.addObject("filial", filial);
-			    	return mv;
-			    }
+
 				this.filialRepository.save(filial);
 				return new ModelAndView("redirect:/filiais/" + filial.getIdFilial());
 			} else {

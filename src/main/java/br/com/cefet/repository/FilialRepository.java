@@ -10,5 +10,8 @@ import br.com.cefet.model.Veiculo;
 @Repository
 //O trecho abaixo serve para usar os métodos de CRUD disponibilizados pela biblioteca JpaRepository
 public interface FilialRepository extends JpaRepository<Filial, Integer>{
-	 List<Filial> findByCnpjAndUf(String cnpj, String uf);
+	
+	List<Filial> findByCnpj(String cnpj);
+
+	List<Filial> findByUf(String uf);
 }
