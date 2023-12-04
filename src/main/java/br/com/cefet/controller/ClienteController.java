@@ -170,9 +170,17 @@ public class ClienteController {
 			cliente.setTelefone(usuario.getTelefone());
 			cliente.setCpf(usuario.getCpf());
 		    cliente = requisicao.toCliente(cliente);
+		    
+		    Optional<Cliente> valida = clienteRepository.findByCpf(cliente.getCpf());
+		    
+		    if(valida.isPresent()) {
+		    	System.out.println("Usuário já cadastrado! Reescrevendo formulário.");
+		    	mv.addObject("cliente", cliente);
+		    	return mv;
+		    }
 
-			this.clienteRepository.save(cliente);
-
+			this.clienteRepository.save(cliente);			
+			
 //			Integer idUsuario = usuario.getId() - 1;
 //			UsuarioController uc = new UsuarioController();
 //			uc.delete(idUsuario);
