@@ -173,14 +173,7 @@ public class UsuarioController {
 			Optional<Usuario> optional = this.usuarioRepository.findById(id);
 			if (optional.isPresent()) {
 				Usuario usuario = requisicao.toUsuario(optional.get());
-				System.out.println("User CPF - " + usuario.getCpf());
-				Optional<Usuario> valida = usuarioRepository.findByCpf(usuario.getCpf());
-				System.out.println("Existe? " + valida.isPresent());
-				if (valida.isPresent()) {
-					System.out.println("Já existe usuário com esse CPF");
-					mv.addObject("tipo", Conta.values());
-					return mv;
-				}
+				
 				this.usuarioRepository.save(usuario);
 				return new ModelAndView("redirect:/usuarios/" + usuario.getId());
 			} else {
