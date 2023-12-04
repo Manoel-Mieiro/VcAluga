@@ -69,15 +69,22 @@ public class FilialController {
 
 	@PostMapping("/filiais")
 	public ModelAndView create(@Valid requisicaoFilial requisicao, BindingResult result) {
+		ModelAndView mv = new ModelAndView("/filiais/new");
 		if (result.hasErrors()) {
 			System.out.println("\n**********************Invalid Input Found**************************\n");
-			ModelAndView mv = new ModelAndView("/filiais/new");
 			return mv;
 		} else {
 			Filial filial = new Filial();
 			filial = requisicao.toFilial();
 
-			// Create do CRUD
+			List<Filial> validaFilial = filialRepository.findByCnpj(filial.getCnpj());
+			List<Filial> validaUf = filialRepository.findByUf(filial.getUf());
+			  if(!validaFilial.isEmpty() || !validaUf.isEmpty()) {
+			    	System.out.println("Já existe uma filial com essas credenciais.");
+			    	mv.addObject("filial", filial);
+			    	return mv;
+			    }
+
 			this.filialRepository.save(filial);
 			System.out.println("ID da nova filial: " + filial.getIdFilial());
 			return new ModelAndView("redirect:/filiais/" + filial.getIdFilial());
@@ -125,14 +132,15 @@ public class FilialController {
 
 	@PostMapping("/filiais/{id}")
 	public ModelAndView update(@PathVariable Integer id, @Valid requisicaoFilial requisicao, BindingResult result) {
+		ModelAndView mv = new ModelAndView("filiais/edit");
 		if (result.hasErrors()) {
 			System.out.println("\n**********************Invalid Input Found**************************\n");
-			ModelAndView mv = new ModelAndView("filiais/edit");
 			return mv;
 		} else {
 			Optional<Filial> optional = this.filialRepository.findById(id);
 			if (optional.isPresent()) {
 				Filial filial = requisicao.toFilial(optional.get());
+				
 				this.filialRepository.save(filial);
 				return new ModelAndView("redirect:/filiais/" + filial.getIdFilial());
 			} else {

@@ -150,8 +150,19 @@ public class FuncionarioController {
 			funcionario.setCpf(usuario.getCpf());
 			funcionario = requisicao.toFuncionario(funcionario);
 
+			Optional<Funcionario> valida = funcionarioRepository.findByCpf(funcionario.getCpf());
+			System.out.println(valida.isPresent());
+		    if(valida.isPresent()) {
+		    	System.out.println("Usuário já cadastrado! Reescrevendo formulário.");
+		    	mv.addObject("funcionario", funcionario);
+		    	mv.addObject("cargo", Cargo.values());
+		    	return mv;
+		    }
+			
 			this.funcionarioRepository.save(funcionario);
 
+			
+			
 //			Integer idUsuario = usuario.getId() - 1;
 //			UsuarioController uc = new UsuarioController();
 //			uc.delete(idUsuario);

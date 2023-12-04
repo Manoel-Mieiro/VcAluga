@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,6 +22,7 @@ import jakarta.persistence.EntityManager;
 
 @DataJpaTest
 @ActiveProfiles("test")
+@ExtendWith(LoggerExtension.class)
 class ClienteRepositoryTest {
 
 	@Autowired
@@ -30,10 +33,12 @@ class ClienteRepositoryTest {
 
 	@Test
 	@DisplayName("Deve cadastrar um cliente no banco")
-	void testCriarCliente() {
+	void testCriarCliente( ) {
+		 final Logger logger = Logger.getLogger(ClienteRepositoryTest.class.getName());
+		logger.info("Iniciando o teste...");
 		Cliente cliente = createCliente();
 		assertNotNull(cliente);
-
+		
 		assertEquals("Mountain", cliente.getNome());
 		assertEquals("Tim", cliente.getSobrenome());
 		assertEquals("swgkjwg09w", cliente.getSenha());
@@ -65,6 +70,8 @@ class ClienteRepositoryTest {
 		assertEquals(cliente.getBairro(), clienteSalvo.getBairro());
 		assertEquals(cliente.getEstado(), clienteSalvo.getEstado());
 		assertEquals(cliente.getDataNascimento(), clienteSalvo.getDataNascimento());
+		
+		 logger.info("Teste concluído com sucesso!");
 
 	}
 
