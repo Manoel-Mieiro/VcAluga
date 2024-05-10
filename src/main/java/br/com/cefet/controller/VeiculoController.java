@@ -15,14 +15,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.cefet.dto.requisicaoVeiculo;
 import br.com.cefet.model.Categoria;
+import br.com.cefet.model.Cliente;
+import br.com.cefet.model.Filial;
+import br.com.cefet.model.Funcionario;
 import br.com.cefet.model.Marca;
 import br.com.cefet.model.Paletas;
 import br.com.cefet.model.Veiculo;
+import br.com.cefet.repository.FilialRepository;
 import br.com.cefet.repository.VeiculoRepository;
+import br.com.cefet.service.SessaoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -32,20 +41,23 @@ public class VeiculoController {
 	@Autowired
 	private VeiculoRepository veiculoRepository;
 
+	@Autowired
+	private FilialRepository filialRepository;
+	
+	@Autowired
+	private SessaoService sessaoService;
+
 	@GetMapping("/veiculos")
-	public ModelAndView index() {
-		/*
-		 * Veiculo fiatPulse = new Veiculo("NEO-2214", Marca.Fiat, "Pulse Drive",
-		 * Categoria.Luxo, (float) 121.30, Paletas.Preto, 2024, "Matriz");
-		 * fiatPulse.setId(1); Veiculo volkswagenID4 = new Veiculo("MYS-8045",
-		 * Marca.Volkswagen, "ID.4", Categoria.Luxo, (float) 6.34, Paletas.Azul, 2022,
-		 * "SP"); volkswagenID4.setId(2); List<Veiculo> veiculos =
-		 * Arrays.asList(fiatPulse, volkswagenID4);
-		 */
-
-//		A expressão abaixo é um read
-		List<Veiculo> veiculos = this.veiculoRepository.findAll();
-
+	public ModelAndView index(@RequestParam(name = "marca", required = false) Marca marca, @RequestParam(name = "categoria", required = false) Categoria categoria) {
+//		List<Veiculo> veiculos = this.veiculoRepository.findByStatusAndEmManutencao("Disponível", false);
+		List<Veiculo> veiculos;
+		 if (marca != null) {
+		        veiculos = this.veiculoRepository.findByMarcaVeiculo(marca);
+		    } else if (categoria != null){
+		    	veiculos = this.veiculoRepository.findByCategoriaVeiculo(categoria);
+		    } else {
+		        veiculos = this.veiculoRepository.findByStatusAndEmManutencao("Disponível", false);
+		    }
 		ModelAndView mv = new ModelAndView("veiculos/index");
 		mv.addObject("veiculos", veiculos);
 
@@ -54,8 +66,16 @@ public class VeiculoController {
 
 	@GetMapping("/veiculos/new")
 	public ModelAndView novo() {
-
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		if (funcionario == null) {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/veiculos");
+		}
 		ModelAndView mv = new ModelAndView("veiculos/new");
+		List<Filial> filiais = filialRepository.findAll();
+		mv.addObject("filiais", filiais);
 		mv.addObject("marcaVeiculo", Marca.values());
 		mv.addObject("categoria", Categoria.values());
 		mv.addObject("cor", Paletas.values());
@@ -64,45 +84,47 @@ public class VeiculoController {
 
 	}
 
-	// O bloco abaixo cria um objeto requisicaoVeiculo para tratar erro de validação
-	// de dados thymeleaf
 	@ModelAttribute(value = "requisicaoVeiculo")
 	public requisicaoVeiculo getRequisicaoVeiculo() {
 		return new requisicaoVeiculo();
 	}
-
+	
+	
 	@PostMapping("/veiculos")
-	/*
-	 * @Valid é necessária para validar se os campos foram devidamente preenchidos
-	 * conforme DTO.
-	 * 
-	 * Por isso, adiciona-se um novo parâmetro result do tipo BindingResult para
-	 * tratar possíveis erros
-	 */
+	public ModelAndView create(@ModelAttribute requisicaoVeiculo requisicao, BindingResult result) {
+		ModelAndView mv = new ModelAndView("/veiculos/new");
 
-	public ModelAndView create(@Valid requisicaoVeiculo requisicao, BindingResult result) {
 		if (result.hasErrors()) {
 			System.out.println("\n**********************Invalid Input Found**************************\n");
-
-			ModelAndView mv = new ModelAndView("/veiculos/new");
-			// O bloco abaixo recarrega os ENUM do formulário em caso de erro
+			List<Filial> filiais = filialRepository.findAll();
+			mv.addObject("filiais", filiais);
 			mv.addObject("marcaVeiculo", Marca.values());
 			mv.addObject("categoria", Categoria.values());
 			mv.addObject("cor", Paletas.values());
 			return mv;
 		} else {
-			Veiculo veiculo = new Veiculo();
-			veiculo = requisicao.toVeiculo();
-//		System.out.println();
-//		System.out.println(requisicao);
-//		System.out.println();
-//		System.out.println();
-//		System.out.println(veiculo);
-//		System.out.println();
+			Filial filial = filialRepository.findById(requisicao.getBranchId()).orElse(null);
+				System.out.printf("ID FILIAL - %d%n", requisicao.getBranchId());
+				Veiculo veiculo = new Veiculo();
+				veiculo.setBranch(filial);
+				veiculo = requisicao.toVeiculo(veiculo);
+				List<Veiculo> placa = veiculoRepository.findByPlaca(veiculo.getPlaca());
+				if (!placa.isEmpty()) {
+					System.out.println("Placa já cadastrada!");
+					List<Filial> filiais = filialRepository.findAll();
+					mv.addObject("filiais", filiais);
+					mv.addObject("marcaVeiculo", Marca.values());
+					mv.addObject("categoria", Categoria.values());
+					mv.addObject("cor", Paletas.values());
+					return mv;
+				}
+				veiculo.setStatus("Disponível");
+				veiculo.setEmManutencao(false);
 
-			// Create do CRUD
-			this.veiculoRepository.save(veiculo);
-			return new ModelAndView("redirect:/veiculos/" + veiculo.getId());
+				this.veiculoRepository.save(veiculo);
+				System.out.println("ID do veículo: " + veiculo.getId());
+
+				return new ModelAndView("redirect:/veiculos/" + veiculo.getId());
 		}
 	}
 
@@ -126,12 +148,21 @@ public class VeiculoController {
 	@GetMapping("/veiculos/{id}/edit")
 	public ModelAndView edit(@PathVariable Integer id, requisicaoVeiculo requisicao) {
 		Optional<Veiculo> optional = this.veiculoRepository.findById(id);
-
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		if (funcionario == null) {
+			System.out.println("Acesso negado!");
+			return new ModelAndView("redirect:/veiculos");
+		}
 		if (optional.isPresent()) {
 			System.out.printf("%d", id);
 			Veiculo veiculo = optional.get();
 			requisicao.fromVeiculo(veiculo);
 			ModelAndView mv = new ModelAndView("veiculos/edit");
+			List<Filial> filiais = filialRepository.findAll(); // Substitua filialRepository pelo nome correto do seu
+																// repositório
+			mv.addObject("filiais", filiais);
 			mv.addObject("marcaVeiculo", Marca.values());
 			mv.addObject("categoria", Categoria.values());
 			mv.addObject("cor", Paletas.values());
@@ -148,12 +179,15 @@ public class VeiculoController {
 			System.out.println("\n**********************Invalid Input Found**************************\n");
 
 			ModelAndView mv = new ModelAndView("veiculos/edit");
-			// O bloco abaixo recarrega os ENUM do formulário em caso de erro
 			mv.addObject("marcaVeiculo", Marca.values());
 			mv.addObject("categoria", Categoria.values());
 			mv.addObject("cor", Paletas.values());
+			List<Filial> filiais = filialRepository.findAll(); 
+			mv.addObject("filiais", filiais);
+			System.out.println("if");
 			return mv;
 		} else {
+			System.out.println("else");
 			Optional<Veiculo> optional = this.veiculoRepository.findById(id);
 			if (optional.isPresent()) {
 				Veiculo veiculo = requisicao.toVeiculo(optional.get());
@@ -168,6 +202,13 @@ public class VeiculoController {
 
 	@GetMapping("/veiculos/{id}/delete")
 	public String delete(@PathVariable Integer id) {
+		HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+				.getSession();
+		Funcionario funcionario = sessaoService.obterFuncionarioDaSessao(session);
+		if (funcionario == null) {
+			System.out.println("Acesso negado!");
+			return "redirect:/veiculos";
+		}
 		try {
 			this.veiculoRepository.deleteById(id);
 			return "redirect:/veiculos";

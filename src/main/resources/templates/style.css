@@ -1,0 +1,22 @@
+:root {
+    --sidebar-color: rgba(230, 114, 99, 1);
+    --menu-font-color: rgba(97, 29, 20, 1);
+    --bar-color: rgba(224, 68, 47, 1);
+    --text-color: rgba(0, 0, 0, 0.76);
+    --navbar-color: rgba(87, 117, 144, 1);
+}
+
+/* .navbar.navbar-custom{
+    background-color: var(--navbar-color) !important;
+    background-color: lightgreen;
+}
+
+.navbar-custom .navbar-text {
+    color: white;
+}
+ */
+ 
+ .navbar {
+    background-color: yellow;
+}
+ 
